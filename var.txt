@@ -1,0 +1,29 @@
+Initialisation du shell:
+	- récupération des variables exportées par le process pere
+	- création des variables manquantes
+	  > variables de configuration
+	  	. columns
+		. shell_name
+		. PSn
+	  > ~/.rc
+	- termcaps
+
+| IMPORTANT
+|	ordre important - ex: si PS1 est present dans l'env, il sera
+|	remplacé par le PS1 de notre shell, mais restera dans l'env.
+
+Variable:
+	- name
+	- value
+	- flags
+
+! ATTENTION
+!	voir impact des pipe/subshell
+!	sur la manipulation des variables
+
+Génerer l'environnement a chaque fois qu'on en a
+besoin a partir des flags 'export'.
+
+idees variables:
+	PIPESTATUS (array)
+	
