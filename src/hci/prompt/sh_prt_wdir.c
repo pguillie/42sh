@@ -8,7 +8,7 @@ static char	*sh_prt_home(char *pwd, char *tmp)
 	if (!pwd)
 		return (NULL);
 	*tmp = pwd[0];
-	if (pwd && (home = getenv("HOME")) && home[0])
+	if (pwd && (home = sh_getvar("HOME")) && home[0])
 	{
 		i = 0;
 		while (home[i] && home[i] == pwd[i])
@@ -29,7 +29,7 @@ static int	sh_prt_dirtrim(char *pwd, char w)
 	int		dirtrim;
 	int		i;
 
-	dirtrim = (w == 'W' ? 1 : PROMPT_DIRTRIM);
+	dirtrim = (w == 'W' ? 1 : ft_atoi(sh_getvar("PROMPT_DIRTRIM")));
 	i = 0;
 	if (dirtrim)
 	{
@@ -74,7 +74,7 @@ int			sh_prt_wdir(char buff[], int *b, char w)
 	int		len;
 
 	len = 0;
-	if ((pwd = sh_prt_home(getenv("PWD"), &tmp)))
+	if ((pwd = sh_prt_home(sh_getvar("PWD"), &tmp)))
 	{
 		pos = sh_prt_dirtrim(pwd, w);
 		if (w == 'w' && pos)

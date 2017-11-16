@@ -22,13 +22,13 @@ int			sh_hist_write(char *line, char *last)
 
 	if (!(pw = getpwuid(getuid())))
 		return (1);
-	hist = ft_strcjoin(pw->pw_dir, HIST_FILE, '/');
+	hist = ft_strcjoin(pw->pw_dir, HISTFILE, '/');
 	i = 0;
 	while (line[i] && ft_isspace(line[i]))
 		i++;
 	if (line[i] && !ft_strequ(line, last))
 	{
-		if ((fd = open(hist ? hist : HIST_FILE, O_WRONLY | O_APPEND | O_CREAT,
+		if ((fd = open(hist ? hist : HISTFILE, O_WRONLY | O_APPEND | O_CREAT,
 						S_IRUSR | S_IWUSR)) < 0)
 		{
 			ft_strdel(&hist);

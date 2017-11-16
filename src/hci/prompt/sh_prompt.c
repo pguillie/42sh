@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_prompt.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/16 15:43:42 by ysan-seb          #+#    #+#             */
+/*   Updated: 2017/11/16 16:30:44 by ysan-seb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 int		sh_prompt(int mode)
@@ -6,24 +18,14 @@ int		sh_prompt(int mode)
 
 	ps = NULL;
 	if (mode == 1)
-	{
-		if (!(ps = getenv("PS1")))
-			ps = PS1;
-	}
+		ps = sh_getvar("PS1");
 	else if (mode == 2)
-	{
-		if (!(ps = getenv("PS2")))
-			ps = PS2;
-	}
+		ps = sh_getvar("PS2");
 	else if (mode == 3)
-	{
-		if (!(ps = getenv("PS3")))
-			ps = PS3;
-	}
+		ps = sh_getvar("PS3");
 	else if (mode == 4)
-	{
-		if (!(ps = getenv("PS4")))
-			ps = PS4;
-	}
+		ps = sh_getvar("PS4");
+	if (!ps)
+		return (0);
 	return (sh_print_prompt(ps));
 }

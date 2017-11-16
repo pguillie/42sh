@@ -68,8 +68,8 @@ t_line	*sh_hist_read(void)
 
 	if (!(pw = getpwuid(getuid())))
 		return (NULL);
-	path = ft_strcjoin(pw->pw_dir, HIST_FILE, '/');
-	fd = open(path ? path : HIST_FILE, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+	path = ft_strcjoin(pw->pw_dir, HISTFILE, '/');
+	fd = open(path ? path : HISTFILE, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 	ft_strdel(&path);
 	if (fd < 0)
 		return (NULL);

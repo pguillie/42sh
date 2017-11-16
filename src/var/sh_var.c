@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_prt_len.c                                       :+:      :+:    :+:   */
+/*   sh_var.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/16 15:47:18 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/16 15:47:20 by ysan-seb         ###   ########.fr       */
+/*   Created: 2017/11/16 12:46:54 by ysan-seb          #+#    #+#             */
+/*   Updated: 2017/11/16 17:20:26 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_prt_len(char buff[])
+char	***sh_var(void)
 {
-	size_t	i;
-	int		len;
+	static char	**vars = NULL;
 
-	i = 0;
-	len = 0;
-	while (buff[i])
-	{
-		if (buff[i] == '\n' || buff[i] == '\r')
-			len = 0;
-		else
-			len += 1;
-		i++;
-	}
-	return (len);
+	return (&vars);
 }

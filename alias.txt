@@ -1,7 +1,0 @@
-#alias
-
-stockage: variable type array
-
-! ATTENTION
-!	boucle infinies: des qu'on retombe sur un element
-!	qu'on a deja rencontré, on s'arrete.

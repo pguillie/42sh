@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_prt_len.c                                       :+:      :+:    :+:   */
+/*   sh_getvar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/16 15:47:18 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/16 15:47:20 by ysan-seb         ###   ########.fr       */
+/*   Created: 2017/11/16 12:47:09 by ysan-seb          #+#    #+#             */
+/*   Updated: 2017/11/16 17:19:59 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include <shell.h>
 
-int		sh_prt_len(char buff[])
+char	*sh_getvar(char *name)
 {
-	size_t	i;
-	int		len;
+	int		i;
+	int		j;
+	char	***vars;
 
-	i = 0;
-	len = 0;
-	while (buff[i])
+	if ((vars = sh_var()))
 	{
-		if (buff[i] == '\n' || buff[i] == '\r')
-			len = 0;
-		else
-			len += 1;
-		i++;
+		i = 0;
+		j = ft_strlen(name);
+		while ((*vars)[i])
+		{
+			if (ft_strnequ((*vars)[i] + 1, name, j) && (*vars)[i][j + 1] == '=')
+				return ((*vars)[i] + j + 2);
+			i++;
+		}
 	}
-	return (len);
+	return (NULL);
 }

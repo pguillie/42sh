@@ -19,22 +19,22 @@
 **	DEFINE
 */
 
-# define SHELL "21sh"
-# define VERSION "1.0"
-# define PATCH "0"
+# define SHELL "42sh"
+# define VERSION "1.1.0"
+# define HISTFILESIZE "500"
+# define HISTSIZE "100"
 
-# define HIST_FILE ".21sh_history"
-# define ERROR_MAX 5
+# define HISTFILE "/.42sh_history"
+# define PS1 "\\e[38;5;114m[\\@] \\e[38;5;74m\\w \\$\\e[0m "
+# define PS2 "> "
+# define PS3 "#? "
+# define PS4 "+ "
 
 # define PRT_SIZE 256
 # define PATH_SIZE 2048
 # define HASH_SIZE 10000
-# define PROMPT_DIRTRIM 3
-# define PS1B "\\s-\\v\\$ "
-# define PS1 "\\e[36m[\\@] \\e[34;1m\\w \\$\\e[0m "
-# define PS2 "> "
-# define PS3 "#? "
-# define PS4 "+ "
+
+# define ERROR_MAX 5
 
 # define EOT 8
 # define EOL 4
@@ -65,6 +65,10 @@
 # define RDR_NORGHT -5
 # define RDR_PIPE -6
 
+# define V_EXPORT 1
+# define V_READONLY 2
+# define V_ARRAY 4
+
 /*
 **	RESSOURCES
 */
@@ -87,7 +91,7 @@
 # include "sh_initialization.h"
 # include "sh_parser.h"
 # include "sh_signals.h"
-# include "sh_builtins.h"
+# include "sh_var.h"
 
 ////////////////
 void displex(t_token *lexer);
