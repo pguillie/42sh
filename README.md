@@ -63,3 +63,8 @@ idees variables:
 ## history
 
 http://man7.org/linux/man-pages/man3/history.3.html
+
+## NB:
+
+Penser a mettre le nom du shell devan les erreurs (builtins & co).
+

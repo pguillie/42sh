@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:56:15 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/17 12:56:20 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/17 17:00:30 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,7 @@ int			sh_setvar(char *name, char *value, char type)
 	{
 		if (ft_strncmp((*varray)[size] + 1, name, len)
 			&& (*varray)[size] + len == '=')
-		{
-			write(1, "FOUND\n", 6);
 			i = size;
-		}
 		size += 1;
 	}
 	if (i < 0)
