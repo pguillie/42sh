@@ -59,4 +59,7 @@ besoin a partir des flags 'export'.
 
 idees variables:
 	PIPESTATUS (array)
-	
+
+## history
+
+http://man7.org/linux/man-pages/man3/history.3.html
