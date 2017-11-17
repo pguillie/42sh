@@ -3,91 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   sh_setvar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/16 12:48:21 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/16 17:10:45 by ysan-seb         ###   ########.fr       */
+/*   Created: 2017/11/17 12:56:15 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/17 12:56:20 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <shell.h>
+#include "shell.h"
 
-static void	sh_setfill(char *new, char *var, char *val)
+static int	sh_setvar_fil(char *var, char *name, char *value, char type)
 {
-	int		i;
-	int		j;
-	int		equal;
-
-	equal = 0;
-	i = 1;
-	j = 0;
-	while (var[j])
+	var[0] = type;
+	ft_strcat(var, name);
+	if (value)
 	{
-		if (var[j] == '=')
-			equal = 1;
-		new[i++] = var[j++];
-	}
-	if (!equal)
-	{
-		new[i++] = '=';
-		if (val)
-		{
-			j = 0;
-			while (val[j])
-				new[i++] = val[j++];
-		}
+		ft_strcat(var, "=");
+		ft_strcat(var, value);
 	}
 }
 
-static int	sh_setnew(char *var, char *val, int *i, int type)
+static int	sh_setvar_new(char *name, char *value, char type, int size)
 {
-	char	***vars;
-	int		l;
+	char	***varray;
+	char	**new;
+	char	*var;
+	int		i;
 
-	if (!(vars = sh_var()))
+	varray = sh_var();
+	if (!varray || !(var = ft_strnew(ft_strlen(name) + 1
+					+ (value ? ft_strlen(value) + 1 : 0))))
 		return (-1);
-	if (i[1] < 0)
+	if (!(new = (char**)ft_memalloc(sizeof(char*) * size + 2)))
 	{
-		if (!(*vars = (char**)ft_realloc(*vars, i[0] + 1, i[0] + 2, sizeof(char*))))
-			return (-1);
-		i[1] = i[0];
-	}
-	if (ft_strchr(var, '='))
-		l = ft_strlen(var) + 1;
-	else
-		l = ft_strlen(var) + ft_strlen(val) + 2;
-	if (!((*vars)[i[1]] = ft_strnew(l)))
+		free(var);
 		return (-1);
-	(*vars)[i[1]][0] = type;
-	sh_setfill((*vars)[i[1]], var, val);
+	}
+	sh_setvar_fil(var, name, value, type);
+	i = 0;
+	while ((*varray)[i])
+	{
+		new[i] = (*varray)[i];
+		i += 1;
+	}
+	new[i] = var;
+	free(*varray);
+	*varray = new;
 	return (0);
 }
 
-int			sh_setvar(char *var, char *val)
+static int	sh_setvar_mod(char *name, char *value, char type, int i)
 {
-	int		i[2];
-	int		l;
-	int		type;
-	char	***vars;
+	char	***varray;
+	char	*var;
 
-	if (!var || !(vars = sh_var()))
+	if (!(varray = sh_var()))
 		return (-1);
-	l = 0;
-	while (var[l] && var[l] != '=')
-		l++;
-	i[0] = 0;
-	i[1] = -1;
-	type = 0;
-	while ((*vars)[i[0]])
+	if (value)
 	{
-		if (ft_strnequ((*vars)[i[0]] + 1, var, l) && (*vars)[i[0]][l] == '=')
-		{
-			if ((type = (*vars)[i[0]][0]) & V_READONLY)
-				return (1);
-			free((*vars)[i[0]]);
-			i[1] = i[0];
-		}
-		i[0]++;
+		if (!(var = ft_strnew(ft_strlen(name) + ft_strlen(value) + 2)))
+			return (-1);
+		sh_setvar_fil(var, name, value, (*varray)[i][0] | type);
+		(*varray)[i] = var;
 	}
-	return (sh_setnew(var, val, i, type));
+	else
+		(*varray)[i][0] |= type;
+	return (0);
+}
+
+int			sh_setvar(char *name, char *value, char type)
+{
+	char	***varray;
+	int		size;
+	int		i;
+	int		len;
+
+	if (!name || !(varray = sh_var()))
+		return (-1);
+	i = -1;
+	len = ft_strlen(name);
+	size = 0;
+	while ((*varray)[size])
+	{
+		if (ft_strncmp((*varray)[size] + 1, name, len)
+			&& (*varray)[size] + len == '=')
+		{
+			write(1, "FOUND\n", 6);
+			i = size;
+		}
+		size += 1;
+	}
+	if (i < 0)
+		return (sh_setvar_new(name, value, type, size));
+	else
+		return (sh_setvar_mod(name, value, type, i));
 }
