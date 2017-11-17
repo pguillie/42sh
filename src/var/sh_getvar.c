@@ -6,11 +6,11 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 12:47:09 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/16 17:19:59 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/11/17 12:26:29 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <shell.h>
+#include "shell.h"
 
 char	*sh_getvar(char *name)
 {

@@ -6,11 +6,11 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 12:48:21 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/16 17:10:45 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/11/17 13:59:22 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <shell.h>
+#include "shell.h"
 
 static void	sh_setfill(char *new, char *var, char *val)
 {
