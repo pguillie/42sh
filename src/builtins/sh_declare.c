@@ -14,107 +14,129 @@
 
 static int	sh_declare_usage(char opt)
 {
-	ft_putstr("declare: illegal option -- ");
-	ft_putchar(opt);
-	ft_putchar('\n');
-	ft_putendl("usage: declare [-rx] [-p] [name[=value] ...]");
-	return (-1);
-}
-
-static void	sh_declare_print(int type)
-{
-	char	***varray;
-	int		i;
-
-	if ((varray = sh_var()))
-	{
-		i = 0;
-		while ((*varray)[i])
-		{
-			if ((*varray)[i] & type)
-			{
-				ft_putstr("declare ");
-				if ((*varray)[i][0])
-				{
-					ft_putchar('-');
-					(*varray)[i][0] & V_RDONLY ? ft_putchar('r') : 0;
-					(*varray)[i][0] & V_EXPORT ? ft_putchar('x') : 0;
-					ft_putchar(' ');
-				}
-				sh_varprint((*varray)[i])
-			}
-			i += 1;
-		}
-	}
+  ft_putstr("declare: illegal option -- ");
+  ft_putchar(opt);
+  ft_putchar('\n');
+  ft_putendl("usage: declare [-rx] [-p] [name[=value] ...]");
+  return (1);
 }
 
 static int	sh_declare_opt(char **av, char *opt)
 {
-	int		i;
-	int		j;
+  int	i;
+  int	j;
 
-	i = 1;
-	while (av[i] && av[i][0] == '-')
+  i = 1;
+  while (av[i] && av[i][0] == '-')
+    {
+      if (ft_strequ(av[i], "--") && ++i)
+	break ;
+      j = 1;
+      while (av[i][j])
 	{
-		if (ft_strequ(av[i], "--"))
-			break ;
-		while (av[i][j])
-		{
-			if (av[i][j] == 'p')
-				opt[0] = 'p';
-			else if (av[i][j] == 'r')
-				opt[1] = 'r';
-			else if (av[i][j] == 'x')
-				opt[2] = 'x';
-			else
-				return (-av[i][j]);
-			j++;
-		}
-		i++;
+	  if (av[i][j] == 'r')
+	    opt[1] |= V_RDONLY;
+	  else if (av[i][j] == 'x')
+	    opt[1] |= V_EXPORT;
+	  else if (av[i][j] == 'p')
+	    opt[0] = 1;
+	  else
+	    return (-av[i][j]);
+	  j++;
 	}
-	return (i);
+      i++;
+    }
+  return (i);
 }
 
-int			sh_declare(char **av)
+static void	sh_declare_out(char *var)
 {
-	char	*name;
-	char	*value;
-	char	opt[3];
-	int		type;
-	int		i;
+  int	i;
 
-	i = 0;
-	if ((i = sh_declare_opt(av, opt)) < 0)
-		return (sh_declare_usage(-i));
-	if (ft_strchr(opt, 'p'))
-		;
-	while (av[i])
+  ft_putstr("declare ");
+  if (var[0])
+    {
+      ft_putchar('-');
+      var[0] & V_RDONLY ? ft_putchar('r') : 0;
+      var[0] & V_EXPORT ? ft_putchar('x') : 0;
+      ft_putchar(' ');
+    }
+  i = 1;
+  while (var[i] && var[i] != '=')
+    i++;
+  write(1, var + 1, i - 1);
+  if (var[i])
+    {
+      ft_putstr("=\"");
+      while (var[i])
 	{
-		name = av[i];
-		value = ft_strchr(av[i], '=');
-		value ? value++ : 0;
-		sh_setvar(name, value, opt);
-		i++;
+	  if (var[i] == "\\" || var[i] == "\"")
+	    ft_putchar("\\");
+	  ft_putchar(var[i++]);
 	}
+      ft_putchar('\"');
+    }
+  ft_putchar('\n');
 }
 
-int			sh_declare(char **av)
+static int	sh_declare_print(char **av, int type)
 {
-	char	*name;
-	char	*value;
-	int		type;
-	int		i;
-	
-	i = 0;
-	/* opt */type = 0;
-	while (av[i])
+  char	***varray;
+  int	ret;
+  int	i;
+  int	l;
+
+  if (!(varray = sh_var()))
+    return (0);
+  ret = 0;
+  while (*av)
+    {
+      l = 0;
+      while ((*av)[l] && (*av)[l] != '=')
+	l++;
+      i = 0;
+      while ((*varray)[i])
 	{
-		name = av[i];
-		value = ft_strchr(av[i], '=');
-		value ? value[0] = 0 : 0;
-		if (sh_setvar(name, value ? value + 1 : value, type))
-			return (-1);
-		value ? value[0] = '=' : 0;
-		i++;
+	  if (ft_strnequ((*varray)[i], *av, l) && (*varray)[i][l] == '=')
+	    {
+	      sh_declare_out((*varray)[i]);
+	      break ;
+	    }
+	  i++;
 	}
+      if (!(*varray)[i] && (ret = 1))
+	ft_error("declare", *av + 0, "not found");
+    }
+  if (i)
+    return (ret);
+  while ((*varray)[i])
+    {
+      if ((*varray)[i][0] & type)
+	sh_declare_out((*varray)[i]);
+      i++;
+    }
+  return (0);
+}
+
+int		sh_declare(char **av)
+{
+  char	opt[2]; //[0]=print [1]=type
+  int	ret[2];
+  int	i;
+
+  ft_memset(opt, 0, sizeof(char) * 2);
+  if ((i = sh_declare_opt(av, opt)) < 0)
+    return (sh_declare_usage(-i));
+  if (opt[0])
+    return (sh_declare_print(av + i, opt[1]));
+  ret[0] = 0;
+  while (av[i])
+    {
+      if ((ret[1] = sh_setvar(av[i], NULL, opt[1])) < 0)
+	return (-1);
+      else if (ret[1] && (ret[0] = 1))
+	ft_error(av[0], av[i], "not a valid identifier"); //peut mieux faire
+      i++;
+    }
+  return (ret[0]);
 }

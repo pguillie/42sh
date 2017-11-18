@@ -12,6 +12,29 @@
 
 #include "shell.h"
 
+static void	sh_setvar_namval(char **name, char **value)
+{
+	int	i;
+
+	if (!*name)
+		return (1);
+	i = 0;
+	while ((*name)[i] && (*name)[i] != '=')
+	{
+		if ((*name)[i] == ' ') //voir autre unauthorized char	
+			return (1);
+		i++;
+	}
+	if (i == 0)
+		return (1);
+	if ((*name)[i])
+	{
+		(*name)[i++] = '\0';
+		*value = *name + i;
+	}
+	return (0);
+}
+
 static int	sh_setvar_fil(char *var, char *name, char *value, char type)
 {
 	var[0] = type;
@@ -78,8 +101,10 @@ int			sh_setvar(char *name, char *value, char type)
 	int		i;
 	int		len;
 
-	if (!name || !(varray = sh_var()))
+	if (!(varray = sh_var()))
 		return (-1);
+	if (sh_setvar_namval(&name, &value))
+		return (1);
 	i = -1;
 	len = ft_strlen(name);
 	size = 0;
