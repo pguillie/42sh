@@ -6,7 +6,7 @@ static int	sh_search_path(char **dir, int i)
 	char	*tmp;
 
 	tmp = NULL;
-	if (!(cdpath = ft_strsplit(getenv("CDPATH"), ':')))
+	if (!(cdpath = ft_strsplit(sh_getvar("CDPATH"), ':')))
 		return (-1);
 	while (cdpath[i])
 	{
@@ -35,7 +35,7 @@ static int	sh_concat_pwd(char **dir)
 	char	*pwd;
 	int		i;
 
-	if (!(pwd = ft_strdup(getenv("PWD"))))
+	if (!(pwd = ft_strdup(sh_getvar("PWD"))))
 		pwd = getcwd(pwd, PATH_SIZE);
 	if (!(tmp = ft_strdup(*dir)))
 		return (-1);
@@ -116,14 +116,14 @@ int			sh_cd2(char *dir, char opt, char *av)
 	if (ft_strequ(dir, "-"))
 	{
 		free(dir);
-		if (!(dir = ft_strdup(getenv("OLDPWD"))) || ft_strequ(dir, ""))
+		if (!(dir = ft_strdup(sh_getvar("OLDPWD"))) || ft_strequ(dir, ""))
 		{
 			if (dir && ft_strequ(dir, ""))
 				free(dir);
 			return (ft_error("cd", "OLDPWD not set", NULL));
 		}
 	}
-	if (getenv("CDPATH") && dir[0] != '.' && dir[0] != '/'
+	if (sh_getvar("CDPATH") && dir[0] != '.' && dir[0] != '/'
 			&& sh_search_path(&dir, i[1]) < 0)
 		return (-1);
 	if (opt != 'P' && dir[0] != '/' && sh_concat_pwd(&dir) < 0)

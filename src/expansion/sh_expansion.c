@@ -57,6 +57,11 @@ t_token			*sh_expansion(t_token *lexer)
 		while (exp)
 		{
 			exp->lexeme = sh_exp_tilde(exp->lexeme);
+			if (ft_strchr(exp->lexeme, '`'))
+			{
+				if (!sh_cmd_sub(&exp))
+					exp = sh_word_split(&exp);
+			}
 			sh_rm_quote(exp->lexeme);
 			exp = exp->next;
 		}

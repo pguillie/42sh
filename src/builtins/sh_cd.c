@@ -31,7 +31,7 @@ int			sh_cd(char *av[])
 		return (1);
 	if ((i = sh_cd_opt(&opt, av[1])) < 0)
 		return (1);
-	if (!(dir = ft_strdup(getenv("HOME"))) && !av[i + 1])
+	if (!(dir = ft_strdup(sh_getvar("HOME"))) && !av[i + 1])
 		return (ft_error("cd", "HOME not set", NULL));
 	else if (av[i + 1])
 	{

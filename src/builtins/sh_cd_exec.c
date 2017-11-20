@@ -31,7 +31,7 @@ int			sh_cd_exec(char opt, char *dir, int epu)
 	tab[1] = "setenv";
 	if (epu != 2 && sh_access(dir, 0) != 0)
 		return (1);
-	if (!(tab[2] = ft_strjoin("OLDPWD=", getenv("PWD"))))
+	if (!(tab[2] = ft_strjoin("OLDPWD=", sh_getvar("PWD"))))
 		return (-1);
 	sh_setenv(tab + 1);
 	free(tab[2]);

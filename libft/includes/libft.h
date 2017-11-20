@@ -115,6 +115,7 @@ char				*ft_strmapi(char const *str, char (*f)(unsigned int, char));
 char				*ft_strnewchr(size_t size, char c);
 char				*ft_randstr(size_t n);
 char				**ft_strsplit(char const *str, char c);
+char				**ft_split_allwhite(char const *str);
 char				**ft_strtab_sort(char **tab);
 void				ft_strtab_disp(char **tab);
 void				ft_strtabdel(char **tab);

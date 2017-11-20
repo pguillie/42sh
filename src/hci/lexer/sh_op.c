@@ -8,8 +8,8 @@ int		sh_ctrl_op(char *str)
 			|| ft_strnequ(str, ";;", 2) || ft_strnequ(str, ";&", 2)
 			|| ft_strnequ(str, "|&", 2))
 		return (2);
-	if ((str[0] == '&') || str[0] == ';' || str[0] == '|' || str[0] == '('
-			|| str[0] == ')' || str[0] == '\n')
+	if ((str[0] == '&') || str[0] == ';' || str[0] == '|' || str[0] == '\n'
+			|| str[0] == '(' || str[0] == ')')
 		return (1);
 	return (0);
 }

@@ -70,8 +70,4 @@ http://man7.org/linux/man-pages/man3/history.3.html
 Command Substitution:
 	_ `command`: fork pour envoyer la commande en rappelant un mini main puis ecrire le resultat sur la sortie standard
 	squeeze la partie edition de ligne pour mettre la commande dans le lexer puis faire la suite du programme.
-	Modifie:
-	_ lexer: _les '`' sont des "séparateur". (`ls`salut => salut est considéré comme une commande)
-			 _apres des '`' le mot suivant est une commande.
-			 _brackets! $(`cmd) => LEX_LOOP => $(`cmd)`) => LEX_OK
-
+	_ coller la suite. `ls`salut => (resultat `ls`)salut.
