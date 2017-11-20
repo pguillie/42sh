@@ -1,76 +1,103 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_rdonly.c                                        :+:      :+:    :+:   */
+/*   sh_readonly.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 14:59:29 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/17 16:36:45 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/11/20 17:18:51 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	sh_rdy_print(void)
+static int	sh_rdonly_opt(char **av)
 {
 	int		i;
-	char	***vray;
+	int		j;
 
-	if (!(vray = sh_var()))
-		return (-1);
-	i = 0;
-	while ((*vray)[i])
+	i = 1;
+	while (av[i] && av[i][0] == '-')
 	{
-		if ((*vray)[i] & V_RDONLY)
+		if (ft_strequ(av[i], "--") && ++i)
+			break ;
+		j = 1;
+		while (av[i][j])
 		{
-			ft_putstr("readonly ");
-			ft_putendl((*vray)[i]);
+			if (av[i][j] != 'p')
+				return (-av[i][j]);
+			j++;
 		}
 		i++;
 	}
-	return (0);
+	return (i);
 }
 
-static int	sh_rdy_error(char c)
-{
-	ft_printf("readonly: illegal option -- %c\n", c);
-	ft_putendl("usage: readonly [-p] [name=value]...");
-	return (1);
-}
-
-static int	sh_rdy_opt(char *opt)
+static void	sh_rdonly_print_out(char *var)
 {
 	int		i;
 
-	if (opt[0] != '-')
-		return (0);
+	ft_putstr("readonly ");
 	i = 1;
-	while (opt[i] && opt[i] == 'p')
+	while (var[i] && var[i] != '=')
 		i++;
-	if (opt[i] && opt[i] != 'p')
-		return (-i);
-	return (1);
+	write(1, var + 1, i - 1);
+	if (var[i])
+	{
+		ft_putstr("=\"");
+		while (var[i])
+		{
+			if (var[i] == '\\' || var[i] == '\"')
+				ft_putchar('\\');
+			ft_putchar(var[i++]);
+		}
+		ft_putchar('\"');
+	}
+	ft_putchar('\n');
+}
+
+static int	sh_rdonly_print(void)
+{
+	char	***varray;
+	int		i;
+
+	if (!(varray = sh_var()))
+		return (1);
+	i = 0;
+	while ((*varray)[i])
+	{
+		if ((*varray)[i][0] & V_RDONLY)
+			sh_rdonly_print_out((*varray)[i]);
+		i++;
+	}
+	return (0);
 }
 
 int			sh_readonly(char **av)
 {
+	int		ret[2];
 	int		i;
-	int		opt;
 
-	i = 1;
-	if (av[i] && (opt = sh_rdy_opt(av[i])) < 0)
-		return (sh_rdy_error(av[i][-opt]));
-	else if (!av[1] || opt)
-		return (sh_rdy_print());
+	if ((i = sh_rdonly_opt(av)) < 0)
+	{
+		ft_putendl_fd(SH_ILL_OPT("readonly", -i), 2);
+		ft_putendl_fd(SH_RDONLY, 2);
+		return (1);
+	}
+	ret[0] = 0;
+	if (!av[i])
+		return (sh_rdonly_print());
 	else
 	{
-		while (av[i + 1])
+		while (av[i])
 		{
-			if ((sh_setvar(av[i], av[i + 1], V_RDONLY)) < 0)
+			if ((ret[1] = sh_setvar(av[i], NULL, V_RDONLY)) < 0)
 				return (-1);
+			else if (ret[1] && (ret[0] = 1))
+				ft_error(av[0], av[i], "Not a valid identifier");
 			i++;
 		}
 	}
-	return (0);
+	return (ret[0]);
 }

@@ -66,8 +66,8 @@
 # define RDR_PIPE -6
 
 # define V_EXPORT 1
-# define V_READONLY 2
-# define V_ARRAY 4
+# define V_RDONLY 2
+# define V_FUNCT 4
 
 /*
 **	RESSOURCES
@@ -76,6 +76,7 @@
 # include "../libft/includes/libft.h"
 # include "sh_category.h"
 # include "sh_struct.h"
+# include "sh_usages.h"
 
 /*
 **	PROTO

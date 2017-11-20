@@ -6,7 +6,7 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:22:43 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/17 13:59:10 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/11/20 16:07:11 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		sh_unsetvar_del(int line, int size)
 
 	if (!(vray = sh_var()))
 		return (-1);
-	if (!(new = (char **)ft_memalloc(char *) * size))
+	if (!(new = (char **)ft_memalloc(sizeof(char *) * size)))
 		return (-1);
 	i = 0;
 	j = 0;
@@ -48,11 +48,11 @@ static int		sh_unsetvar_mod(int line, char type)
 	if (type & V_RDONLY)
 		return (V_RDONLY);
 	else
-		(*vray)[line][0] = ~((vtype) | type);
+		(*vray)[line][0] = ~(~(vtype) | type);
 	return (0);
 }
 
-int				sh_unsetvar(char *name, char type)
+int				sh_unsetvar(char *name, char type, char search)
 {
 	int		i;
 	int		len;
@@ -66,7 +66,8 @@ int				sh_unsetvar(char *name, char type)
 	len = ft_strlen(name);
 	while ((*vray)[i])
 	{
-		if (strnequ((*vray)[i] + 1, name, len) && (*vray)[i][j + 1] == '=')
+		if ((*vray)[i][0] & search && ft_strnequ((*vray)[i] + 1, name, len)
+				&& (*vray)[i][len] == '=')
 			line = i;
 		i++;
 	}

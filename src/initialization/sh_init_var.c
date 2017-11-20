@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 12:46:38 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/16 17:20:46 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/11/20 16:54:42 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static int	sh_init_shvar2(void)
 		histfile = ft_strjoin(home, HISTFILE);
 	else if ((pw = getpwuid(getuid())))
 		histfile = ft_strjoin(pw->pw_dir, HISTFILE);
-	ret += sh_setvar("HISTFILE", histfile ? histfile : HISTFILE);
+	ret += sh_setvar("HISTFILE", histfile ? histfile : HISTFILE, 0);
 	if (histfile)
 		free(histfile);
 	shlvl = ft_itoa(ft_atoi(sh_getvar("SHLVL")) + 1);
-	ret += sh_setvar("SHLVL", shlvl);
+	ret += sh_setvar("SHLVL", shlvl, V_EXPORT);
 	if (shlvl)
 		free(shlvl);
 	return (ret);
@@ -52,15 +52,15 @@ static int	sh_init_shvar(void)
 	ret = 0;
 	if (sh_init_shvar2())
 		return (1);
-	ret += sh_setvar("42SH", SHELL);
-	ret += sh_setvar("42SH_COLOR", "false");
-	ret += sh_setvar("42SH_VERSION", VERSION);
-	ret += sh_setvar("HISTFILESIZE", HISTFILESIZE);
-	ret += sh_setvar("HISTSIZE", HISTSIZE);
-	ret += sh_setvar("PS1", PS1);
-	ret += sh_setvar("PS2", PS2);
-	ret += sh_setvar("PS3", PS3);
-	ret += sh_setvar("PS4", PS4);
+	ret += sh_setvar("42SH", SHELL, 0);
+	ret += sh_setvar("42SH_COLOR", "false", 0);
+	ret += sh_setvar("42SH_VERSION", VERSION, 0);
+	ret += sh_setvar("HISTFILESIZE", HISTFILESIZE, 0);
+	ret += sh_setvar("HISTSIZE", HISTSIZE, 0);
+	ret += sh_setvar("PS1", PS1, 0);
+	ret += sh_setvar("PS2", PS2, 0);
+	ret += sh_setvar("PS3", PS3, 0);
+	ret += sh_setvar("PS4", PS4, 0);
 	return (ret);
 }
 
