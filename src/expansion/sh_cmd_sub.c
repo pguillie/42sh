@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/20 18:13:51 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/11/21 12:03:29 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,69 +95,6 @@ char	*sh_sub_ins(char *lexeme, char *str)
 	res = ft_strjoin(tmp, lexeme + i);
 	free(tmp);
 	return (res);
-}
-
-int		sh_count_len(char *str)
-{
-	int i;
-	int len;
-
-	len = 0;
-	i = 0;
-	while (str[i] && str[i] != '`')
-		i++;
-	len++;
-	i++;
-	while (str[i] && str[i] != '`')
-	{
-		i++;
-		len++;
-	}
-	return (len);
-}
-
-int		sh_squote(char *str)
-{
-	int		i;
-	int		first;
-
-	first = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (!first && (str[i] == '\"' || str[i] == '\''))
-			first = str[i];
-		else if (str[i] == first)
-			first = 0;
-		if (str[i] == '`' && first == '\'')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*sh_only_b(char *str)
-{
-	char	*tmp;
-	int		i;
-	int		t;
-
-	i = 0;
-	t = 0;
-	if (!(tmp = ft_strnew(sh_count_len(str))))
-		return (NULL);
-	if (sh_squote(str))
-	{
-		free(tmp);
-		return (NULL);
-	}
-	while (str[i] && str[i] != '`')
-		i++;
-	tmp[t++] = str[++i];
-	i++;
-	while (str[i] && str[i] != '`')
-		tmp[t++] = str[i++];
-	return (tmp);
 }
 
 int		sh_cmd_sub(t_token **exp)

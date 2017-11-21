@@ -6,11 +6,11 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/13 11:37:43 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/17 13:32:06 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/11/21 13:50:29 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
 static int	ft_white(char c)
 {
@@ -49,7 +49,7 @@ static int	ft_size(const char *str)
 	return (n + 2);
 }
 
-char		**ft_split_allwhite(char const *str)
+char		**ft_split_allwhite(char *str)
 {
 	char	**new;
 	int		i;
@@ -60,17 +60,17 @@ char		**ft_split_allwhite(char const *str)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (str[i] && ft_white(str[i]))
-		i++;
 	while (str[i])
 	{
-		if (str[i] != ' ' && !ft_white(str[i])
-			&& (i ? ft_white(str[i - 1]) : 1) && !(l = 0))
+		while (str[i] && ft_white(str[i]))
+			i++;
+		if (!ft_white(str[i]) && !(l = 0))
 		{
 			while (str[i + l] && !ft_white(str[i + l]))
 				l++;
 			if (!(new[j++] = ft_strsub(str, i, l)))
 				return (ft_exit(new));
+			i =  i + l - 1;
 		}
 		i++;
 	}
