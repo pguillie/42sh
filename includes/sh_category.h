@@ -6,10 +6,11 @@
 # define NEWLINE		2
 # define PIPE			1
 # define REDIRECTION	0
-# define CMD			-1
-# define OPT			-2
-# define ARG			-3
-# define FILDES			-4
-# define HEREDOC		-5
+# define SUB_SHELL		-1
+# define CMD			-2
+# define OPT			-3
+# define ARG			-4
+# define FILDES			-5
+# define HEREDOC		-6
 
 #endif

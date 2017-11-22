@@ -62,5 +62,8 @@ int			sh_execution(char **av, int ret)
 {
 	if (sh_builtin(av, &ret))
 		return (ret);
-	return (sh_exec_hash(av));
+	else if (ft_strnequ(av[0], "(", 1))
+		return (sh_sub_shell(av[0]));
+	else
+		return (sh_exec_hash(av));
 }

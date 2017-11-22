@@ -25,6 +25,10 @@ int			sh_verification(t_token *lex, int ret)
 		if (lex->category >= PIPE)
 			if (lex->next->category > NEWLINE || lex->next->category == PIPE)
 				return (sh_syn_err(lex->next->lexeme));
+		if (lex->category < SUB_SHELL && lex->next->category == SUB_SHELL)
+			return (sh_syn_err(lex->lexeme));
+		if (lex->category == SUB_SHELL && lex->next->category < SUB_SHELL)
+			return (sh_syn_err(lex->next->lexeme));
 		lex = lex->next;
 	}
 	return (ret);

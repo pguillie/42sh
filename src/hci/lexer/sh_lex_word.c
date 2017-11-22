@@ -1,23 +1,28 @@
 #include "shell.h"
 
-int		sh_lex_word(char *str)
+int		sh_lex_word(char *s)
 {
 	int		i;
 	char	quote;
+	int		bracket;
 
 	i = 0;
 	quote = 0;
-	while (str[i] && (quote || !sh_metachar(str[i])))
+	bracket = 0;
+	while (s[i] && (quote || bracket || !sh_metachar(s[i])))
 	{
-		if (str[i] == '\\' && str[i + 1] && str[i + 1] != '\'')
+		if (s[i] == '\\' && s[i + 1] && s[i + 1] != '\'')
 			i++;
 		else
 		{
-			if (str[i] == quote)
+			if (s[i] == quote)
 				quote = 0;
-			else if ((str[i] == '\"' || str[i] == '\'' || str[i] == '`')
-					&& !quote)
-				quote = str[i];
+			else if ((s[i] == '\"' || s[i] == '\'' || s[i] == '`') && !quote)
+				quote = s[i];
+			else if (s[i] == '(')
+				bracket += 1;
+			else if(s[i] == ')' && bracket > 0)
+				bracket -= 1;
 		}
 		i++;
 	}
