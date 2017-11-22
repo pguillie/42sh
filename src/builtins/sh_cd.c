@@ -1,45 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/22 15:46:57 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/22 17:18:10 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static int	sh_cd_opt(char *opt, char *str)
+/* 1: contenu
+ * 2: X
+ * 3: /
+ * 4: . ..
+ * 5: cdpath
+ * => 6: valid
+ * 7-9: travailler la chaine si -L
+ * 10: chdir
+ */
+
+static int	sh_cd_opt(char **av, char *opt)
 {
-	if (!str || *str != '-' || (str[0] == '-' && (str[1] == '\0' ||
-	((str[1] == ' ' || str[1] == '-') && (str[2] == '\0' || str[2] == ' ')))))
-		return (0);
-	if ((str[1] == 'L' || str[1] == 'P') && (str[2] == '\0' || str[2] == ' '))
+	int		i;
+	int		j;
+
+	*opt = 'L';
+	i = 1;
+	while (av[i] && av[i][0] == '-')
 	{
-		*opt = str[1];
-		return (1);
+		if (ft_strequ(av[i], "--") && ++i)
+			break ;
+		j = 1;
+		while (av[i][j])
+		{
+			if (av[i][j] == 'L' || av[i][j] == 'P')
+				*opt = av[i][j];
+			else
+				return (-av[i][j]);
+			j++;
+		}
+		i++;
 	}
-	ft_putstr_fd(SHELL, 2);
-	ft_putstr_fd(": cd: -", 2);
-	ft_putchar_fd(str[1], 2);
-	ft_putendl_fd(": invalid option", 2);
-	ft_putendl_fd("cd: usage: cd [-L|-P] [directory]\n"
-			"           cd -", 2);
-	return (-1);
+	return  (i);
 }
 
-int			sh_cd(char *av[])
+int			sh_cd(char **av)
 {
-	char	opt;
 	char	*dir;
+	char	opt;
 	int		i;
 
-	i = 0;
-	opt = 'L';
-	if (!av[1] && sh_access(NULL, 0))
-		return (1);
-	if ((i = sh_cd_opt(&opt, av[1])) < 0)
-		return (1);
-	if (!(dir = ft_strdup(getenv("HOME"))) && !av[i + 1])
-		return (ft_error("cd", "HOME not set", NULL));
-	else if (av[i + 1])
-	{
-		free(dir);
-		if (!(dir = ft_strdup(av[i + 1])))
-			return (-1);
-	}
-	if (sh_cd2(dir, opt, av[i + 1]) < 0)
+	if ((i = sh_cd_opt(av, &opt)) < 0)
+		return (sh_ill_opt(av[0], -i, SH_CD));
+	if (!(dir = (av[i] ? av[i] : sh_getvar("HOME"))))
+		return (ft_error(SHELL, av[0], "HOME not set"));
+	if (!(dir = sh_cd_path(dir)))
 		return (-1);
-	return (0);
+	if (opt == 'L' && sh_cd_cn(&dir))
+		return (ft_error(SHELL, av[0], E_NOENT));
+	
 }

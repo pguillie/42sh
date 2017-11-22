@@ -16,8 +16,4 @@ int		sh_setenv(char **av);
 int		sh_unset(char **av);
 int		sh_unsetenv(char **av);
 
-int		sh_access(char *dir, int mode);
-int		sh_cd_exec(char opt, char *dir, int epu);
-int		sh_cd2(char *dir, char opt, char *av);
-
 #endif
