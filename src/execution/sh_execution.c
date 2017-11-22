@@ -1,9 +1,10 @@
 #include "shell.h"
 
-static int	sh_exec_hash(char *av[], char *env[])
+static int	sh_exec_hash(char **av)
 {
-	char	*path;
-	int		ret;
+	extern char	**environ;
+	char		*path;
+	int			ret;
 
 	path = sh_hash_get(av[0]);
 	if (path)
@@ -12,37 +13,54 @@ static int	sh_exec_hash(char *av[], char *env[])
 		if (!(av[0] = ft_strdup(path)))
 			return (-1);
 	}
-	ret = sh_cmd_exec(av, env, &path);
+	ret = sh_cmd_exec(av, environ, &path);
 	if (!ft_strchr(av[0], '/'))
 		sh_hash_set(av[0], path);
 	path ? free(path) : 0;
 	return (ret);
 }
 
-int			sh_execution(char *av[], char *env[], int ret)
+static int	sh_builtin2(char **av, int *ret)
+{
+	if (ft_strequ(av[0], "readonly"))
+		*ret = sh_readonly(av);
+	else if (ft_strequ(av[0], "setenv"))
+		*ret = sh_setenv(av);
+	else if (ft_strequ(av[0], "unset"))
+		*ret = sh_unset(av);
+	else if (ft_strequ(av[0], "unsetenv"))
+		*ret = sh_unsetenv(av);
+	else
+		return (0);
+	return (1);
+}
+
+static int	sh_builtin(char **av, int *ret)
 {
 	if (ft_strequ(av[0], "cd"))
-		return (sh_cd(av));
+		*ret = sh_cd(av);
 	else if (ft_strequ(av[0], "declare"))
-		return (sh_declare(av));
+		*ret = sh_declare(av);
 	else if (ft_strequ(av[0], "echo"))
-		return (sh_echo(av));
+		*ret = sh_echo(av);
 	else if (ft_strequ(av[0], "env"))
-		return (sh_env(av, env));
+		*ret = sh_env(av);
 	else if (ft_strequ(av[0], "exit"))
-		return (sh_exit(av, ret));
+		*ret = sh_exit(av, *ret);
 	else if (ft_strequ(av[0], "export"))
-		return (sh_export(av));
+		*ret = sh_export(av);
 	else if (ft_strequ(av[0], "hash"))
-		return (sh_hash(av));
+		*ret = sh_hash(av);
 	else if (ft_strequ(av[0], "printenv"))
-		return (sh_printenv(env, av[1]));
-	else if (ft_strequ(av[0], "readonly"))
-		return (sh_readonly(av));
-	else if (ft_strequ(av[0], "setenv"))
-		return (sh_setenv(av));
-	else if (ft_strequ(av[0], "unsetenv"))
-		return (sh_unsetenv(av));
-	else
-		return (sh_exec_hash(av, env));
+		*ret = sh_printenv(av[1]);
+	else if (!sh_builtin2(av, ret))
+		return (0);
+	return (1);
+}
+
+int			sh_execution(char **av, int ret)
+{
+	if (sh_builtin(av, &ret))
+		return (ret);
+	return (sh_exec_hash(av));
 }

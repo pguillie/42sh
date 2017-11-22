@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:56:15 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/20 17:29:12 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/22 14:34:07 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	sh_setvar_namval(char **name, char **value)
 	i = 0;
 	while ((*name)[i] && (*name)[i] != '=')
 	{
-		if ((*name)[i] == ' ') //voir autre unauthorized char	
+		if ((*name)[i] == ' ' || (*name)[i] == '-')
 			return (1);
 		i++;
 	}
@@ -89,6 +89,7 @@ static int	sh_setvar_mod(char *name, char *value, char type, int i)
 		if (!(var = ft_strnew(ft_strlen(name) + ft_strlen(value) + 2)))
 			return (-1);
 		sh_setvar_fill(var, name, value, (*varray)[i][0] | type);
+		free((*varray)[i]);
 		(*varray)[i] = var;
 	}
 	else
@@ -113,7 +114,8 @@ int			sh_setvar(char *name, char *value, char type)
 	while ((*varray)[size])
 	{
 		if (ft_strnequ((*varray)[size] + 1, name, len)
-			&& (*varray)[size][len + 1] == '=')
+			&& (((*varray)[size][len + 1] == '=')
+				|| (*varray)[size][len + 1] == 0))
 			i = size;
 		size += 1;
 	}

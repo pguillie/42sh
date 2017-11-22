@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_cmd_exec.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/21 14:54:26 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/21 17:55:43 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "shell.h"
 
 static int	sh_exec_file(char *cmd, char **path)
@@ -41,9 +52,10 @@ int			sh_exec_bin(char *cmd, char **path)
 	size_t	i;
 	int		found;
 
-	if (ft_strequ(cmd, cmd[0] && cmd[1] ? ".." : ".") || !(p = getenv("PATH")))
+	if (ft_strequ(cmd, cmd[0] && cmd[1] ? ".." : ".")
+			|| !(p = sh_getvar("PATH")))
 		return (ft_error(cmd, E_NOCMD, NULL));
-	if (!(env_path = sh_envvarsplit(p)))
+	if (!(env_path = sh_varsplit(p)))
 		return (-1);
 	i = 0;
 	found = 0;
@@ -88,12 +100,11 @@ static int	sh_father_child(pid_t child, char *path, char *av[], char *env[])
 	return (WEXITSTATUS(ret));
 }
 
-int			sh_cmd_exec(char *av[], char *env[], char **path)
+int			sh_cmd_exec(char **av, char **env, char **path)
 {
-	pid_t		child;
-	extern char	**environ;
-	int			no_file;
-	int			ret;
+	pid_t	child;
+	int		no_file;
+	int		ret;
 
 	ret = 0;
 	if ((no_file = ft_strchr(av[0], '/') ?

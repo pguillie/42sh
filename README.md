@@ -1,5 +1,9 @@
 # 42sh
 
+## BUGS
+
+history P_UP P_DO
+
 ## alias
 
 stockage: variable type array

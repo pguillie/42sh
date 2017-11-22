@@ -6,13 +6,13 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:22:43 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/20 16:07:11 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/21 15:39:37 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int		sh_unsetvar_del(int line, int size)
+static int	sh_unsetvar_del(int line, int size)
 {
 	int		i;
 	int		j;
@@ -37,7 +37,7 @@ static int		sh_unsetvar_del(int line, int size)
 	return (0);
 }
 
-static int		sh_unsetvar_mod(int line, char type)
+static int	sh_unsetvar_mod(int line, char type)
 {
 	char vtype;
 	char ***vray;
@@ -52,7 +52,7 @@ static int		sh_unsetvar_mod(int line, char type)
 	return (0);
 }
 
-int				sh_unsetvar(char *name, char type, char search)
+int			sh_unsetvar(char *name, char type, char search)
 {
 	int		i;
 	int		len;
@@ -66,12 +66,13 @@ int				sh_unsetvar(char *name, char type, char search)
 	len = ft_strlen(name);
 	while ((*vray)[i])
 	{
-		if ((*vray)[i][0] & search && ft_strnequ((*vray)[i] + 1, name, len)
-				&& (*vray)[i][len] == '=')
+		if ((!search || (*vray)[i][0] & search)
+				&& ft_strnequ((*vray)[i] + 1, name, len)
+				&& (*vray)[i][len + 1] == '=')
 			line = i;
 		i++;
 	}
-	if (!line)
+	if (line < 0)
 		return (0);
 	if (!type)
 		return (sh_unsetvar_del(line, i));

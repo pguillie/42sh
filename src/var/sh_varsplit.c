@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_varsplit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/21 14:52:55 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/21 14:53:15 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static char	**sh_splitalloc(char *value)
@@ -33,7 +45,7 @@ static char	**sh_splitexit(char **array)
 	return (NULL);
 }
 
-char		**sh_envvarsplit(char *value)
+char		**sh_varsplit(char *value)
 {
 	char	**new;
 	size_t	i;

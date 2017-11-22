@@ -9,7 +9,7 @@ static char	*sh_exp_til_home(char *name, int len)
 	home = NULL;
 	if (!len)
 	{
-		home = getenv("HOME");
+		home = sh_getvar("HOME");
 		if (!home && (p = getpwuid(getuid())))
 			home = p->pw_dir;
 	}
@@ -36,9 +36,9 @@ static char	*sh_exp_til_fnd(char *lex, int *i)
 	while (lex[*i + len] && lex[*i + len] != '/' && lex[*i + len] != ':')
 		len += 1;
 	if (len == 2 && ft_strnequ(lex + *i, "~+", 2))
-		rplc = getenv("PWD");
+		rplc = sh_getvar("PWD");
 	else if (len == 2 && ft_strnequ(lex + *i, "~-", 2))
-		rplc = getenv("OLDPWD");
+		rplc = sh_getvar("OLDPWD");
 	else
 		rplc = sh_exp_til_home(lex + *i + 1, len - 1);
 	if (rplc && (new = ft_strnew(ft_strlen(lex) - len + ft_strlen(rplc))))

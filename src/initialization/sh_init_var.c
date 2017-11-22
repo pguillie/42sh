@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 12:46:38 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/20 16:54:42 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/22 14:33:52 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,9 @@ int			sh_init_var(void)
 		if (!((*vars)[size] = ft_strnew(ft_strlen(environ[size]) + 1)))
 			return (sh_init_exit(vars, size + 1));
 		(*vars)[size][0] = V_EXPORT;
-		ft_strcat((*vars)[size], environ[size]);
+		ft_strcat((*vars)[size] + 1, environ[size]);
 	}
 	if (sh_init_shvar())
 		return (-1);
-	/* ~/.42shrc */
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 13:00:42 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/20 17:30:15 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/21 10:21:05 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	sh_declare_opt(char **av, char *opt)
 	return (i);
 }
 
-static void	sh_declare_print_out(char *var)
+static int	sh_declare_print_out(char *var)
 {
 	int	i;
 
@@ -53,8 +53,7 @@ static void	sh_declare_print_out(char *var)
 		ft_putchar(' ');
 	}
 	while (var[i] && var[i] != '=')
-		i++;
-	write(1, var + 1, i - 1);
+		ft_putchar(var[i++]);
 	if (var[i++])
 	{
 		ft_putstr("=\"");
@@ -67,38 +66,34 @@ static void	sh_declare_print_out(char *var)
 		ft_putchar('\"');
 	}
 	ft_putchar('\n');
+	return (0);
 }
 
 static int	sh_declare_print_name(char **av)
 {
 	char	***varray;
 	int		ret;
-	int		i;
-	int		j;
-	int		l;
+	int		i[3];
 
 	if (!(varray = sh_var()))
 		return (1);
 	ret = 0;
-	i = 0;
-	while (av[i])
+	i[0] = 0;
+	while (av[i[0]])
 	{
-		l = 0;
-		while (av[i][l] && av[i][l] != '=')
-			l++;
-		j = 0;
-		while ((*varray)[j])
+		ft_memset(i + 1, 0, sizeof(int) * 2);
+		while (av[i[0]][i[1]] && av[i[0]][i[1]] != '=')
+			i[1]++;
+		while ((*varray)[i[2]])
 		{
-			if (ft_strnequ((*varray)[j] + 1, av[i], l)
-					&& (*varray)[j][l + 1] == '=')
+			if (ft_strnequ((*varray)[i[2]] + 1, av[i[0]], i[1])
+					&& (*varray)[i[2]][i[1] + 1] == '=')
 				break ;
-			j++;
+			i[2]++;
 		}
-		if ((*varray)[j])
-			sh_declare_print_out((*varray)[j]);
-		else if ((ret = 1))
-			ft_error("declare", av[i], "Not found");
-		i++;
+		ret += (*varray)[i[2]] ? sh_declare_print_out((*varray)[i[2]])
+			: ft_error("declare", av[i[0]], "Not found");
+		i[0]++;
 	}
 	return (ret);
 }
@@ -126,18 +121,12 @@ int			sh_declare(char **av)
 	int		ret[2];
 	int		i;
 
-	ft_printf(">>\n");
 	ft_memset(opt, 0, sizeof(char) * 2);
 	if ((i = sh_declare_opt(av, opt)) < 0)
-	{
-		ft_putendl_fd(SH_ILL_OPT("declare", -i), 2);
-		ft_putendl_fd(SH_DECLARE, 2);
-		return (1);
-	}
-	ft_printf("opt: %d -- type: %d\n", opt[0], opt[1]);
+		return (sh_ill_opt(av[0], -i, SH_DECLARE));
 	if (opt[0] && av[i])
 		return (sh_declare_print_name(av + i));
-	else if (opt[0])
+	else if (opt[0] || !av[i])
 		return (sh_declare_print_type(opt[1]));
 	ret[0] = 0;
 	while (av[i])

@@ -1,79 +1,115 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_env.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/21 12:12:47 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/22 13:56:55 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static int	sh_env_error(char c)
+static int	sh_env_opt(char **av)
 {
-	ft_printf("env: illegal option -- %c\n", c);
-	ft_putendl("usage: env [-i] [name=value]... [utility [argument...]]");
-	return (1);
+	int		i;
+	int		j;
+
+	i = 1;
+	while (av[i] && av[i][0] == '-')
+	{
+		if (ft_strequ(av[i], "--") && ++i)
+			break ;
+		j = 1;
+		while (av[i][j])
+		{
+			if (av[i][j] != 'i')
+				return (-av[i][j]);
+			j++;
+		}
+		i++;
+	}
+	return (i);
 }
 
-static int	sh_env_opt(char *opt)
+static int	sh_env_append(char ***e, char *var)
+{
+	int		i[3];
+
+	ft_memset(i + 1, 0, sizeof(int) * 2);
+	while (var[i[1]] && var[i[1]] != '=')
+		i[1]++;
+	if ((i[0] = -1) && i[1] == 0)
+		return (1);
+	if (*e)
+	{
+		while ((*e)[i[2]])
+		{
+			if (ft_strnequ((*e)[i[2]], var, i[1]) && (*e)[i[2]][i[1]] == '=')
+				i[0] = i[2];
+			i[2]++;
+		}
+	}
+	if (i[0] >= 0)
+		(*e)[i[0]] = var;
+	else
+	{
+		if (!(*e = (char**)ft_realloc(*e, i[2] + 1, i[2] + 2, sizeof(char*))))
+			return (-1);
+		(*e)[i[2]] = var;
+	}
+	return (0);
+}
+
+static void	sh_env_print(char **env)
 {
 	int		i;
 
-	if (opt[0] != '-')
-		return (0);
-	i = 1;
-	while (opt[i] && opt[i] == 'i')
-		i++;
-	if (opt[i] && opt[i] != 'i')
-		return (-i);
-	return (1);
+	if (env)
+	{
+		i = 0;
+		while (env[i])
+			ft_putendl(env[i++]);
+	}
 }
 
-static int	sh_env_set(char *av[], int *i)
+static int	sh_env_exec(char **av)
 {
-	char	*back[2];
-	int		j;
+	pid_t	child;
 	int		ret;
 
-	j = *i;
-	while (av[*i] && ft_strchr(av[*i], '='))
-		*i += 1;
-	back[0] = av[j - 1];
-	back[1] = av[*i];
-	if (!(av[j - 1] = ft_strdup("env")))
+	ret = 0;
+	child = fork();
+	if (child == 0)
+		exit(sh_execution(av, 0));
+	else if (child > 0)
+		waitpid(child, &ret, 0);
+	else
 		return (-1);
-	av[*i] = NULL;
-	ret = sh_setenv(av + j - 1);
-	free(av[j - 1]);
-	av[j - 1] = back[0];
-	av[*i] = back[1];
 	return (ret);
 }
 
-static int	sh_env_end(char *av[], int i, char *env[])
-{
-	if (!av[i])
-		return (sh_printenv(env, NULL));
-	return (sh_execution(av + i, env, 0));
-}
-
-int			sh_env(char *av[], char *env[])
+int			sh_env(char **av)
 {
 	extern char	**environ;
-	char		**bac_env;
-	int			ignore;
-	int			i;
 	int			ret;
+	int			i;
 
-	if (!av[1])
-		return (sh_printenv(env, NULL));
-	bac_env = environ;
-	environ = sh_envdup(env);
-	i = 1;
-	if ((ignore = sh_env_opt(av[i])) < 0)
-		return (sh_env_error(av[i][-ignore]));
-	else if (ignore && ++i)
+	if ((i = sh_env_opt(av)) < 0)
+		return (sh_ill_opt(av[0], -i, SH_ENV));
+	if (i > 1)
 	{
-		environ ? ft_strtabdel(environ) : 0;
+		free(environ);
 		environ = NULL;
 	}
-	ret = sh_env_set(av, &i);
-	env = environ;
-	environ = bac_env;
-	if (ret >= 0)
-		ret = sh_env_end(av, i, env);
-	env ? ft_strtabdel(env) : 0;
+	while (ft_strchr(av[i], '='))
+		sh_env_append(&environ, av[i++]);
+	ret = 0;
+	if (av[i])
+		ret = sh_env_exec(av + i);
+	else
+		sh_env_print(environ);
 	return (ret);
 }

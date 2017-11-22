@@ -1,9 +1,10 @@
 #include "shell.h"
 
-int		sh_printenv(char *env[], char *var)
+int		sh_printenv(char *var)
 {
-	char	*val;
-	int		i;
+	extern char **environ;
+	char		*val;
+	int			i;
 
 	if (var)
 	{
@@ -12,11 +13,11 @@ int		sh_printenv(char *env[], char *var)
 		else
 			return (1);
 	}
-	else if (env)
+	else if (environ)
 	{
 		i = 0;
-		while (env[i])
-			ft_putendl(env[i++]);
+		while (environ[i])
+			ft_putendl(environ[i++]);
 	}
 	return (0);
 }

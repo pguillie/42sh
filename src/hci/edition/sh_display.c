@@ -17,7 +17,7 @@ int			sh_display(t_line *l, t_coord **coord, t_tc tc, char *save)
 	size_t	i;
 
 	i = l->cur;
-	syntax = getenv("SYNTAX");
+	syntax = sh_getvar("SYNTAX");
 	if (!syntax || !ft_strequ(syntax, "ON") || save)
 	{
 		if (sh_clear(l, coord, tc) < 0)

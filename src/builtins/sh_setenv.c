@@ -1,63 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_setenv.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/21 11:51:44 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/21 15:48:26 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static int	sh_set_env(char *var)
+int		sh_setenv(char **av)
 {
-	extern char	**environ;
-	int			i[2];
+	int		i;
+	int		ret[2];
 
-	i[1] = 0;
-	if (!(var = ft_strdup(var)))
-		return (-1);
-	while (var[i[1]] && var[i[1]] != '=')
-		i[1]++;
-	i[0] = 0;
-	if (environ)
-	{
-		while (environ[i[0]] && !(ft_strnequ(environ[i[0]], var, i[1])
-					&& environ[i[0]][i[1]] == '='))
-			i[0]++;
-		if (environ[i[0]])
-			free(environ[i[0]]);
-		else if (!(environ = (char **)ft_realloc(environ,
-						i[0] + 1, i[0] + 2, sizeof(char *))))
-			return (-1);
-	}
-	else if (!(environ = (char **)ft_memalloc(sizeof(char *) * 2)))
-		return (-1);
-	environ[i[0]] = var;
-	return (0);
-}
-
-int			sh_setenv_var(char *prg, char *var)
-{
-	int	j;
-
-	j = 0;
-	while (var[j] && var[j] != '=')
-	{
-		if (!((var[j] >= 'a' && var[j] <= 'z')
-					|| (var[j] >= 'A' && var[j] <= 'Z')
-					|| (var[j] >= '0' && var[j] <= '9')
-					|| var[j] == '_'))
-			break ;
-		j++;
-	}
-	if (var[j] == '=')
-		return (sh_set_env(var));
-	else
-		return (ft_error(prg, var, !var[j] ? E_EQMISS : E_ALNUM));
-}
-
-int			sh_setenv(char *av[])
-{
-	int	i;
-	int	ret;
-	int	stat;
-
+	ret[0] = 0;
 	i = 1;
-	stat = 0;
-	while (av[i] && (ret = sh_setenv_var(av[0], av[i++])) >= 0)
-		if (ret)
-			stat = 1;
-	return (ret < 0 ? ret : stat);
+	while (av[i])
+	{
+		if ((ret[1] = sh_setvar(av[i], NULL, V_EXPORT)) < 0)
+			return (-1);
+		else if (ret[1] > 1)
+			ret[0] = ft_error(av[0], av[i], "Not a valid identifier");
+		i++;
+	}
+	return (ret[0]);
 }

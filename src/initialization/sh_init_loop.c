@@ -1,21 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_init_loop.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/22 09:29:42 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/22 09:34:52 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static char		*sh_get_ptr_path(void)
+static char	*sh_get_ptr_path(void)
 {
-	int			i;
-	extern char **environ;
+	char	***varray;
+	int		i;
 
-	i = 0;
-	while (environ[i])
+	if ((varray = sh_var()))
 	{
-		if (ft_strnequ(environ[i], "PATH", 4) && environ[i][4] == '=')
-			return (environ[i]);
-		i++;
+		i = 0;
+		while ((*varray)[i])
+		{
+			if (ft_strnequ((*varray)[i] + 1, "PATH", 4)
+					&& (*varray)[i][5] == '=')
+				return ((*varray)[i]);
+			i++;
+		}
 	}
 	return (NULL);
 }
 
-void			sh_init_loop(t_token **lexer, t_cmd ****list, int **op)
+void		sh_init_loop(t_token **lexer, t_cmd ****list, int **op)
 {
 	static char	*old_path = NULL;
 	char		*new_path;

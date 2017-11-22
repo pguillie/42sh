@@ -1,56 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_unsetenv.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/21 12:04:24 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/21 15:41:30 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static int	sh_remove_var(char *var)
+int		sh_unsetenv(char **av)
 {
-	extern char **environ;
-	char		**new;
-	int			i;
-	int			j;
+	int		i;
+	int		ret[2];
 
+	ret[0] = 0;
 	i = 0;
-	while (environ[i])
-		i++;
-	if (!(new = (char **)ft_memalloc(sizeof(char *) * i)))
-		return (-1);
-	i = 0;
-	j = 0;
-	while (environ[i])
-	{
-		if (!ft_strequ(environ[i], var))
-			new[j++] = environ[i];
-		i++;
-	}
-	free(environ);
-	free(var);
-	environ = new;
-	return (0);
-}
-
-int			sh_unsetenv(char *av[])
-{
-	extern char	**environ;
-	int			i;
-	int			j;
-	int			n;
-
-	i = 1;
 	while (av[i])
 	{
-		j = 0;
-		while (environ[j])
-		{
-			n = 0;
-			while (av[i][n] == environ[j][n])
-				n++;
-			if (!av[i][n] && environ[j][n] == '=')
-			{
-				if (sh_remove_var(environ[j]) < 0)
-					return (-1);
-				break ;
-			}
-			j++;
-		}
+		if (ft_strchr(av[i], '='))
+			ret[0] = 1;
+		else if ((ret[1] = sh_unsetvar(av[i], V_EXPORT, 0)) < 0)
+			return (-1);
+		else if (ret[1] > 1)
+			ret[0] = ft_error(av[0], av[i], "Not a valid identifier");
 		i++;
 	}
-	return (0);
+	return (ret[0]);
 }

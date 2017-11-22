@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_list_browse.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/21 17:16:11 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/22 14:16:19 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static int	sh_cmd(t_cmd *cmd, int ret)
@@ -16,8 +28,14 @@ static int	sh_cmd(t_cmd *cmd, int ret)
 		sh_redir_restore(fd, std);
 		return (1);
 	}
+	environ = sh_mkenv();
 	if (cmd->av[0])
-		ret = sh_execution(cmd->av, environ, ret);
+		ret = sh_execution(cmd->av, ret);
+	if (environ)
+	{
+		free(environ);
+		environ = NULL;
+	}
 	if (sh_redir_restore(fd, std))
 		return (-1);
 	return (ret);

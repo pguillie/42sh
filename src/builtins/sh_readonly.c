@@ -6,7 +6,7 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 14:59:29 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/20 17:18:51 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/21 10:04:16 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	sh_rdonly_print_out(char *var)
 	while (var[i] && var[i] != '=')
 		i++;
 	write(1, var + 1, i - 1);
-	if (var[i])
+	if (var[i++])
 	{
 		ft_putstr("=\"");
 		while (var[i])
@@ -80,11 +80,7 @@ int			sh_readonly(char **av)
 	int		i;
 
 	if ((i = sh_rdonly_opt(av)) < 0)
-	{
-		ft_putendl_fd(SH_ILL_OPT("readonly", -i), 2);
-		ft_putendl_fd(SH_RDONLY, 2);
-		return (1);
-	}
+		return (sh_ill_opt(av[0], -i, SH_RDONLY));
 	ret[0] = 0;
 	if (!av[i])
 		return (sh_rdonly_print());
@@ -94,8 +90,8 @@ int			sh_readonly(char **av)
 		{
 			if ((ret[1] = sh_setvar(av[i], NULL, V_RDONLY)) < 0)
 				return (-1);
-			else if (ret[1] && (ret[0] = 1))
-				ft_error(av[0], av[i], "Not a valid identifier");
+			else if (ret[1] > 1)
+				ret[0] = ft_error(av[0], av[i], "Not a valid identifier");
 			i++;
 		}
 	}

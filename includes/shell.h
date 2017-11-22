@@ -26,6 +26,7 @@
 
 # define HISTFILE "/.42sh_history"
 # define PS1 "\\e[38;5;114m[\\@] \\e[38;5;74m\\w \\$\\e[0m "
+//# define PS1 "\\$ "
 # define PS2 "> "
 # define PS3 "#? "
 # define PS4 "+ "
@@ -84,7 +85,6 @@
 
 # include "sh_builtins.h"
 # include "sh_color.h"
-# include "sh_environment.h"
 # include "sh_execution.h"
 # include "sh_expansion.h"
 # include "sh_hash.h"

@@ -36,7 +36,6 @@ obj/%.o: src/%.c $(HEADERS) Makefile
 
 obj:
 	mkdir -p ./obj/builtins
-	mkdir -p ./obj/environment
 	mkdir -p ./obj/execution
 	mkdir -p ./obj/expansion
 	mkdir -p ./obj/hash

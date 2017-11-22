@@ -12,7 +12,7 @@ int			sh_init_termcaps(t_tc *init)
 	char	*termtype;
 	int		success;
 
-	if (!(termtype = getenv("TERM")))
+	if (!(termtype = sh_getvar("TERM")))
 		return (ft_error("`TERM' environment variable not found", NULL, NULL));
 	success = tgetent(init->data, termtype);
 	if (success < 0)
