@@ -21,7 +21,7 @@
 # define E_NOTSET "Varibale not set"
 # define E_RAW "Could not switch to non-canonical mode"
 # define E_REDIR "Unable to set redirection"
-# define E_SEVER "\nSevere error occured while getting input"
+# define E_SEVER "Severe error occured"
 # define E_SYNERR "Syntax error near unexpected token"
 # define E_TCBASE "Could not access the termcap data base"
 # define E_TERMIOS "Could not restore previous structure"
