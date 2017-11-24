@@ -6,13 +6,13 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 11:59:42 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/21 12:07:14 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:22:09 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_count_len(char *str)
+static int	sh_count_len(char *str)
 {
 	int i;
 	int len;
@@ -31,7 +31,7 @@ int		sh_count_len(char *str)
 	return (len);
 }
 
-int		sh_squote(char *str)
+static int	sh_squote(char *str)
 {
 	int		i;
 	int		first;
@@ -58,11 +58,11 @@ char	*sh_only_b(char *str)
 
 	i[0] = 0;
 	i[1] = 0;
-	if (sh_squote(str) || !(tmp = ft_strnew(sh_count_len(str))))
+	if (sh_squote(str) || !(tmp = ft_strnew(sh_count_len(str) + 1)))
 		return (NULL);
 	while (str[i[0]])
 	{
-		if (str[i[0]] == '\\' && str[i[0] + 1])
+		if (str[i[0]] == '\\' && str[i[0] + 1] == '`')
 			i[0]++;
 		else if (str[i[0]] == '`')
 			break ;
@@ -71,11 +71,12 @@ char	*sh_only_b(char *str)
 	tmp[i[1]++] = str[++i[0]];
 	while (str[++i[0]])
 	{
-		if (str[i[0]] == '\\' && str[i[0] + 1])
+		if (str[i[0]] == '\\' && str[i[0] + 1] == '`')
 			i[0]++;
 		else if (str[i[0]] == '`')
 			break ;
 		tmp[i[1]++] = str[i[0]];
 	}
+	tmp[i[1]] = '\n';
 	return (tmp);
 }

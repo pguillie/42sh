@@ -9,5 +9,6 @@ int		sh_redir_set(t_redir *redir, int fd[10]);
 int		sh_redir_restore(int fd[10], int std[3]);
 int		sh_exec_bin(char *cmd, char **path);
 int		sh_sub_shell(char *cmd);
+int		sh_small_main(char *cmd);
 
 #endif
