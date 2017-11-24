@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 15:02:24 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/23 17:04:46 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:42:26 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,11 @@ int			sh_cd(char **av)
 	if (!av[i] && !(av[i] = sh_getvar("HOME")))
 		return (ft_error(SHELL, av[0], "HOME not set"));
 	if ((ret = sh_cd_absolute(av[i], &dir)))
+	{
+		av[i] = save;
 		return (ret < 0 ? -ft_error(SHELL, E_SEVER, NULL) : 1);
-	if (!(ret = sh_cd_access(dir, av[i])))
+	}
+	if (!(ret = sh_cd_access(dir, ft_strcmp(av[i], "-") ? av[i] : dir)))
 	{
 		dir = (opt == 'L' ? sh_cd_l(dir) : dir);
 		ret = sh_cd2(av[i], dir, opt) < 0;
