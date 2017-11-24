@@ -21,7 +21,7 @@ int		sh_lex_word(char *s)
 				quote = s[i];
 			else if (s[i] == '(')
 				bracket += 1;
-			else if(s[i] == ')' && bracket > 0)
+			else if (s[i] == ')' && bracket > 0)
 				bracket -= 1;
 		}
 		i++;
