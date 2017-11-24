@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_execution.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/24 11:06:15 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/24 15:22:38 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static int	sh_exec_hash(char **av)
+static int	sh_exec_hash(char **av, int pipe)
 {
 	extern char	**environ;
 	char		*path;
@@ -13,7 +25,7 @@ static int	sh_exec_hash(char **av)
 		if (!(av[0] = ft_strdup(path)))
 			return (-1);
 	}
-	ret = sh_cmd_exec(av, environ, &path);
+	ret = sh_cmd_exec(av, environ, &path, pipe);
 	if (!ft_strchr(av[0], '/'))
 		sh_hash_set(av[0], path);
 	path ? free(path) : 0;
@@ -58,12 +70,12 @@ static int	sh_builtin(char **av, int *ret)
 	return (1);
 }
 
-int			sh_execution(char **av, int ret)
+int			sh_execution(char **av, int ret, int pipe)
 {
 	if (sh_builtin(av, &ret))
 		return (ret);
 	else if (ft_strnequ(av[0], "(", 1))
 		return (sh_sub_shell(av[0]));
 	else
-		return (sh_exec_hash(av));
+		return (sh_exec_hash(av, pipe));
 }

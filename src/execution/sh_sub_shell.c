@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_sub_shell.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/24 14:37:56 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/24 15:32:53 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static int	sh_small_main(char *cmd)
@@ -15,7 +27,7 @@ static int	sh_small_main(char *cmd)
 		ret = -1;
 	else if (sh_parser(sh_expansion(lexer), &cmd_list, &op) < 0)
 		ret = -1;
-	else if (sh_list_browse(cmd_list, op, ret) < 0)
+	else if ((ret = sh_list_browse(cmd_list, op, ret)) < 0)
 		ret = -1;
 	lexer ? sh_token_del(&lexer) : 0;
 	cmd_list ? sh_list_del(&cmd_list, &op) : 0;
@@ -25,18 +37,13 @@ static int	sh_small_main(char *cmd)
 int			sh_sub_shell(char *cmd)
 {
 	pid_t	child;
-	int		ret;
 
-	ret = 0;
 	if ((child = fork()) < 0)
 		return (-1);
 	if (child == 0)
 	{
 		cmd[ft_strlen(cmd) - 1] = '\n';
-		ret = sh_small_main(cmd + 1);
-		exit(ret);
+		exit(sh_small_main(cmd + 1));
 	}
-	else
-		waitpid(child, &ret, WUNTRACED);
-	return (WEXITSTATUS(ret));
+	return (sh_wait(child, 0));
 }

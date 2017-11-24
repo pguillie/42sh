@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 14:54:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/21 17:55:43 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/24 15:01:36 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "shell.h"
@@ -85,22 +85,11 @@ static int	sh_father_child(pid_t child, char *path, char *av[], char *env[])
 		if (execve(path, av, env) < 0)
 			exit(1);
 	}
-	else
-	{
-		signal(SIGINT, SIG_IGN);
-		waitpid(child, &ret, WUNTRACED);
-		if (WIFSTOPPED(ret))
-		{
-			kill(child, SIGKILL);
-			wait(&ret);
-		}
-		if (WIFSIGNALED(ret))
-			write(1, "\n", 1);
-	}
-	return (WEXITSTATUS(ret));
+	signal(SIGINT, SIG_IGN);
+	return (sh_wait(child, ret));
 }
 
-int			sh_cmd_exec(char **av, char **env, char **path)
+int			sh_cmd_exec(char **av, char **env, char **path, int pipe)
 {
 	pid_t	child;
 	int		no_file;
@@ -112,9 +101,18 @@ int			sh_cmd_exec(char **av, char **env, char **path)
 		return (-1);
 	if (no_file)
 		return (1);
-	if ((child = fork()) < 0)
-		return (-1);
-	ret = sh_father_child(child, *path, av, env);
+	if (pipe == 0)
+	{
+		if ((child = fork()) < 0)
+			return (-1);
+		ret = sh_father_child(child, *path, av, env);
+	}
+	else
+	{
+		sh_dfl_sig();
+		if (execve(*path, av, env) < 0)
+			exit(1);
+	}
 	sh_catch_signals();
 	return (ret);
 }

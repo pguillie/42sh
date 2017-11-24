@@ -6,13 +6,13 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 17:16:11 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/22 14:16:19 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/24 15:33:15 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	sh_cmd(t_cmd *cmd, int ret)
+static int	sh_exec_cmd(t_cmd *cmd, int ret, int pipe)
 {
 	extern char	**environ;
 	int			fd[10];
@@ -30,7 +30,7 @@ static int	sh_cmd(t_cmd *cmd, int ret)
 	}
 	environ = sh_mkenv();
 	if (cmd->av[0])
-		ret = sh_execution(cmd->av, ret);
+		ret = sh_execution(cmd->av, ret, pipe);
 	if (environ)
 	{
 		free(environ);
@@ -41,46 +41,43 @@ static int	sh_cmd(t_cmd *cmd, int ret)
 	return (ret);
 }
 
-static int	sh_pipe_right(t_cmd *cmd, int pfd[2], int ret)
+static int	sh_exec_pipe(t_cmd *cmd, int ret, int pipefd[2])
 {
-	int		stdin;
+	int		stdout;
 
-	close(pfd[1]);
-	stdin = dup(0);
-	dup2(pfd[0], 0);
-	ret = sh_cmd(cmd, ret);
-	close(pfd[0]);
-	dup2(stdin, 0);
+	close(pipefd[0]);
+	stdout = dup(1);
+	dup2(pipefd[1], 1);
+	ret = sh_exec_cmd(cmd, ret, 1);
+	dup2(stdout, 1);
+	close(pipefd[1]);
 	return (ret);
 }
 
 static int	sh_pipe(t_cmd **pipeline, int ret)
 {
 	pid_t	child;
-	int		pfd[2];
-	int		stdout;
-	int		i;
+	int		pipefd[2];
+	int		stdin;
 
-	i = 0;
-	while (pipeline[i])
-		i++;
-	if (i == 1)
-		return (sh_cmd(pipeline[i - 1], ret));
-	if (pipe(pfd) < 0 || (child = fork()) < 0)
+	if (!pipeline[1])
+		return (sh_exec_cmd(pipeline[0], ret, 0));
+	if (pipe(pipefd) < 0 || (child = fork()) < 0)
 		return (-1);
 	if (child == 0)
+		exit(sh_exec_pipe(pipeline[0], ret, pipefd));
+	else
 	{
-		close(pfd[0]);
-		stdout = dup(1);
-		dup2(pfd[1], 1);
-		free(pipeline[i - 1]);
-		pipeline[i - 1] = NULL;
-		ret = sh_pipe(pipeline, ret);
-		dup2(stdout, 1);
-		close(pfd[1]);
-		exit(ret);
+		close(pipefd[1]);
+		stdin = dup(0);
+		dup2(pipefd[0], 0);
+		ret = sh_pipe(pipeline + 1, ret);
+		dup2(stdin, 0);
+		close(pipefd[0]);
 	}
-	return (sh_pipe_right(pipeline[i - 1], pfd, ret));
+	kill(child, SIGTERM);
+	waitpid(child, NULL, 0);
+	return (ret);
 }
 
 int			sh_list_browse(t_cmd ***list, int *op, int ret)

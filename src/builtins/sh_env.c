@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:12:47 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/22 13:56:55 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/24 15:31:51 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,11 @@ static int	sh_env_exec(char **av)
 	int		ret;
 
 	ret = 0;
-	child = fork();
-	if (child == 0)
-		exit(sh_execution(av, 0));
-	else if (child > 0)
-		waitpid(child, &ret, 0);
-	else
+	if ((child = fork()) < 0)
 		return (-1);
-	return (ret);
+	else if (child == 0)
+		exit(sh_execution(av, 0, 1));
+	return (sh_wait(child, ret));
 }
 
 int			sh_env(char **av)
