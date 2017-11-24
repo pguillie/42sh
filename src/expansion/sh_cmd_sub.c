@@ -6,13 +6,13 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/21 15:43:36 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:53:57 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_sub_cpy(int tube, char **cmd)
+static int	sh_sub_cpy(int tube, char **cmd)
 {
 	char	b[BUFF_SIZE + 1];
 	char	*tmp;
@@ -40,35 +40,45 @@ int		sh_sub_cpy(int tube, char **cmd)
 	return (0);
 }
 
-char	*sh_sub_exec(char *tmp)
+static int	sh_kill_zombie(pid_t child, int ret)
+{
+	if (WIFSIGNALED(ret))
+	{
+		kill(child, SIGKILL);
+		wait(&ret);
+		write(1, "\n", 1);
+		return (1);
+	}
+	return (0);
+}
+
+static char	*sh_sub_exec(char *tmp, int *ret)
 {
 	int			tube[2];
-	int			stat;
 	pid_t		exec;
-	char		*gnl;
 	char		*cmd;
 
 	pipe(tube);
 	cmd = NULL;
-	gnl = NULL;
 	exec = fork();
 	if (exec == 0)
 	{
 		close(tube[0]);
 		dup2(tube[1], 1);
-		sh_sub_sh(NULL, tmp);
-		exit(0);
+		*ret = sh_small_main(tmp);
+		exit(*ret);
 	}
 	else
 	{
-		waitpid(exec, &stat, 0);
+		waitpid(exec, ret, WUNTRACED);
 		close(tube[1]);
-		sh_sub_cpy(tube[0], &cmd);
+		if (!sh_kill_zombie(exec, *ret))
+			sh_sub_cpy(tube[0], &cmd);
 	}
 	return (cmd);
 }
 
-char	*sh_sub_ins(char *lexeme, char *str)
+static char	*sh_sub_ins(char *lexeme, char *str)
 {
 	char	*tmp;
 	char	*res;
@@ -97,16 +107,17 @@ char	*sh_sub_ins(char *lexeme, char *str)
 	return (res);
 }
 
-int		sh_cmd_sub(t_token **exp)
+int			sh_cmd_sub(t_token **exp)
 {
 	char	*command;
 	char	*tmp;
 	char	*str;
+	int		ret;
 
 	str = (*exp)->lexeme;
-	if (!(tmp = sh_only_b(str)))
-		return (1);
-	command = sh_sub_exec(tmp);
+	if (!(tmp = sh_only_b(str)) || tmp[0] == '`')
+		return (0);
+	command = sh_sub_exec(tmp, &ret);
 	free(tmp);
 	tmp = sh_sub_ins((*exp)->lexeme, command);
 	if (tmp)
@@ -115,5 +126,5 @@ int		sh_cmd_sub(t_token **exp)
 		(*exp)->lexeme = tmp;
 	}
 	command ? free(command) : 0;
-	return (0);
+	return (!tmp ? -1 : ret);
 }

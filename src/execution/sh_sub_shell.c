@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-static int	sh_small_main(char *cmd)
+int		sh_small_main(char *cmd)
 {
 	t_token	*lexer;
 	t_cmd	***cmd_list;
@@ -34,7 +34,7 @@ static int	sh_small_main(char *cmd)
 	return (ret);
 }
 
-int			sh_sub_shell(char *cmd)
+int		sh_sub_shell(char *cmd)
 {
 	pid_t	child;
 

@@ -10,5 +10,6 @@ int		sh_redir_restore(int fd[10], int std[3]);
 int		sh_exec_bin(char *cmd, char **path);
 int		sh_sub_shell(char *cmd);
 int		sh_wait(pid_t child, int ret);
+int		sh_small_main(char *cmd);
 
 #endif
