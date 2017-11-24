@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 11:59:42 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/24 16:22:09 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:49:52 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,12 @@ static int	sh_squote(char *str)
 	return (0);
 }
 
-char	*sh_only_b(char *str)
+char		*sh_only_b(char *str)
 {
 	char	*tmp;
 	int		i[2];
 
-	i[0] = 0;
-	i[1] = 0;
+	ft_bzero(i, sizeof(int) * 2);
 	if (sh_squote(str) || !(tmp = ft_strnew(sh_count_len(str) + 1)))
 		return (NULL);
 	while (str[i[0]])

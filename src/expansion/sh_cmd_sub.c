@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/24 16:21:36 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:53:57 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ static int	sh_sub_cpy(int tube, char **cmd)
 	return (0);
 }
 
+static int	sh_kill_zombie(pid_t child, int ret)
+{
+	if (WIFSIGNALED(ret))
+	{
+		kill(child, SIGKILL);
+		wait(&ret);
+		write(1, "\n", 1);
+		return (1);
+	}
+	return (0);
+}
+
 static char	*sh_sub_exec(char *tmp, int *ret)
 {
 	int			tube[2];
@@ -60,13 +72,7 @@ static char	*sh_sub_exec(char *tmp, int *ret)
 	{
 		waitpid(exec, ret, WUNTRACED);
 		close(tube[1]);
-		if (WIFSIGNALED(*ret))
-		{
-			kill(exec, SIGKILL);
-			wait(ret);
-			write(1, "\n", 1);
-		}
-		else
+		if (!sh_kill_zombie(exec, *ret))
 			sh_sub_cpy(tube[0], &cmd);
 	}
 	return (cmd);
