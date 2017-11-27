@@ -1,42 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_hist_write.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/24 15:28:18 by mdescamp          #+#    #+#             */
+/*   Updated: 2017/11/24 16:36:06 by mdescamp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static void	sh_hwrite(char *line, int fd)
+static int		sh_get_history(void)
 {
-	size_t	i;
+	char			*dir;
+	struct passwd	*passwd;
+	int				fd;
 
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '\n' && line[i + 1])
-			ft_putchar_fd('\\', fd);
-		ft_putchar_fd(line[i++], fd);
-	}
+	// if (!(dir = sh_getvar("HISTFILE")))
+		if (!(dir = ft_strdup("./history"))) //sh_getvar("HOME")))
+		{
+			passwd = getpwuid(getuid());
+			dir = ft_strjoin(passwd->pw_dir, HISTFILE);
+		}
+	fd = open(dir, O_CREAT | O_WRONLY | O_TRUNC);
+	free(dir);
+	return (fd);
 }
 
-int			sh_hist_write(char *line, char *last)
+void			sh_hist_write(void)
 {
-	struct passwd	*pw;
-	char			*hist;
-	int				fd;
-	int				i;
+	t_hist	**state;
+	int		fd;
+	int		i;
 
-	if (!(pw = getpwuid(getuid())))
-		return (1);
-	hist = ft_strcjoin(pw->pw_dir, HISTFILE, '/');
-	i = 0;
-	while (line[i] && ft_isspace(line[i]))
-		i++;
-	if (line[i] && !ft_strequ(line, last))
+	i = 1;
+	fd = sh_get_history();
+	if (!(state = global_hist()))
+		return ;
+	while (i - 1 != (*state)->length) // && i != sh_getvar("HISTFILESIZE")
 	{
-		if ((fd = open(hist ? hist : HISTFILE, O_WRONLY | O_APPEND | O_CREAT,
-						S_IRUSR | S_IWUSR)) < 0)
+		if ((*state)->entry[i].timestamp != 0)
 		{
-			ft_strdel(&hist);
-			return (1);
+			ft_putstr_fd("#", fd);
+			ft_putendl_fd(ft_itoa((*state)->entry[i].timestamp), fd);
 		}
-		sh_hwrite(line, fd);
-		close(fd);
+		ft_putendl_fd((*state)->entry[i].line, fd);
+		i++;
 	}
-	ft_strdel(&hist);
-	return (0);
+	close(fd);
 }

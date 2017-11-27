@@ -35,8 +35,6 @@ typedef struct	s_line
 	size_t			h_pos;
 	size_t			used;
 	size_t			capacity;
-	struct s_line	*up;
-	struct s_line	*down;
 }				t_line;
 
 typedef struct	s_token

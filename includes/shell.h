@@ -93,6 +93,7 @@
 # include "sh_parser.h"
 # include "sh_signals.h"
 # include "sh_var.h"
+# include "sh_hist.h"
 
 ////////////////
 void displex(t_token *lexer);

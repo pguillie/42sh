@@ -14,7 +14,7 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 
 int		sh_move_able(char *esc, t_line *line, t_coord *coord, int *hist_search);
 int		sh_del_able(char *esc, t_line *line);
-t_line	*sh_hist_able(char *esc, t_line *line, int *hist_search);
+char	*sh_hist_able(char *esc, t_line *line, int *hist_search);
 
 /*
 **	COMPLETION
@@ -70,7 +70,7 @@ int		sh_display(t_line *line, t_coord **coord, t_tc tc, char *save);
 void	sh_display_syntax(char *str);
 int		sh_del_l(t_line *line, t_coord **coord, t_tc tc);
 int		sh_del_r(t_line *line);
-int		sh_hist(t_line **line, t_coord **coord, t_tc tc, t_line *target);
+int		sh_hist(t_line **line, t_coord **coord, t_tc tc, char *target);
 int		sh_ins(t_line *line, char c);
 int		termput(int c);
 
@@ -78,16 +78,16 @@ int		termput(int c);
 **	HISTORY
 */
 
-t_line	*sh_hist_read(void);
-t_line	*sh_hline_new(char *str, t_line *prev);
-int		sh_hist_write(char *line, char *last);
-void	sh_hist_del(t_line **hist);
-int		sh_i_search(t_line **line, t_tc *tc, int mode);
-char	*sh_del_char(char *str);
-char	*sh_ins_char(char *str, char c);
-void	sh_i_prompt(char *str, t_tc *tc, int mode);
-void	minedit_raz(t_line *line, t_tc *tc);
-void	sh_print_file(t_line **file, t_line *line, t_tc *tc, int *j);
+// t_line	*sh_hist_read(void);
+// t_line	*sh_hline_new(char *str, t_line *prev);
+// int		sh_hist_write(char *line, char *last);
+// void	sh_hist_del(t_line **hist);
+// int		sh_i_search(t_line **line, t_tc *tc, int mode);
+// char	*sh_del_char(char *str);
+// char	*sh_ins_char(char *str, char c);
+// void	sh_i_prompt(char *str, t_tc *tc, int mode);
+// void	minedit_raz(t_line *line, t_tc *tc);
+// void	sh_print_file(t_line **file, t_line *line, t_tc *tc, int *j);
 
 /*
 **	LEXER

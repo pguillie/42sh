@@ -20,6 +20,8 @@ int			main(void)
 	int		*op;
 	int		ret[2];
 
+	sh_hist_read();
+	disp_hist_tmp();
 	if (sh_init(&termcaps))
 		return (ft_error("Unable to initialize shell", NULL, NULL));
 	ret[0] = 0;

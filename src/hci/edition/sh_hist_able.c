@@ -24,37 +24,36 @@ static int		sh_hist_search(t_line *line, int id)
 		return (0);
 }
 
-static t_line	*sh_get_target(t_line *line, t_line *target, int id)
+static char	*sh_get_target(t_line *line, char *target, int id)
 {
 	if (id & UP)
 	{
-		target = line;
 		if (line->h_smd)
-			while (target && (!ft_strnequ(line->str, target->str,
-							line->h_pos) || !ft_strcmp(line->str, target->str)))
-				target = target->up;
+			// while (sh_hist_line('-') && (!ft_strnequ(line->str, sh_hist_line('-'),
+			// 				line->h_pos) || !ft_strcmp(line->str, sh_hist_line('-'))))
+				target = sh_hist_line('-');
 	}
 	else if (id & DOWN)
 	{
-		target = line;
 		if (line->h_smd)
-			while (target && (!ft_strnequ(line->str, target->str,
-							line->h_pos) || !ft_strcmp(line->str, target->str)))
-				target = target->down;
+		// while (sh_hist_line('+') && (!ft_strnequ(line->str, sh_hist_line('+'),
+		// 				line->h_pos) || !ft_strcmp(line->str, sh_hist_line('+'))))
+				target = sh_hist_line('+');
 	}
 	if (!target)
-		return (line);
+		return (line->str);
 	return (target);
 }
 
-t_line			*sh_hist_able(char *esc, t_line *line, int *hist_search)
+char			*sh_hist_able(char *esc, t_line *line, int *hist_search)
 {
-	t_line	*target;
+	char	*target;
 	int		id;
 
 	target = NULL;
 	id = sh_convert_hist(esc);
 	*hist_search = sh_hist_search(line, id);
 	target = sh_get_target(line, target, id);
+	// printf("%s\n", target);
 	return (target);
 }
