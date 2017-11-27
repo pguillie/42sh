@@ -10,6 +10,7 @@ int		sh_env(char **av);
 int		sh_exit(char **av, int ret);
 int		sh_export(char **av);
 int		sh_hash(char **av);
+int		sh_history(char **av);
 int		sh_printenv(char *var);
 int		sh_readonly(char **av);
 int		sh_setenv(char **av);
@@ -18,5 +19,6 @@ int		sh_unsetenv(char **av);
 
 int		sh_cd2(char *dir, char *path, char opt);
 int		sh_cd_access(char *path, char *dir);
+int		sh_history_opt(char **av, char *opt);
 
 #endif
