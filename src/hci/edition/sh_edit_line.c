@@ -71,7 +71,10 @@ static int	sh_edit_free(t_coord *coord, int success)
 int			sh_edit_line(t_line **line, char *save, t_tc *tc)
 {
 	int		success;
+	t_hist **hist;
 
+	if (!(hist = global_hist()))
+		return (-1);
 	success = 0;
 	if (!(tc->coord = sh_create_coord(*line, tc->prompt)))
 		return (-1);

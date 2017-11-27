@@ -24,23 +24,40 @@ static int		sh_hist_search(t_line *line, int id)
 		return (0);
 }
 
+static int	sh_hist_comp(t_line *line, char c)
+{
+	t_hist	**hist;
+	int		i;
+
+	if (!(hist = global_hist()))
+		return (0);
+	i = (*hist)->offset;
+	if (c == '-' && (*hist)->offset > 1 && (*hist)->entry[i].line && 
+			(!ft_strnequ(line->str, (*hist)->entry[i].line, line->h_pos)
+				|| !ft_strcmp(line->str, (*hist)->entry[i].line)))
+		return (1);
+	else if (c == '+' && i < (*hist)->length + 1 && (*hist)->entry[i].line &&
+			(!ft_strnequ(line->str, (*hist)->entry[i].line, line->h_pos)
+			 || !ft_strcmp(line->str, (*hist)->entry[i].line)))
+		return (1);
+	return (0);
+}
+
 static char	*sh_get_target(t_line *line, char *target, int id)
 {
 	if (id & UP)
 	{
 		if (line->h_smd)
-			// while (sh_hist_line('-') && (!ft_strnequ(line->str, sh_hist_line('-'),
-			// 				line->h_pos) || !ft_strcmp(line->str, sh_hist_line('-'))))
+			 while (sh_hist_comp(line, '-'))
 				target = sh_hist_line('-');
 	}
 	else if (id & DOWN)
 	{
 		if (line->h_smd)
-		// while (sh_hist_line('+') && (!ft_strnequ(line->str, sh_hist_line('+'),
-		// 				line->h_pos) || !ft_strcmp(line->str, sh_hist_line('+'))))
+			while (sh_hist_comp(line, '+'))
 				target = sh_hist_line('+');
 	}
-	if (!target)
+	if (!target || !ft_strnequ(target, line->str, line->h_pos))
 		return (line->str);
 	return (target);
 }

@@ -8,6 +8,7 @@ int		sh_exit(char *av[], int ret)
 			return (ft_error(av[0], E_2MNARG, NULL));
 		ret = ft_atoi(av[1]);
 	}
+	sh_hist_write();
 	ft_putendl("exit");
 	exit(ret);
 }

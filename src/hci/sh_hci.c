@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 11:03:44 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/22 11:03:45 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/27 16:50:07 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int		sh_hci(t_tc *tc, t_token **lexer, int mret)
 	if (g_signal != SIGINT)
 	{
 		//last = hist->up ? ft_strjoin(hist->up->str, "\n") : NULL;.
-
 		ret = sh_edit(line, last, lexer, tc);
 		last ? ft_strdel(&last) : 0;
 	}

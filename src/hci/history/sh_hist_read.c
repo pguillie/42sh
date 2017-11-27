@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 15:35:33 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/27 10:00:35 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/11/27 16:52:26 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ t_hist	**sh_hist_read(void)
 		return (NULL);
 	(*state)->size = size;
 	(*state)->length = 0;
-	(*state)->offset = sh_hist_size();
+//	(*state)->offset = sh_hist_size();
 	fd = sh_get_history();
-	if (!(sh_hist_fill(fd)))
-		return (NULL);
+	sh_hist_fill(fd);
 	close(fd);
 	return (state);
 }

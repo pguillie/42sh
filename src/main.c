@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 11:05:30 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/24 15:34:21 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/27 16:51:47 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int			main(void)
 	int		ret[2];
 
 	sh_hist_read();
-	disp_hist_tmp();
 	if (sh_init(&termcaps))
 		return (ft_error("Unable to initialize shell", NULL, NULL));
 	ret[0] = 0;

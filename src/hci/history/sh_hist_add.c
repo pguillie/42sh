@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 15:01:24 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/27 09:49:32 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/11/27 16:11:31 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int			sh_hist_add(char *new)
 	if ((*state)->length >= (*state)->size)
 		sh_hist_browse(state);
 	else
-	{
 		(*state)->length += 1;
-		(*state)->offset = (*state)->length;
-	}
+	(*state)->offset = (*state)->length + 1;
 	if (!((*state)->entry[(*state)->length].line = ft_strdup(new)))
+		return (sh_hist_error());
+	if (!((*state)->entry[(*state)->length + 1].line = ft_strdup("")))
 		return (sh_hist_error());
 	// if (sh_getvar("HISTTIMEFORMAT"))
 	// 	(*state)->entry[(*state)->length].timestamp = time(NULL);
