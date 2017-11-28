@@ -1,4 +1,10 @@
+cat -e
+ls
+cat -e
+ls
+ls
+ls
+ls
 toto
-tutu
-test
-
+tata
+leaks 42sh

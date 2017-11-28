@@ -57,6 +57,8 @@ static char	*sh_get_target(t_line *line, char *target, int id)
 			while (sh_hist_comp(line, '+'))
 				target = sh_hist_line('+');
 	}
+	if (id & DOWN && (!target || !ft_strnequ(target, line->str, line->h_pos)))
+		return (line->tmp);
 	if (!target || !ft_strnequ(target, line->str, line->h_pos))
 		return (line->str);
 	return (target);
@@ -69,8 +71,12 @@ char			*sh_hist_able(char *esc, t_line *line, int *hist_search)
 
 	target = NULL;
 	id = sh_convert_hist(esc);
+	if (!line->h_smd)
+	{
+		free(line->tmp);
+		line->tmp = ft_strdup(line->str);
+	}
 	*hist_search = sh_hist_search(line, id);
 	target = sh_get_target(line, target, id);
-	// printf("%s\n", target);
 	return (target);
 }

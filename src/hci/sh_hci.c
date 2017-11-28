@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 11:03:44 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/27 16:50:07 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/11/28 11:54:27 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_line	*sh_hline_new(char *str)
 		ft_memdel((void**)new);
 		return (NULL);
 	}
+	new->tmp = ft_strdup("");;
 	ft_strcat(new->str, str);
 	new->used = ft_strlen(str);
 	new->cur = 0;

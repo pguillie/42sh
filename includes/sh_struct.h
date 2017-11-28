@@ -29,6 +29,7 @@ typedef struct	s_tc
 typedef struct	s_line
 {
 	char			*str;
+	char			*tmp;
 	size_t			cur;
 	size_t			pos;
 	int				h_smd;

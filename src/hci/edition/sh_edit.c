@@ -2,7 +2,6 @@
 
 static void	edit_raz(t_line *line, t_tc *tc, t_token **lexer)
 {
-	(void)line;
 	g_signal = 0;
 	ft_bzero(line->str, line->used);
 	line->used = 0;
@@ -52,10 +51,9 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		return (-1);
 	ret = LEX_LOOP;
 	save = NULL;
-	edit_raz(line, tc, lexer);
 	while (ret & LEX_LOOP)
 	{
-		// edit_raz(line, tc, lexer);
+		edit_raz(line, tc, lexer);
 		tc->prompt = sh_prompt(!save ? 1 : 2);
 		ret = sh_edit_line(&line, save, tc);
 		if (ret < 0 || ret == EOT || edit_save(&save, line->str) < 0
