@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/30 17:03:07 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/11/30 17:11:43 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int			sh_history(char **av)
 		j++;
 	}
 	if (j == 0)
-		sh_hist_disp();
+		sh_hist_disp(ft_atoi(av[i]));
 	return (0);
 }

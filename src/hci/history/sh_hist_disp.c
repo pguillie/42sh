@@ -6,13 +6,13 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 16:24:07 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/30 16:42:39 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/11/30 17:13:06 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	sh_hist_disp(void)
+void	sh_hist_disp(int k)
 {
 	t_hist		**state;
 	int			i;
@@ -20,9 +20,9 @@ void	sh_hist_disp(void)
 	char		tmp[128];
 	struct tm	*tm;
 
-	i = 0;
 	if (!(state = global_hist()))
 		return ;
+	i = k == 0 ? 0 : (*state)->length - k;
 	while (i != (*state)->length)
 	{
 		if (sh_getvar("HISTTIMEFORMAT"))
