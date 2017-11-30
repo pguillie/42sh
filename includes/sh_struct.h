@@ -1,6 +1,20 @@
 #ifndef SH_STRUCT_H
 # define SH_STRUCT_H
 
+typedef struct	s_entry
+{
+	char		*line;
+	int			timestamp;
+}				t_entry;
+
+typedef struct	s_hist
+{
+	t_entry		*entry;
+	int			offset;
+	int			length;
+	int			size;
+}				t_hist;
+
 typedef struct	s_coord
 {
 	int	x;

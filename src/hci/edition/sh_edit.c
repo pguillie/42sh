@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_edit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/30 17:44:56 by pbourlet          #+#    #+#             */
+/*   Updated: 2017/11/30 17:52:00 by pbourlet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static void	edit_raz(t_line *line, t_tc *tc, t_token **lexer)
@@ -51,6 +63,7 @@ int			sh_edit(t_line *line, t_token **lexer, t_tc *tc)
 		edit_raz(line, tc, lexer);
 		tc->prompt = sh_prompt(!save ? 1 : 2);
 		ret = sh_edit_line(&line, save, tc);
+		ret = sh_hist_exp(line, ret);
 		if (ret < 0 || ret == EOT || edit_save(&save, line->str) < 0
 				|| (ret = sh_lexer(lexer, save)) < 0)
 			break ;

@@ -39,6 +39,7 @@ obj:
 	mkdir -p ./obj/execution
 	mkdir -p ./obj/expansion
 	mkdir -p ./obj/hash
+	mkdir -p ./obj/hist_exp
 	mkdir -p ./obj/hci/completion
 	mkdir -p ./obj/hci/conversions
 	mkdir -p ./obj/hci/cur_motion
