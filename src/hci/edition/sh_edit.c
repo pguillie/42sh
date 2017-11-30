@@ -24,24 +24,19 @@ static int	edit_save(char **save, char *line)
 	return (0);
 }
 
-static int	edit_end(t_token **lexer, int ret, char *save, char *last)
+static int	edit_end(t_token **lexer, int ret, char *save)
 {
 	t_hist	**hist;
 
-
 	if (!(hist = global_hist()))
-	 	return (ft_error(E_SEVER, NULL, NULL));
-	(*hist)->offset = (*hist)->length + 1;
-	(void)last;
-	// if (!(ret < 0 || ret & EOT) && sh_hist_write(save, last))
-	// 	ft_error("Unable to write line in history", NULL, NULL);
+		return (ft_error(E_SEVER, NULL, NULL));
 	if (ret < 0 || ret & EOT || ret & SYN_ERR)
 		sh_token_del(lexer);
 	save ? ft_strdel(&save) : 0;
 	return (g_signal == SIGINT ? 1 : ret);
 }
 
-int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
+int			sh_edit(t_line *line, t_token **lexer, t_tc *tc)
 {
 	struct termios	backup;
 	char			*save;
@@ -63,7 +58,8 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 	}
 	if (tcsetattr(0, TCSANOW, &backup) < 0 && (ret = -1))
 		ft_error("Unable to restore termios structure", NULL, NULL);
-	if (!(ret < 0 || ret & EOT) && !(line->str[ft_strlen(line->str) - 1] = '\0'))
-		sh_hist_add(line->str);
-	return (edit_end(lexer, ret, save, last));
+	if (!(ret < 0 || ret & EOT) && !ft_strequ(line->str, "\n") &&
+			!(line->str[ft_strlen(line->str) - 1] = '\0'))
+		sh_hist_add(line->str, 0);
+	return (edit_end(lexer, ret, save));
 }

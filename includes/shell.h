@@ -97,7 +97,7 @@
 
 ////////////////
 void displex(t_token *lexer);
-void disphist(t_line *line);
+void disphist(void);
 void dispcoord(t_coord *c, t_line *l);
 void disparser(t_cmd ***p, int *op);
 //void disptree(t_tree *root);

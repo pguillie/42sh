@@ -6,7 +6,7 @@
 */
 
 int		sh_hci(t_tc *termcaps, t_token **lexer, int mret);
-int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
+int		sh_edit(t_line *line, t_token **lexer, t_tc *termcaps);
 
 /*
 **	X-ABLE

@@ -20,15 +20,13 @@ typedef struct	s_hist
 	int			size;
 }				t_hist;
 
-void			disp_hist_tmp(void);
 t_hist			**global_hist(void);
-int				sh_hist_add(char *new);
+int				sh_hist_add(char *new, int t);
 int				sh_hist_del(char *str);
 void			sh_hist_disp(void);
 t_hist			**sh_hist_read(void);
 void			sh_hist_write(void);
-int				sh_hist_size(void);
-char		*sh_hist_line(char move);
+char			*sh_hist_move(char move);
 
 
 #endif

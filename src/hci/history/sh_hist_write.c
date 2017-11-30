@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 15:28:18 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/24 16:36:06 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/11/29 16:54:03 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ static int		sh_get_history(void)
 	struct passwd	*passwd;
 	int				fd;
 
-	// if (!(dir = sh_getvar("HISTFILE")))
-		if (!(dir = ft_strdup("./history"))) //sh_getvar("HOME")))
+	if (!(dir = sh_getvar("HISTFILE")))
+		if (!(dir = sh_getvar("HOME")))
 		{
 			passwd = getpwuid(getuid());
 			dir = ft_strjoin(passwd->pw_dir, HISTFILE);
 		}
 	fd = open(dir, O_CREAT | O_WRONLY | O_TRUNC);
-	free(dir);
 	return (fd);
 }
 
@@ -35,11 +34,11 @@ void			sh_hist_write(void)
 	int		fd;
 	int		i;
 
-	i = 1;
+	i = 0;
 	fd = sh_get_history();
 	if (!(state = global_hist()))
 		return ;
-	while (i - 1 != (*state)->length) // && i != sh_getvar("HISTFILESIZE")
+	while (i != (*state)->length && i != ft_atoi(sh_getvar("HISTFILESIZE")))
 	{
 		if ((*state)->entry[i].timestamp != 0)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 11:05:30 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/27 16:51:47 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/11/30 15:31:21 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int			main(void)
 	int		*op;
 	int		ret[2];
 
-	sh_hist_read();
 	if (sh_init(&termcaps))
 		return (ft_error("Unable to initialize shell", NULL, NULL));
 	ret[0] = 0;

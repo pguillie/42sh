@@ -1,16 +1,16 @@
 #include "shell.h"
 
-char		*sh_hist_line(char move)
+char	*sh_hist_move(char move)
 {
-	t_hist **hist;
+	t_hist	**hist;
+	char	*tmp;
 
 	if (!(hist = global_hist()))
 		return (NULL);
-    if (move == '-' && (*hist)->offset > 1)
-        (*hist)->offset--;
-    else if (move == '+' && (*hist)->offset < (*hist)->length + 1)
-        (*hist)->offset++;
-	return ((*hist)->entry[(*hist)->offset].line);
+	if (move == '-' && (*hist)->offset > 0)
+		(*hist)->offset--;
+	else if (move == '+' && (*hist)->offset < (*hist)->length)
+		(*hist)->offset++;
+	tmp = (*hist)->entry[(*hist)->offset].line;
+	return (tmp);
 }
-
-//actualiser l offset t_hist

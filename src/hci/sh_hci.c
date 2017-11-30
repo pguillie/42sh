@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_hci.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 11:03:44 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/28 11:54:27 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/11/30 15:30:06 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,33 +24,31 @@ static t_line	*sh_hline_new(char *str)
 		ft_memdel((void**)new);
 		return (NULL);
 	}
-	new->tmp = ft_strdup("");;
+	new->tmp = ft_strdup("");
 	ft_strcat(new->str, str);
 	new->used = ft_strlen(str);
 	new->cur = 0;
 	return (new);
 }
 
-int		sh_hci(t_tc *tc, t_token **lexer, int mret)
+int				sh_hci(t_tc *tc, t_token **lexer, int mret)
 {
 	t_hist	**hist;
 	t_line	*line;
-	char	*last;
 	int		ret;
 
 	if (!(hist = global_hist()))
-	 	return (ft_error(E_SEVER, NULL, NULL));
+		return (ft_error(E_SEVER, NULL, NULL));
 	if (!(line = sh_hline_new("")))
 		return (-1);
 	ret = 0;
-	last = NULL;
 	if (g_signal != SIGINT)
 	{
-		//last = hist->up ? ft_strjoin(hist->up->str, "\n") : NULL;.
-		ret = sh_edit(line, last, lexer, tc);
-		last ? ft_strdel(&last) : 0;
+		ret = sh_edit(line, lexer, tc);
+		free(line->str);
+		free(line->tmp);
+		free(line);
 	}
-	// sh_hist_del(&hist);
 	if (g_signal == SIGINT)
 		write(1, "\n", 1);
 	if (ret >= 0 && ret & EOT)
