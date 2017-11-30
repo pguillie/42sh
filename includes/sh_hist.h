@@ -27,6 +27,8 @@ void			sh_hist_disp(void);
 t_hist			**sh_hist_read(void);
 void			sh_hist_write(void);
 char			*sh_hist_move(char move);
+int				sh_history_opt(char **av, char *opt);
+int				sh_history(char **av);
 
 
 #endif

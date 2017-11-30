@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 14:17:22 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/24 16:03:55 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/11/30 16:50:46 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ static void	sh_del_all(t_hist **state)
 {
 	int		i;
 
-	i = 1;
-	while (i - 1 != (*state)->length)
+	i = 0;
+	while (i != (*state)->length)
 	{
 		free((*state)->entry[i].line);
 		(*state)->entry[i].line = NULL;
 		(*state)->entry[i].timestamp = 0;
+		i++;
 	}
 	(*state)->offset = 0;
 	(*state)->length = 0;
@@ -56,7 +57,8 @@ int			sh_hist_del(char *str)
 
 	state = global_hist();
 	pos = ft_atoi(str);
-	if (pos <= 0 || pos > (*state)->length)
+	pos--;
+	if (pos < 0 || pos > (*state)->length - 1)
 	{
 		if (!(ft_strcmp(str, "all")))
 			sh_del_all(state);

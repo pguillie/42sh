@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 11:06:15 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/24 15:22:38 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/11/30 15:47:18 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static int	sh_builtin(char **av, int *ret)
 		*ret = sh_hash(av);
 	else if (ft_strequ(av[0], "printenv"))
 		*ret = sh_printenv(av[1]);
+	else if (ft_strequ(av[0], "history"))
+		*ret = sh_history(av);
 	else if (!sh_builtin2(av, ret))
 		return (0);
 	return (1);

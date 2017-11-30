@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 16:24:07 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/30 15:30:24 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/11/30 16:42:39 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	sh_hist_disp(void)
 	char		tmp[128];
 	struct tm	*tm;
 
-	i = 1;
+	i = 0;
 	if (!(state = global_hist()))
 		return ;
-	while (i - 1 != (*state)->length)
+	while (i != (*state)->length)
 	{
 		if (sh_getvar("HISTTIMEFORMAT"))
 		{
@@ -33,10 +33,10 @@ void	sh_hist_disp(void)
 				return ;
 			if (strftime(tmp, 128, sh_getvar("HISTTIMEFORMAT"), tm) == 0)
 				return ;
-			ft_printf("%5d  %s%s\n", i, tmp, (*state)->entry[i].line);
+			ft_printf("%5d  %s%s\n", i + 1, tmp, (*state)->entry[i].line);
 		}
 		else
-			ft_printf("%5d  %s", i, (*state)->entry[i].line);
+			ft_printf("%5d  %s\n", i + 1, (*state)->entry[i].line);
 		i++;
 	}
 }
