@@ -56,6 +56,6 @@ int			sh_category(char *str, int i[2], int status[3])
 	if ((i[1] == 1 && str[i[0]] >= '0' && str[i[0]] <= '9'
 				&& sh_cat_rdir(str + i[0] + i[1]))
 			|| status[1])
-		return ((status[1] == 2 ? HEREDOC : FILDES) + (status[1] = 0));
+		return ((status[1] == 2 && !(status[1] = 0) ? HEREDOC : FILDES));
 	return (sh_cat_coa(str, i, status));
 }

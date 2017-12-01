@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int	sh_tab_norme(char *str, size_t *i, int *status, int cmd)
+static int	sh_tab_norme(char *str, int *i, int *status, int cmd)
 {
 	if ((i[1] = sh_rdir_op(str + i[0])))
 		*status = ARG;
@@ -18,9 +18,9 @@ static int	sh_tab_norme(char *str, size_t *i, int *status, int cmd)
 	return (cmd);
 }
 
-int			sh_tab_init(char *str, size_t cur, char **lexeme, int *status)
+int			sh_tab_init(char *str, int cur, char **lexeme, int *status)
 {
-	size_t	i[2];
+	int	i[2];
 	int		cmd;
 
 	i[0] = 0;

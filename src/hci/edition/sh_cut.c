@@ -41,11 +41,11 @@ int			sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
 int			sh_cut_u(t_line *line, t_coord **coord, t_tc *tc)
 {
 	size_t	i;
-	size_t	j;
+//	size_t	j;
 	char	*cpy;
 
 	i = line->cur;
-	j = ft_strlen(tc->clipboard);
+//	j = ft_strlen(tc->clipboard);
 	if (!line->str || line->cur == 0)
 		return (0);
 	if (!tc->clipboard)

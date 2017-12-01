@@ -14,11 +14,9 @@
 
 static int	sh_insert(t_line *line, char *exp, int i)
 {
-	char	*res;
 	int		len;
 
 	len = ft_strlen(exp);
-	res = NULL;
 	if (line->used + ft_strlen(exp) >= line->capacity)
 	{
 		line->capacity += BUFF_SIZE * ((len / BUFF_SIZE) + 1);
