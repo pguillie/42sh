@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 10:00:04 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/01 13:46:34 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/01 16:45:00 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ int			sh_hist_exp(t_line *line, int ret)
 		return (-1);
 	while ((i = sh_histexp_id(line->str, i)) >= 0)
 	{
-		b = 1;
+		b = b ? b : 1;
 		exp = NULL;
 		if (sh_histexp_event(line->str, i, &exp, *hist))
 			return (-42);
 		if (sh_histexp_word(line->str, i, &exp))
 			return (-42);
-		if (sh_histexp_modif(line->str, i, &exp))
+		if (sh_histexp_modif(line->str, i, &exp, &b))
 			return (-42);
 		if (exp)
 			sh_insert(line, exp, i);
 		exp ? free(exp) : 0;
 	}
 	b ? ft_putstr(line->str) : 0;
-	return (ret);
+	return (b > 1 ? -42 : ret);
 }

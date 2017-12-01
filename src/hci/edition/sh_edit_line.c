@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_edit_line.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/01 15:13:12 by pguillie          #+#    #+#             */
+/*   Updated: 2017/12/01 16:22:54 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static int	sh_norme1_suite(t_line **line, t_tc *tc, char byte, int ret)
 {
-	(void)line;
 	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))
 		tc->cut = 0;
-	// if (byte == 18 || byte == 19)
-	// 	ret = sh_i_search(line, tc, byte == 18 ? 0 : 1);
+	if (byte == 18 || byte == 19)
+	 	ret = sh_i_search(line, tc, byte == 18 ? 0 : 1);
 	return (ret);
 }
 
