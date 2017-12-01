@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 12:47:54 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/30 16:08:35 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/01 13:51:53 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int			sh_histexp_word(char *str, int i, char **exp)
 	if (str[i] == '^')
 		new = sh_histexp_wcaret(word, str, &i);
 	else if (str[i] == '%' && ++i)
-		new = *sh_wmatch();
+		new = ft_strdup(*sh_wmatch());
 	else if (str[i] == '$' && ++i)
 		new = sh_histexp_wdollar(word);
 	else if (str[i] == '*' && ++i)

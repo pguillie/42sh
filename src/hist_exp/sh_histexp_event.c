@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 13:29:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/30 16:27:17 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/01 14:59:36 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static char	*sh_histexp_event_searching(char *str, int *i, int j, t_hist *hist)
 {
 	char	*res;
 	char	**wmatch;
+	int		t;
+	char	save;
 
 	res = NULL;
 	wmatch = sh_wmatch();
@@ -61,8 +63,14 @@ static char	*sh_histexp_event_searching(char *str, int *i, int j, t_hist *hist)
 		(*i)++;
 	if ((res = sh_search(str + j, *i - j, hist)))
 	{
+		t = 0;
+		while (res[t] && res[t] != '\t' && res[t] != ' ' && res[t] != '\n')
+			t++;
+		save = res[t];
+		res[t] = '\0';
 		*wmatch ? free(*wmatch) : 0;
 		*wmatch = ft_strdup(res);
+		res[t] = save;
 		*i += str[*i] == '?' ? 1 : 0;
 	}
 	return (res);
@@ -87,9 +95,9 @@ int			sh_histexp_event(char *s, int i, char **exp, t_hist *hist)
 		*exp = sh_histexp_event_searching(s, &i, j, hist);
 	else
 	{
-		while (s[i] && !sh_histexp_etest(s[i]) && s[i] != '%' && s[i] != '!')
+		while (s[i] && !sh_histexp_etest(s[i]) && s[i] != '!')
 			i++;
-		*exp = s[i] == '%' ? *sh_wmatch() : sh_search(s + j, i - j, hist);
+		*exp = sh_search(s + j, i - j, hist);
 	}
 	if (!*exp && offset != -1)
 		return (sh_histexp_event_error(s + j - 1, i));

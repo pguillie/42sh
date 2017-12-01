@@ -16,14 +16,15 @@ int			sh_hist_exp(t_line *line, int ret);
 int			sh_histexp_id(char *str, int i);
 int			sh_histexp_event(char *str, int i, char **exp, t_hist *hist);
 int			sh_histexp_word(char *str, int i, char **exp);
+int			sh_histexp_modif(char *str, int i, char **exp);
 char		*sh_histexp_wcaret(t_token *w, char *str, int *i);
 char		*sh_histexp_wdigit(t_token *w, char *str, int *i);
-char		*sh_histexp_suff(char *exp, int i);
-char		*sh_histexp_quote(char *exp, int i);
-char		*sh_histexp_sub(char *exp, int i, char **sub);
+char		*sh_histexp_quote(char *exp, char c);
+char		*sh_histexp_sub(char *exp, char *str, int *i, int global);
 char		*sh_histexp_new(t_token *w, int i, int j);
 char		*sh_search(char *str, int l, t_hist *hist);
 char		**sh_wmatch(void);
+char		**sh_hist_sub(void);
 int			sh_list_len(t_token *list);
 
 #endif
