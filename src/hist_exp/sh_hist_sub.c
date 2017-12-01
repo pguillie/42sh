@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_histexp_wmatch.c                                :+:      :+:    :+:   */
+/*   sh_hist_sub.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/30 15:57:14 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/12/01 13:51:26 by pguillie         ###   ########.fr       */
+/*   Created: 2017/11/30 15:20:58 by pguillie          #+#    #+#             */
+/*   Updated: 2017/11/30 15:21:33 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
-
-char	**sh_wmatch(void)
+char	**sh_hist_sub(void)
 {
-	static char *wmatch;
+	static char	*sub;
 
-	return (&wmatch);
+	return (&sub);
 }

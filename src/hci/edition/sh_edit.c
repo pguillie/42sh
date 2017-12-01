@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 17:44:56 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/30 17:52:00 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/01 13:02:11 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static int	edit_end(t_token **lexer, int ret, char *save)
 	if (ret < 0 || ret & EOT || ret & SYN_ERR)
 		sh_token_del(lexer);
 	save ? ft_strdel(&save) : 0;
+	if (ret == -42)
+		return (1);
 	return (g_signal == SIGINT ? 1 : ret);
 }
 
