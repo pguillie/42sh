@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 15:01:24 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/30 15:24:49 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/01 12:15:55 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			sh_hist_add(char *new, int t)
 	i = 0;
 	if (!(state = global_hist()))
 		return (sh_hist_error());
-	if (ft_strequ((*state)->entry[(*state)->length - 1].line, new))
+	if (ft_strequ((*state)->entry[(*state)->length].line, new))
 		return (0);
 	if ((*state)->length == (*state)->size)
 		sh_hist_browse(state, &i);
