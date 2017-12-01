@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 14:53:55 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/11/30 15:25:28 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/01 12:24:57 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	sh_hist_comp(t_line *line, char c)
 	if (!(hist = global_hist()))
 		return (0);
 	i = (*hist)->offset;
-	if (c == '-' && (*hist)->offset > 1 && (*hist)->entry[i].line &&
+	if (c == '-' && (*hist)->offset > 0 && (*hist)->entry[i].line &&
 			(!ft_strnequ(line->str, (*hist)->entry[i].line, line->h_pos)
 				|| !ft_strcmp(line->str, (*hist)->entry[i].line)))
 		return (1);

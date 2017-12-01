@@ -7,5 +7,6 @@ int		sh_hist(t_line **line, t_coord **coord, t_tc tc, char *target)
 	(*line)->str = ft_strdup(target);
 	(*line)->used = ft_strlen(target);
 	(*line)->pos = (*line)->used;
+	(*line)->capacity = ft_strlen(target) + 1;
 	return (LEXER | DISP);
 }
