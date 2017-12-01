@@ -6,7 +6,6 @@ size_t	sh_move_line_u(t_line *line, t_coord *coord)
 	int		nl;
 
 	nl = 0;
-	printf("cur = %zu\n", line->cur);
 	if (coord[line->cur].y - 1 == 0)
 	{
 		pos = 0;

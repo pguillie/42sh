@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 15:35:33 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/01 12:07:58 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/01 13:55:31 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_hist		**sh_hist_read(void)
 	if (!(*state = (t_hist*)ft_memalloc(sizeof(t_hist))))
 		return (NULL);
 	if (sh_getvar("HISTSIZE"))
-		size = ft_atoi(sh_getvar("HISTSIZE"));
+		size = 10;//ft_atoi(sh_getvar("HISTSIZE"));
 	else
 		size = ft_atoi(HISTSIZE);
 	if (!((*state)->entry = (t_entry*)ft_memalloc(sizeof(t_entry) * size + 2)))

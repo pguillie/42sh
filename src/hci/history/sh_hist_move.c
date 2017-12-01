@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_hist_move.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/01 15:43:16 by ysan-seb          #+#    #+#             */
+/*   Updated: 2017/12/01 15:56:52 by ysan-seb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 char	*sh_hist_move(char move)
 {
 	t_hist	**hist;
-	char	*tmp;
 
 	if (!(hist = global_hist()))
 		return (NULL);
@@ -11,6 +22,5 @@ char	*sh_hist_move(char move)
 		(*hist)->offset--;
 	else if (move == '+' && (*hist)->offset < (*hist)->length)
 		(*hist)->offset++;
-	tmp = (*hist)->entry[(*hist)->offset].line;
-	return (tmp);
+	return ((*hist)->entry[(*hist)->offset].line);
 }
