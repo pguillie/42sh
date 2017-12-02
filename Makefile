@@ -46,6 +46,7 @@ obj:
 	mkdir -p ./obj/hci/history
 	mkdir -p ./obj/hci/lexer
 	mkdir -p ./obj/hci/prompt
+	mkdir -p ./obj/hist_exp
 	mkdir -p ./obj/initialization
 	mkdir -p ./obj/parser
 	mkdir -p ./obj/signals

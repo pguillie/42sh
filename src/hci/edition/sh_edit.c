@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_edit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/02 11:01:31 by pguillie          #+#    #+#             */
+/*   Updated: 2017/12/02 13:28:19 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static void	edit_raz(t_line *line, t_tc *tc, t_token **lexer)
@@ -31,7 +43,7 @@ static int	edit_end(t_token **lexer, int ret, char *save, char *last)
 	if (ret < 0 || ret & EOT || ret & SYN_ERR)
 		sh_token_del(lexer);
 	save ? ft_strdel(&save) : 0;
-	return (g_signal == SIGINT ? 1 : ret);
+	return ((g_signal == SIGINT || ret == -42) ? 1 : ret);
 }
 
 int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
@@ -49,6 +61,7 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		edit_raz(line, tc, lexer);
 		tc->prompt = sh_prompt(!save ? 1 : 2);
 		ret = sh_edit_line(&line, save, tc);
+		ret = sh_hist_exp(line, ret);
 		if (ret < 0 || ret == EOT || edit_save(&save, line->str) < 0
 				|| (ret = sh_lexer(lexer, save)) < 0)
 			break ;
