@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   sh_cmd_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 14:54:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/24 15:01:36 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/02 20:49:28 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "shell.h"
 
 static int	sh_exec_file(char *cmd, char **path)

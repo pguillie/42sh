@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:50:02 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 20:32:17 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/02 21:28:50 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	sh_hist_usage(void)
 	ft_putendl_fd("usage: history [n]", 2);
 	ft_putendl_fd("       history -c", 2);
 	ft_putendl_fd("       history -d offset", 2);
-	ft_putendl_fd("       history -anrw [filename]", 2);
-	ft_putendl_fd("       history -ps arg ...", 2);
+	ft_putendl_fd("       history -rw [filename]", 2);
+	ft_putendl_fd("       history -s arg ...", 2);
 	return (-1);
 }
 
