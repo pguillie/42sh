@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 21:59:18 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:11:48 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,12 @@ static int	sh_hist_del_one(int pos)
 	return (0);
 }
 
-static int	sh_hist_disp2(int k, int *i, t_line *h)
+static void	sh_hist_clear(void)
 {
-	struct tm	*tm;
-	char		s[128];
-	char		*t;
+	int		fd;
 
-	while (h->down)
-	{
-		if (!k || i[0] > i[1] - k)
-		{
-			ft_printf("%5d ", i[0]);
-			if ((t = sh_getvar("HISTTIMEFORMAT")))
-			{
-				if (!(tm = localtime((time_t*)&(h->timestamp))))
-					return (-1);
-				if (strftime(s, 128, t, tm) == 0)
-					return (-1);
-				ft_putstr(s);
-			}
-			ft_putendl(h->str);
-		}
-		h = h->down;
-		i[0]++;
-	}
-	return (0);
+	if ((fd = open(sh_getvar("HISTFILE"), O_TRUNC)) >= 0)
+		close(fd);
 }
 
 static int	sh_hist_disp(int k)
@@ -93,7 +74,14 @@ static int	sh_hist_disp(int k)
 	while (h->up && ++i[1])
 		h = h->up;
 	i[0] = 1;
-	return (sh_hist_disp2(k, i, h));
+	while (h->down)
+	{
+		if (!k || i[0] > i[1] - k)
+			ft_printf("%5d %s", i[0], h->str);
+		h = h->down;
+		i[0]++;
+	}
+	return (0);
 }
 
 int			sh_history(char **av)
