@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 13:32:43 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 17:18:46 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/02 20:42:37 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char		*sh_histexp_sub(char *exp, char *str, int *i, int global)
 		if (*sub)
 			free(*sub);
 		*sub = ft_strsub(str, j, *i - j);
-		printf("i: %d -- j: %d\n", *i, j);
 		if (*i <= j + 1)
 			(*i)--;
 	}
