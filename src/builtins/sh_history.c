@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 22:08:55 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:14:41 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	sh_hist_disp(int k)
 	while (h->down)
 	{
 		if (!k || i[0] > i[1] - k)
-			ft_printf("%5d %s", i[0], h->str);
+			ft_printf("%5d %s\n", i[0], h->str);
 		h = h->down;
 		i[0]++;
 	}
