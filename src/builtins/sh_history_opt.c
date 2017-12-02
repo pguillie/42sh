@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/02 10:52:03 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 10:52:41 by pguillie         ###   ########.fr       */
+/*   Created: 2017/11/27 10:50:02 by pguillie          #+#    #+#             */
+/*   Updated: 2017/12/02 20:32:17 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	sh_hist_usage(void)
 
 static void	sh_hist_opt_add(char *opt, char add)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (opt[i])
@@ -38,7 +38,7 @@ static void	sh_hist_opt_add(char *opt, char add)
 
 static int	sh_hist_opt_norme(char **av, int i, char *opt)
 {
-	int j;
+	int	j;
 
 	j = 1;
 	while (av[i][j])
@@ -48,12 +48,12 @@ static int	sh_hist_opt_norme(char **av, int i, char *opt)
 			if (!av[i + 1])
 			{
 				return (ft_error(SHELL, av[0],
-								 "option -d requires an argument") * -1);
+							"option -d requires an argument") * -1);
 			}
 			sh_hist_opt_add(opt, av[i][j]);
 		}
 		else if (av[i][j] == 'c' ||
-				 av[i][j] == 'r' || av[i][j] == 'w' || av[i][j] == 's')
+				av[i][j] == 'r' || av[i][j] == 'w' || av[i][j] == 's')
 			sh_hist_opt_add(opt, av[i][j]);
 		else
 			return (sh_ill_opt(av[0], av[i][j], NULL) * -1);
@@ -62,9 +62,9 @@ static int	sh_hist_opt_norme(char **av, int i, char *opt)
 	return (i);
 }
 
-int		sh_history_opt(char **av, char *opt)
+int			sh_history_opt(char **av, char *opt)
 {
-	int i;
+	int	i;
 
 	ft_memset(opt, 0, sizeof(char) * 7);
 	i = 1;

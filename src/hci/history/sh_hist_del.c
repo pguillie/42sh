@@ -1,9 +1,12 @@
 #include "shell.h"
 
-void	sh_hist_del(t_line **hist)
+void	sh_hist_del(void)
 {
-	t_line *tmp;
+	t_line	*tmp;
+	t_line	**hist;
 
+	if (!(hist = sh_ghist()))
+		return ;
 	while (*hist)
 	{
 		tmp = *hist;

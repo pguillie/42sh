@@ -29,6 +29,8 @@ int		sh_readonly(char **av);
 int		sh_setenv(char **av);
 int		sh_unset(char **av);
 int		sh_unsetenv(char **av);
+int		sh_history(char **av);
+int		sh_history_opt(char **av, char *opt);
 
 int		sh_cd2(char *dir, char *path, char opt);
 int		sh_cd_access(char *path, char *dir);
