@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 14:52:55 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 22:48:10 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/02 23:00:04 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static char	**sh_splitalloc(char *value)
 	while (value && value[i])
 		if (value[i++] == ':')
 			colon += 1;
-	if (!(ret = (char**)ft_memalloc(sizeof(char*) * colon)))
-		return (-1);
+	ret = (char**)ft_memalloc(sizeof(char*) * colon);
 	return (ret);
 }
 
