@@ -61,13 +61,10 @@ t_line	*sh_hist_gnl(int fd)
 
 t_line	*sh_hist_read(void)
 {
-	struct passwd	*pw;
 	t_line			*hist;
 	t_line			*new;
 	int				fd;
 
-	if (!(pw = getpwuid(getuid())))
-		return (NULL);
 	fd = open(sh_getvar("HISTFILE"), O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 	if (fd < 0)
 		return (NULL);

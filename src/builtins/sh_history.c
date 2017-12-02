@@ -6,13 +6,12 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 16:43:39 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/02 19:19:29 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "shell.h"
-
+/*
 static int  sh_hist_length(t_line *line)
 {
     int i;
@@ -27,7 +26,7 @@ static int  sh_hist_length(t_line *line)
     }
     return (i);
 }
-
+*/
 static int    sh_hist_del_one(int pos)
 {
     int     fd[2];
@@ -78,36 +77,39 @@ static void    sh_hist_clear(void)
         close (fd);
 }
 
-static void sh_hist_disp(int k)
+static int	sh_hist_disp(int k)
 {
-    t_line		**line;
-	int			i;
-	long		test;
-	char		tmp[128];
+	t_line		*h;
 	struct tm	*tm;
+	char		*t;
+	char		s[128];
+	int			i[2];
 
-	if (!(line = sh_ghist()) || !(*line))
-		return ;
-	i = k == 0 ? 0 : sh_hist_length((*line)) - k;
-	while ((*line)->up)
-        *line = (*line)->up;
-	while (*line)
+	if (!(h = sh_hist_read()))
+		return (-1);
+	i[1] = 0;
+	while  (h->up && ++i[1])
+		h = h->up;
+	i[0] = 1;
+	while (h->down)
 	{
-        if (sh_getvar("HISTTIMEFORMAT"))
-        {
-            test = ((*line)->timestamp) == 0 ?
-            (time(NULL)) : ((*line)->timestamp);
-            if (!(tm = localtime(&test)))
-				return ;
-			if (strftime(tmp, 128, sh_getvar("HISTTIMEFORMAT"), tm) == 0)
-				return ;
-			ft_printf("%5d  %s%s\n", i + 1, tmp, (*line)->str);
+		if (!k || i[0] > i[1] - k)
+		{
+			ft_printf("%5d ", i[0]);
+			if ((t = sh_getvar("HISTTIMEFORMAT")))
+			{
+				if (!(tm = localtime((time_t*)&(h->timestamp))))
+					return (-1);
+				if (strftime(s, 128, t, tm) == 0)
+					return (-1);
+				ft_putstr(s);
+			}
+			ft_putendl(h->str);
 		}
-		else
-			ft_printf("%5d  %s\n", i + 1, (*line)->str);
-		*line = (*line)->down;
-        i++;
+		h = h->down;
+		i[0]++;
 	}
+	return (0);
 }
 
 int			sh_history(char **av)
@@ -115,16 +117,18 @@ int			sh_history(char **av)
 	char	opt[7];
 	int		i;
 	int		j;
+    int     ret;
 
 	if ((i = sh_history_opt(av, opt)) < 0)
 		return (1);
 	j = 0;
+    ret = 0;
 	while (opt[j])
 	{
 		if (opt[j] == 's')
 			sh_hist_add(av + i, 0);
 		else if (opt[j] == 'r' && av[i])
-			sh_hist_r(av[i]);
+			ret = sh_hist_r(av[i]);
 		else if (opt[j] == 'w' && av[i])
 			sh_hist_w(av[i]);
 		else if (opt[j] == 'c')
@@ -135,5 +139,5 @@ int			sh_history(char **av)
 	}
 	if (j == 0)
 		sh_hist_disp(ft_atoi(av[i]));
-	return (0);
+	return (ret);
 }

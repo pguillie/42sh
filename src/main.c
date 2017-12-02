@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 11:05:30 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 13:54:53 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/02 19:17:58 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int			main(void)
 			ret[1] -= 1;
 		else if ((ret[0] = sh_list_browse(cmd_list, op, ret[0])) < 0)
 			ret[1] -= 1;
-		sh_hist_del();
 		lexer ? sh_token_del(&lexer) : 0;
 		cmd_list ? sh_list_del(&cmd_list, &op) : 0;
 	}

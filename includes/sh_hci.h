@@ -82,7 +82,7 @@ t_line  **sh_ghist(void);
 int     sh_hist_add(char **av, int t);
 t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
-void    sh_hist_r(char *file);
+int    sh_hist_r(char *file);
 void    sh_hist_w(char *file);
 int		sh_hist_write(char *line, char *last);
 void	sh_hist_del(void);

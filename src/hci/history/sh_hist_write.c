@@ -15,11 +15,10 @@ static void	sh_hwrite(char *line, int fd)
 
 int			sh_hist_write(char *line, char *last)
 {
-	struct passwd	*pw;
 	int				fd;
 	int				i;
 
-	if (!(pw = getpwuid(getuid())) || !line)
+	if (!line)
 		return (1);
 	i = 0;
 	while (line[i] && ft_isspace(line[i]))
