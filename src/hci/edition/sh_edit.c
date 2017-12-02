@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:01:31 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 22:07:14 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/02 23:21:33 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	edit_raz(t_line *line, t_tc *tc, t_token **lexer)
 	line->cur = 0;
 	line->h_smd = 0;
 	line->h_pos = 0;
-	line->timestamp = 0;
 	tc->esc = NULL;
 	sh_token_del(lexer);
 }

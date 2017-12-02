@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:54:56 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:54:56 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/02 23:17:50 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_line	*sh_hist_gnl(int fd)
 
 	line = NULL;
 	gnl = NULL;
+	sh_hist_del();
 	if (!(hist = sh_ghist()))
 		return (NULL);
 	while ((ret = get_next_line(fd, &gnl)) > 0)

@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:55:27 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 21:46:46 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:05:52 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_line	*sh_hline_new(char *str, t_line *up)
 	new->capacity = ((ft_strlen(str) + 1) / BUFF_SIZE + 1) * BUFF_SIZE;
 	if (!(new->str = ft_strnew(new->capacity)))
 	{
-		ft_memdel((void**)new);
+		free(new);
 		return (NULL);
 	}
 	ft_strcat(new->str, str);
