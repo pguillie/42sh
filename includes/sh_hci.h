@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_hci.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/02 21:00:19 by mdescamp          #+#    #+#             */
+/*   Updated: 2017/12/02 21:02:18 by mdescamp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SH_HCI_H
 # define SH_HCI_H
 
@@ -78,12 +90,12 @@ int		termput(int c);
 **	HISTORY
 */
 
-t_line  **sh_ghist(void);
-int     sh_hist_add(char **av, int t);
+t_line	**sh_ghist(void);
+int		sh_hist_add(char **av, int t);
 t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
-int    sh_hist_r(char *file);
-void    sh_hist_w(char *file);
+int		sh_hist_r(char *file);
+void	sh_hist_w(char *file);
 int		sh_hist_write(char *line, char *last);
 void	sh_hist_del(void);
 int		sh_i_search(t_line **line, t_tc *tc, int mode);

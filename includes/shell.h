@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/02 21:00:36 by mdescamp          #+#    #+#             */
+/*   Updated: 2017/12/02 21:01:41 by mdescamp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -26,7 +38,6 @@
 
 # define HISTFILE "/.42sh_history"
 # define PS1 "\\e[38;5;114m[\\@] \\e[38;5;74m\\w \\$\\e[0m "
-//# define PS1 "\\$ "
 # define PS2 "> "
 # define PS3 "#? "
 # define PS4 "+ "
@@ -93,14 +104,5 @@
 # include "sh_parser.h"
 # include "sh_signals.h"
 # include "sh_var.h"
-
-////////////////
-void displex(t_token *lexer);
-void disphist(t_line *line);
-void dispcoord(t_coord *c, t_line *l);
-void disparser(t_cmd ***p, int *op);
-//void disptree(t_tree *root);
-void dispeof(char *fifo[32]);
-////////////////
 
 #endif
