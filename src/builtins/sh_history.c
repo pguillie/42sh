@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 19:19:29 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/02 20:19:30 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int    sh_hist_del_one(int pos)
     if ((fd[1] = open(".42sh_tmp", O_WRONLY | O_TRUNC | O_CREAT,
         S_IRUSR | S_IWUSR)) < 0)
     {
-        printf("%d\n", __LINE__);
         close(fd[0]);
         return (-1);
     }
