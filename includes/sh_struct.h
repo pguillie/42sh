@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:29 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 21:00:30 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:04:35 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct	s_line
 	size_t			h_pos;
 	size_t			used;
 	size_t			capacity;
-	int				timestamp;
 	struct s_line	*up;
 	struct s_line	*down;
 }				t_line;

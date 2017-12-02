@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 10:49:38 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 21:32:54 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:07:01 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		sh_unset(char **av);
 int		sh_unsetenv(char **av);
 int		sh_history(char **av);
 int		sh_history_opt(char **av, char *opt);
-void	sh_hist_clear(void);
 
 int		sh_cd2(char *dir, char *path, char opt);
 int		sh_cd_access(char *path, char *dir);
