@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:37 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 23:13:19 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/02 23:32:36 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,15 @@ static int	sh_parse_sub(t_token *lex)
 		return (sh_syn_err(lex->next->lexeme));
 	while (lex->lexeme[i])
 	{
-		if (lex->lexeme[i] == '(')
-			bracket++;
-		if (lex->lexeme[i] == ')')
-			bracket--;
+		if (lex->lexeme[i] == '\\')
+			i++;
+		else
+		{
+			if (lex->lexeme[i] == '(')
+				bracket++;
+			if (lex->lexeme[i] == ')')
+				bracket--;
+		}
 		i++;
 	}
 	if (bracket)
