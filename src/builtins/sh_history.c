@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 22:11:48 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:57:30 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,49 @@ static int	sh_hist_del_one(int pos)
 	return (0);
 }
 
-static void	sh_hist_clear(void)
+static void	sh_hist_clear(t_line *h)
 {
+	t_line	*t;
 	int		fd;
 
-	if ((fd = open(sh_getvar("HISTFILE"), O_TRUNC)) >= 0)
-		close(fd);
+	if (!h)
+	{
+		if ((fd = open(sh_getvar("HISTFILE"), O_TRUNC)) >= 0)
+			close(fd);
+	}
+	else
+	{
+		while (h)
+		{
+			t = h->up;
+			free(h->str);
+			free(h);
+			h = t;
+		}
+	}
 }
 
 static int	sh_hist_disp(int k)
 {
-	t_line		*h;
+	t_line		**h;
 	int			i[2];
 
-	if (!(h = sh_hist_read()))
-		return (-1);
+//	if (!(h = sh_hist_read()))
+//		return (-1);
+	h = sh_ghist();
+	printf("%p\n", *h);
 	i[1] = 0;
-	while (h->up && ++i[1])
-		h = h->up;
+	while ((*h)->up && ++i[1])
+		*h = (*h)->up;
 	i[0] = 1;
-	while (h->down)
+	while ((*h)->down)
 	{
 		if (!k || i[0] > i[1] - k)
-			ft_printf("%5d %s", i[0], h->str);
-		h = h->down;
+			ft_printf("%5d %s", i[0], (*h)->str);
+		*h = (*h)->down;
 		i[0]++;
 	}
+	//sh_hist_clear(h);
 	return (0);
 }
 
@@ -104,7 +121,7 @@ int			sh_history(char **av)
 		else if (opt[j] == 'w' && av[i])
 			sh_hist_w(av[i]);
 		else if (opt[j] == 'c')
-			sh_hist_clear();
+			sh_hist_clear(NULL);
 		else if (opt[j] == 'd')
 			sh_hist_del_one(ft_atoi(av[i]));
 		j++;

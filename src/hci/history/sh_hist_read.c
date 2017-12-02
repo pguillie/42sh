@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:54:56 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:54:56 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:57:41 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_line	*sh_hist_gnl(int fd)
 	gnl = NULL;
 	if (!(hist = sh_ghist()))
 		return (NULL);
+	printf("hist: %p\n", *hist);
 	while ((ret = get_next_line(fd, &gnl)) > 0)
 	{
 		if (!(line = sh_hist_line(line, gnl)))
