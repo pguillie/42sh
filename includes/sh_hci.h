@@ -78,10 +78,14 @@ int		termput(int c);
 **	HISTORY
 */
 
+t_line  **sh_ghist(void);
+int     sh_hist_add(char **av, int t);
 t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
+void    sh_hist_r(char *file);
+void    sh_hist_w(char *file);
 int		sh_hist_write(char *line, char *last);
-void	sh_hist_del(t_line **hist);
+void	sh_hist_del(void);
 int		sh_i_search(t_line **line, t_tc *tc, int mode);
 char	*sh_del_char(char *str);
 char	*sh_ins_char(char *str, char c);

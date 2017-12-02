@@ -8,6 +8,7 @@ static void	edit_raz(t_line *line, t_tc *tc, t_token **lexer)
 	line->cur = 0;
 	line->h_smd = 0;
 	line->h_pos = 0;
+	line->timestamp = 0;
 	tc->esc = NULL;
 	sh_token_del(lexer);
 }

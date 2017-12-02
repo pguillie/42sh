@@ -34,28 +34,29 @@ t_line	*sh_hist_create(t_line *hist, char **line)
 
 t_line	*sh_hist_gnl(int fd)
 {
-	t_line	*hist;
+	t_line	**hist;
 	char	*line;
 	char	*gnl;
 	int		ret;
 
-	hist = NULL;
 	line = NULL;
 	gnl = NULL;
+	if (!(hist = sh_ghist()))
+		return (NULL);
 	while ((ret = get_next_line(fd, &gnl)) > 0)
 	{
 		if (!(line = sh_hist_line(line, gnl)))
-			return (hist);
+			return ((*hist));
 		if (!gnl[0] || !line[0] || line[ft_strlen(line) - 1] != '\n')
 		{
-			if (!(hist = sh_hist_create(hist, &line)))
-				return (hist);
+			if (!((*hist) = sh_hist_create((*hist), &line)))
+				return ((*hist));
 		}
 		free(gnl);
 	}
 	if (ret < 0)
 		ft_error("Warning", "History not totally recovered", NULL);
-	return (hist);
+	return ((*hist));
 }
 
 t_line	*sh_hist_read(void)
@@ -63,14 +64,11 @@ t_line	*sh_hist_read(void)
 	struct passwd	*pw;
 	t_line			*hist;
 	t_line			*new;
-	char			*path;
 	int				fd;
 
 	if (!(pw = getpwuid(getuid())))
 		return (NULL);
-	path = ft_strcjoin(pw->pw_dir, HISTFILE, '/');
-	fd = open(path ? path : HISTFILE, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
-	ft_strdel(&path);
+	fd = open(sh_getvar("HISTFILE"), O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 	if (fd < 0)
 		return (NULL);
 	hist = sh_hist_gnl(fd);
