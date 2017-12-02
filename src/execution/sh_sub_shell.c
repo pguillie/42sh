@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 14:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/24 15:32:53 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:54:45 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int		sh_small_main(char *cmd)
 	op = NULL;
 	if (sh_lexer(&lexer, cmd) < 0)
 		ret = -1;
+	else if (sh_verification(lexer, 0))
+		return (258);
 	else if (sh_parser(sh_expansion(lexer), &cmd_list, &op) < 0)
 		ret = -1;
 	else if ((ret = sh_list_browse(cmd_list, op, ret)) < 0)

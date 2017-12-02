@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:47 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:56:49 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/02 22:28:59 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static int	sh_cat_coa(char *str, int i[2], int status[3])
 
 int			sh_category(char *str, int i[2], int status[3])
 {
+	if (ft_strnequ(str + i[0], "(", 1))
+		return (SUB_SHELL);
 	if (sh_cat_op(str + i[0], status))
 	{
 		status[0] = CMD;
