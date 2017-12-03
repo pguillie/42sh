@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:51:22 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:51:29 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 14:51:00 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	sh_tab_space(char *word, char ret[], size_t i, t_line *line)
 	size_t	j;
 
 	j = 0;
+	last = 0;
 	while (word[i])
 	{
 		last = word[i];
@@ -83,7 +84,7 @@ int			sh_tab(t_line *line, t_coord **coord, t_tc tc)
 	char	dir[PATH_SIZE];
 	int		category;
 	int		ret;
-
+	
 	lexeme = NULL;
 	category = CMD;
 	if (sh_tab_init(line->str, line->cur, &lexeme, &category) < 0)

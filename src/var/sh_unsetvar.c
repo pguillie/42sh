@@ -6,7 +6,7 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:22:43 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/21 15:39:37 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/03 13:36:03 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	sh_unsetvar_del(int line, int size)
 			new[j++] = (*vray)[i];
 		i++;
 	}
-	free((*vray));
 	free((*vray)[line]);
+	free((*vray));
 	(*vray) = new;
 	return (0);
 }
