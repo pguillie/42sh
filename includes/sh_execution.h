@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:12 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 22:21:22 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 12:01:33 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		sh_exec_bin(char *cmd, char **path);
 int		sh_cmd_exec(char **av, char *env[], char **path, int pipe);
-int		sh_execution(char **av, int ret, int pipe);
+int		sh_execution(char **av, int ret, int pipe, int sub);
 int		sh_list_browse(t_cmd ***list, int *op, int ret);
 int		sh_redir_backup(int std[3]);
 int		sh_redir_restore(int fd[10], int std[3]);

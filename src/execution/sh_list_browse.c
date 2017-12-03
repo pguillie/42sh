@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 17:16:11 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 12:12:20 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/03 12:00:52 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	sh_exec_cmd(t_cmd *cmd, int ret, int pipe)
 	}
 	environ = sh_mkenv();
 	if (cmd->av[0])
-		ret = sh_execution(cmd->av, ret, pipe);
+		ret = sh_execution(cmd->av, ret, pipe, cmd->sub);
 	if (environ)
 	{
 		free(environ);

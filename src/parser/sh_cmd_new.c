@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:57:54 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:57:57 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 12:00:32 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 
 	if (!(new = (t_cmd*)ft_memalloc(sizeof(t_cmd))))
 		return (NULL);
+	new->sub = 0;
 	ft_bzero(size, sizeof(int) * 2);
 	l = lexer;
 	while (l->category < PIPE)
@@ -105,6 +106,8 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 			size[0] += 1;
 		l = l->next;
 	}
+	if (lexer->category == SUB_SHELL)
+		new->sub = 1;
 	new->av = sh_av_new(lexer, size[0]);
 	new->redir = sh_redir_new(lexer, size[1]);
 	new->nb_redir = size[1];

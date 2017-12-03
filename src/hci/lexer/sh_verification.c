@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:37 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 23:32:36 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/03 11:18:17 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static int	sh_parse_sub(t_token *lex)
 
 	i = 0;
 	bracket = 0;
-	if (lex->category < SUB_SHELL && lex->next->category == SUB_SHELL)
+	if (lex->category <= SUB_SHELL && lex->next->category == SUB_SHELL)
 		return (sh_syn_err(lex->lexeme));
-	if (lex->category == SUB_SHELL && lex->next->category < SUB_SHELL)
+	if (lex->category == SUB_SHELL && lex->next->category <= SUB_SHELL)
 		return (sh_syn_err(lex->next->lexeme));
 	while (lex->lexeme[i])
 	{

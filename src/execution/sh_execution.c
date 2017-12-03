@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 11:06:15 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 20:30:47 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/03 12:01:23 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ static int	sh_builtin(char **av, int *ret)
 	return (1);
 }
 
-int			sh_execution(char **av, int ret, int pipe)
+int			sh_execution(char **av, int ret, int pipe, int sub)
 {
 	if (sh_builtin(av, &ret))
 		return (ret);
-	else if (ft_strnequ(av[0], "(", 1))
+	else if (sub)
 		return (sh_sub_shell(av[0]));
 	else
 		return (sh_exec_hash(av, pipe));

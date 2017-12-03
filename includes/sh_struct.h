@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:29 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 22:04:35 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 11:59:48 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct	s_cmd
 	char			**av;
 	size_t			nb_redir;
 	struct s_redir	*redir;
+	int				sub;
 }				t_cmd;
 
 typedef struct	s_htable

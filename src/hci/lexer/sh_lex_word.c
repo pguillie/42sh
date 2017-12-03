@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 23:20:19 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/03 11:12:23 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			sh_lex_word(char *s)
 				quote = 0;
 			else if ((s[i] == '\"' || s[i] == '\'' || s[i] == '`') && !quote)
 				quote = s[i];
-			else if ((bracket = sh_bracket(s, i, bracket)) < 0)
+			else if (!quote && (bracket = sh_bracket(s, i, bracket)) < 0)
 				return (i);
 		}
 		i++;
