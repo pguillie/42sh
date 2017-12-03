@@ -6,7 +6,7 @@
 /*   By: ysan-seb <ysan-seb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:51:45 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/12/02 21:47:49 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/03 10:56:05 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sh_hist_del(void)
 	t_line	*tmp;
 	t_line	**hist;
 
-	if (!(hist = sh_ghist()) || !*hist)
+	if (!(hist = sh_ghist()))
 		return ;
 	while ((*hist)->down)
 		*hist = (*hist)->down;
