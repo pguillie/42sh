@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:42 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:56:49 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 16:35:46 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int	sh_lex_loop(t_token **list, char *str, int *i_stat, char *fifo[32])
 	int		category;
 
 	i_stat[1] = 0;
+	if (str[i_stat[0]] == '\\' && str[i_stat[0] + 1] == '\n')
+		i_stat[0] += 2;
 	if (!sh_metachar(str[i_stat[0]]))
 		i_stat[1] = sh_lex_word(str + i_stat[0]);
 	else if (!(i_stat[1] = sh_rdir_op(str + i_stat[0]))
