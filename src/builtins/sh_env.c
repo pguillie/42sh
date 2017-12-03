@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:12:47 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/24 15:31:51 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/03 12:38:34 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	sh_env_opt(char **av)
 	i = 1;
 	while (av[i] && av[i][0] == '-')
 	{
-		if (ft_strequ(av[i], "--") && ++i)
+		if (ft_strequ(av[i], "-") || (ft_strequ(av[i], "--") && ++i))
 			break ;
 		j = 1;
 		while (av[i][j])
@@ -84,7 +84,7 @@ static int	sh_env_exec(char **av)
 	if ((child = fork()) < 0)
 		return (-1);
 	else if (child == 0)
-		exit(sh_execution(av, 0, 1));
+		exit(sh_execution(av, 0, 1, 0));
 	return (sh_wait(child, ret));
 }
 
