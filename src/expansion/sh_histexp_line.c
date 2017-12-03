@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:06:06 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 16:44:39 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/03 17:04:28 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 char	*sh_histexp_line(t_line *hist, int offset)
 {
+	t_line	*b;
+
+	b = hist;
 	if (offset == 0)
 		return (NULL);
 	if (offset < 0)
@@ -33,7 +36,7 @@ char	*sh_histexp_line(t_line *hist, int offset)
 		while (--offset && hist->down)
 			hist = hist->down;
 	}
-	if (offset || !hist->down)
+	if (offset || !hist->down || hist == b)
 		return (NULL);
 	return (ft_strdup(hist->str));
 }
