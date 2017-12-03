@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:01:31 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 23:21:33 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/03 11:57:49 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	edit_save(char **save, char *line)
 static int	edit_end(t_token **lexer, int ret, char *save, char *last)
 {
 	if (!(ret < 0 || ret & EOT) && sh_hist_write(save, last))
-		ft_error("Unable to write line in history", NULL, NULL);
+		ft_error(SHELL, "Unable to write line in history", NULL);
 	if (ret < 0 || ret & EOT || ret & SYN_ERR)
 		sh_token_del(lexer);
 	save ? ft_strdel(&save) : 0;
@@ -68,6 +68,6 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		ret = sh_verification(*lexer, ret);
 	}
 	if (tcsetattr(0, TCSANOW, &backup) < 0 && (ret = -1))
-		ft_error("Unable to restore termios structure", NULL, NULL);
+		ft_error(SHELL, "Unable to restore termios structure", NULL);
 	return (edit_end(lexer, ret, save, last));
 }

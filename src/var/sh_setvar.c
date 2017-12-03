@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:56:15 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/22 14:34:07 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/03 11:58:50 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	sh_setvar_mod(char *name, char *value, char type, int i)
 	if (value)
 	{
 		if ((*varray)[i][0] & V_RDONLY)
-			return (ft_error(sh_getvar("42SH"), name, "Readonly variable"));
+			return (ft_error(SHELL, name, "Readonly variable"));
 		if (!(var = ft_strnew(ft_strlen(name) + ft_strlen(value) + 2)))
 			return (-1);
 		sh_setvar_fill(var, name, value, (*varray)[i][0] | type);

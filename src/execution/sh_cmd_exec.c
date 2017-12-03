@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 14:54:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 20:49:28 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 11:59:31 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static int	sh_exec_file(char *cmd, char **path)
 	struct stat	buf;
 
 	if (access(cmd, F_OK) < 0)
-		return (ft_error(cmd, E_NOENT, NULL));
+		return (ft_error(SHELL, cmd, E_NOENT));
 	if (stat(cmd, &buf) < 0)
 		return (-1);
 	if (S_ISDIR(buf.st_mode))
-		return (ft_error(cmd, "Is a directory", NULL));
+		return (ft_error(SHELL, "Is a directory", NULL));
 	if (access(cmd, X_OK) < 0)
-		return (ft_error(cmd, "Permission denied", NULL));
+		return (ft_error(SHELL, "Permission denied", NULL));
 	if (!(*path = ft_strdup(cmd)))
 		return (-1);
 	return (0);
@@ -55,7 +55,7 @@ int			sh_exec_bin(char *cmd, char **path)
 
 	if (ft_strequ(cmd, cmd[0] && cmd[1] ? ".." : ".")
 			|| !(p = sh_getvar("PATH")))
-		return (ft_error(cmd, E_NOCMD, NULL));
+		return (ft_error(SHELL, cmd, E_NOCMD));
 	if (!(env_path = sh_varsplit(p)))
 		return (-1);
 	i = 0;
@@ -67,10 +67,10 @@ int			sh_exec_bin(char *cmd, char **path)
 		*path = ft_strcjoin(env_path[i - 1], cmd, '/');
 	ft_strtabdel(env_path);
 	if (!found)
-		return (ft_error(cmd, E_NOCMD, NULL));
+		return (ft_error(SHELL, cmd, E_NOCMD));
 	else if (!*path)
 		return (-1);
-	if (access(*path, X_OK) < 0 && ft_error(cmd, "Permission denied", NULL))
+	if (access(*path, X_OK) < 0 && ft_error(SHELL, cmd, "Permission denied"))
 		ft_strdel(path);
 	return (*path ? 0 : 1);
 }
