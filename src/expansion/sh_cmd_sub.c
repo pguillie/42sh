@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/03 11:10:16 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/03 13:33:26 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,11 @@ static char	*sh_sub_exec(char *tmp, int *ret)
 	{
 		close(tube[0]);
 		dup2(tube[1], 1);
-		*ret = sh_small_main(tmp);
-		exit(*ret);
+		exit((*ret = sh_small_main(tmp)));
 	}
-	sh_wait(exec, *ret);
-		close(tube[1]);
-			sh_sub_cpy(tube[0], &cmd);
+	*ret = sh_wait(exec, *ret);
+	close(tube[1]);
+	sh_sub_cpy(tube[0], &cmd);
 	return (cmd);
 }
 
@@ -101,7 +100,10 @@ int			sh_cmd_sub(t_token **exp)
 
 	str = (*exp)->lexeme;
 	if (!(tmp = sh_only_b(str)) || tmp[0] == '`')
+	{
+		tmp ? free(tmp) : 0;
 		return (0);
+	}
 	command = sh_sub_exec(tmp, &ret);
 	free(tmp);
 	tmp = sh_sub_ins((*exp)->lexeme, command);
