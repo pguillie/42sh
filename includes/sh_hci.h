@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:19 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 22:39:15 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 09:59:37 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,5 @@ int		sh_prt_uid(char buff[], int *b);
 int		sh_prt_user(char buff[], int *b);
 int		sh_prt_vers(char buff[], int *b, char v);
 int		sh_prt_wdir(char buff[], int *b, char w);
-
-
-
 
 #endif
