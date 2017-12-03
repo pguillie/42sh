@@ -3,7 +3,6 @@
 ## BUGS
 
 history P_UP P_DO
-`declare` qui met un foutu '"' !
 SUB_SHELL: gerer parse error: a(ls)
 
 ## alias

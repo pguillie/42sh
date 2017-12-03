@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:00:25 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 22:26:31 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 21:24:22 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char	*sh_histexp_wcaret(t_token *w, char *str, int *i);
 char	*sh_histexp_wdigit(t_token *w, char *str, int *i);
 int		sh_histexp_word(char *str, int i, char **exp);
 int		sh_list_len(t_token *list);
-char	*sh_only_b(char *str);
+char	**sh_only_tab_b(char *str);
+char	*sh_sub_ins(char *lexeme, char *str, int *i);
 char	**sh_wmatch(void);
 t_token	*sh_word_split(t_token **exp);
 

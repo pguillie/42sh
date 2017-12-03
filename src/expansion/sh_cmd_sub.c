@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/03 15:11:09 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/03 21:23:02 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,59 +74,44 @@ static char	*sh_sub_exec(char *tmp, int *ret)
 	close(tube[1]);
 	if (!sh_kill_zombie(exec, *ret))
 		sh_sub_cpy(tube[0], &cmd);
+	else
+		*ret = 2;
 	return (cmd);
 }
 
-static char	*sh_sub_ins(char *lexeme, char *str)
+static void		sh_ret_exec(char **command, char *tmp, int *i)
 {
-	char	*tmp;
-	char	*res;
-	int		i;
-
-	i = 0;
-	while (lexeme[i] && lexeme[i] != '`')
-		i++;
-	tmp = ft_strndup(lexeme, i);
-	res = ft_strjoin(tmp, str);
-	tmp ? free(tmp) : 0;
-	if ((!tmp && i) || !res)
-	{
-		free(res);
-		return (NULL);
-	}
-	i = ft_strlen(lexeme) - 1;
-	while (lexeme[i] && lexeme[i] != '`')
-		i--;
-	if (!lexeme[i])
-		return (res);
-	i++;
-	tmp = res;
-	res = ft_strjoin(tmp, lexeme + i);
-	free(tmp);
-	return (res);
+	*command = sh_sub_exec(tmp, &(i[1]));
+	if (i[2] == -2)
+		i[2] = i[1];
+	else if (i[2] != 0 || i[1] == 2)
+		i[2] = i[1];
 }
 
 int			sh_cmd_sub(t_token **exp)
 {
+	char	**tmp;
 	char	*command;
-	char	*tmp;
-	char	*str;
-	int		ret;
+	char	*tmp2;
+	int	i[4];
 
-	str = (*exp)->lexeme;
-	if (!(tmp = sh_only_b(str)) || tmp[0] == '`')
+	ft_bzero(i, sizeof(int) * 4);
+	i[0] = -1;
+	i[2] = -2;
+	if (!(tmp = sh_only_tab_b((*exp)->lexeme)))
+		return (-1);
+	while (tmp[++i[0]] && i[1] != 2)
 	{
-		tmp ? free(tmp) : 0;
-		return (0);
+		sh_ret_exec(&command, tmp[i[0]], i);	
+		tmp2 = NULL;
+		if (i[1] != 2)
+			tmp2 = sh_sub_ins((*exp)->lexeme, command, &(i[3]));
+		else
+			g_signal = SIGINT;
+		tmp2 ? free((*exp)->lexeme) : 0;
+		tmp2 ? ((*exp)->lexeme = tmp2) : 0;
+		command ? free(command) : 0;
 	}
-	command = sh_sub_exec(tmp, &ret);
-	free(tmp);
-	tmp = sh_sub_ins((*exp)->lexeme, command);
-	if (tmp)
-	{
-		free((*exp)->lexeme);
-		(*exp)->lexeme = tmp;
-	}
-	command ? free(command) : 0;
-	return (!tmp ? -1 : ret);
+	ft_strtabdel(tmp);
+	return (i[2]);
 }

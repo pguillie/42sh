@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:07:44 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/21 16:44:52 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/03 19:42:16 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ t_token			*sh_expansion(t_token *lexer)
 				if (!sh_cmd_sub(&exp))
 					exp = sh_word_split(&exp);
 			}
-			exp->lexeme = sh_rm_quote(exp->lexeme);
+			if (!g_signal || g_signal == SIGWINCH)
+				exp->lexeme = sh_rm_quote(exp->lexeme);
 			exp = exp->next;
 		}
 	}
