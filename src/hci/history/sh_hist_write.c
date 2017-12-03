@@ -6,13 +6,13 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:55:18 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 21:47:02 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/03 13:33:59 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	sh_hwrite(char *line, int fd)
+void	sh_hwrite(char *line, int fd, int eol)
 {
 	size_t	i;
 
@@ -23,9 +23,11 @@ static void	sh_hwrite(char *line, int fd)
 			ft_putchar_fd('\\', fd);
 		ft_putchar_fd(line[i++], fd);
 	}
+	if (eol)
+		ft_putchar_fd('\n', fd);
 }
 
-int			sh_hist_write(char *line, char *last)
+int		sh_hist_write(char *line, char *last)
 {
 	int				fd;
 	int				i;
@@ -40,7 +42,7 @@ int			sh_hist_write(char *line, char *last)
 		if ((fd = open(sh_getvar("HISTFILE"), O_WRONLY | O_APPEND | O_CREAT,
 						S_IRUSR | S_IWUSR)) < 0)
 			return (1);
-		sh_hwrite(line, fd);
+		sh_hwrite(line, fd, 0);
 		close(fd);
 	}
 	return (0);

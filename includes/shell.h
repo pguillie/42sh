@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:36 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 21:01:41 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 17:10:05 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 # define PATH_SIZE 2048
 # define HASH_SIZE 10000
 
-# define ERROR_MAX 5
+# define ERROR_MAX 42
 
 # define EOT 8
 # define EOL 4

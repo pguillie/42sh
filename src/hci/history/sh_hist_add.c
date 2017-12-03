@@ -6,7 +6,7 @@
 /*   By: ysan-seb <ysan-seb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 12:00:42 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/12/02 21:38:30 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/03 16:04:18 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	sh_hist_add2(int *fd, char *str[])
 		str[1] = str[0];
 	}
 	free(str[0]);
+	free(str[1]);
 	close(fd[0]);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:19 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/03 09:59:37 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/03 13:31:53 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int		sh_hist_add(char **av, int t);
 void	sh_hist_del(void);
 int		sh_hist_r(char *file);
 t_line	*sh_hist_read(void);
-void	sh_hist_w(char *file);
 int		sh_hist_write(char *line, char *last);
+void	sh_hwrite(char *line, int fd, int eol);
 t_line	*sh_hline_new(char *str, t_line *prev);
 int		sh_i_search(t_line **line, t_tc *tc, int mode);
 char	*sh_del_char(char *str);
