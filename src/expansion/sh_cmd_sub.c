@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/03 15:09:42 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/03 15:11:09 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*sh_sub_exec(char *tmp, int *ret)
 		sh_dfl_sig();
 		close(tube[0]);
 		if (dup2(tube[1], 1) < 0)
-			return (-1);
+			return (NULL);
 		exit((*ret = sh_small_main(tmp)));
 	}
 	waitpid(exec, ret, WUNTRACED);
