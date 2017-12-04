@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:53:05 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:53:12 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 14:41:43 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	sh_disp_word(char *str, int *status, int *hd)
 			*hd = ABS(*hd) + 1;
 		ft_putstr_fd(status[1] > 1 ? C_HDMATCH : C_FILDES, 0);
 	}
+	else if(ft_strnequ(str, "(", 1))
+		ft_putstr_fd(C_SUB, 0);
 	else if (status[0] == CMD)
 	{
 		ft_putstr_fd(C_CMD, 0);
