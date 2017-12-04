@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:53:04 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:53:12 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 14:41:28 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static void	sh_disp_nl(t_line *line, t_coord *coord, t_tc tc, size_t i)
 
 int			sh_display(t_line *l, t_coord **coord, t_tc tc, char *save)
 {
-	char	*syntax;
+	char	*color;
 	size_t	i;
 
 	i = l->cur;
-	syntax = sh_getvar("SYNTAX");
-	if (!syntax || !ft_strequ(syntax, "ON") || save)
+	color = sh_getvar("42SH_COLOR");
+	if (!color || (ft_strcmp(color, "true") && ft_strcmp(color, "on")) || save)
 	{
 		if (sh_clear(l, coord, tc) < 0)
 			return (-1);

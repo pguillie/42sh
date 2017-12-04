@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 12:46:38 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/22 14:33:52 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 13:00:04 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static int	sh_init_shvar(void)
 	ret = 0;
 	if (sh_init_shvar2())
 		return (1);
-	ret += sh_setvar("42SH", SHELL, 0);
+	ret += sh_setvar("42SH", SHELL, V_RDONLY);
 	ret += sh_setvar("42SH_COLOR", "false", 0);
-	ret += sh_setvar("42SH_VERSION", VERSION, 0);
+	ret += sh_setvar("42SH_VERSION", VERSION, V_RDONLY);
 	ret += sh_setvar("HISTFILESIZE", HISTFILESIZE, 0);
 	ret += sh_setvar("HISTSIZE", HISTSIZE, 0);
 	ret += sh_setvar("PS1", PS1, 0);
