@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_print_prompt.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ysan-seb <ysan-seb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 15:43:47 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/22 11:03:40 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 16:27:54 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		sh_print_prompt(char *ps)
 			if (b == PRT_SIZE)
 				b = ft_flush_buff(buff, PRT_SIZE);
 			buff[b++] = ps[p++];
-			len += 1;
+			len = buff[b - 1] == '\n' || buff[b - 1] == 13 ? 0 : len + 1;
 		}
 	}
 	ft_flush_buff(buff, PRT_SIZE);

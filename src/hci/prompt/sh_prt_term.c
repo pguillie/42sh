@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   sh_prt_term.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ysan-seb <ysan-seb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 15:48:58 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/11/16 15:49:00 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/04 16:40:19 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_prt_term(char buff[], int *b)
+int		sh_prt_term(char buff[], int *b, int *len)
 {
 	char	*term;
 	int		i;
 	int		n;
-	int		len;
 
-	len = 0;
 	if ((term = ttyname(0)))
 	{
 		i = 0;
@@ -29,11 +27,11 @@ int		sh_prt_term(char buff[], int *b)
 				n = i;
 		while (term[n])
 		{
-			len = (term[n] == '\n' ? 0 : len + 1);
+			*len = (term[n] == '\n' ? 0 : *len + 1);
 			if (*b == PRT_SIZE)
 				*b = ft_flush_buff(buff, PRT_SIZE);
 			buff[(*b)++] = term[n++];
 		}
 	}
-	return (len);
+	return (*len);
 }

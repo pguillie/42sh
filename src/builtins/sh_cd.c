@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 15:02:24 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/24 16:42:26 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 12:13:51 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	sh_cd_opt(char **av, char *opt)
 	i = 1;
 	while (av[i] && av[i][0] == '-')
 	{
-		if ((ft_strequ(av[i], "--") && ++i) || ft_strequ(av[i], "-"))
+		if (ft_strequ(av[i], "-") || (ft_strequ(av[i], "--") && ++i))
 			break ;
 		j = 1;
 		while (av[i][j])
