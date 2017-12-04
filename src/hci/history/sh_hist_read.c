@@ -6,13 +6,13 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:54:56 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/04 20:58:46 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 22:09:14 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static char	*sh_hist_line(char *line, char *gnl)
+static char		*sh_hist_line(char *line, char *gnl)
 {
 	char	*tmp;
 
