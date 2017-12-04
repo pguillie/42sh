@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:54:56 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/04 18:37:02 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 20:58:46 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,11 @@ static t_line	**sh_hist_gnl(t_line **hist, int fd)
 		if (!(line = sh_hist_line(line, gnl)))
 			return (hist);
 		if (!gnl[0] || !line[0] || line[ft_strlen(line) - 1] != '\n')
-		{
 			if (!((*hist) = sh_hist_create((*hist), &line)))
 				return (hist);
-		}
 		free(gnl);
 	}
+	line ? free(line) : 0;
 	if (ret < 0)
 		ft_error("Warning", "History not totally recovered", NULL);
 	return (hist);
