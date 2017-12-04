@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/04 12:30:42 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 12:45:57 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	sh_hist_del_one(char *pos)
 		h = h->down;
 		i++;
 	}
-	if (!i || i < p)
+	if (!p || i < p)
 		return (ft_error(SHELL, pos, "history position out of range"));
 	return (0);
 }
