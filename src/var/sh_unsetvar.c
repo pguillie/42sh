@@ -6,7 +6,7 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:22:43 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/12/03 13:36:03 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/04 16:17:25 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ static int	sh_unsetvar_del(int line, int size)
 	return (0);
 }
 
-static int	sh_unsetvar_mod(int line, char type)
-{
-	char vtype;
-	char ***vray;
-
-	if (!(vray = sh_var()))
-		return (-1);
-	vtype = (*vray)[line][0];
-	if (type & V_RDONLY)
-		return (V_RDONLY);
-	else
-		(*vray)[line][0] = ~(~(vtype) | type);
-	return (0);
-}
-
 int			sh_unsetvar(char *name, char type, char search)
 {
 	int		i;
@@ -74,8 +59,9 @@ int			sh_unsetvar(char *name, char type, char search)
 	}
 	if (line < 0)
 		return (0);
-	if (!type)
-		return (sh_unsetvar_del(line, i));
-	else
-		return (sh_unsetvar_mod(line, type));
+	if (((*vray)[line][0] & V_RDONLY) && (!type || type & V_RDONLY))
+		return (V_RDONLY);
+	if (type)
+		(*vray)[line][0] = ~(~(*vray)[line][0] | type);
+	return (type ? 0 : sh_unsetvar_del(line, i));
 }
