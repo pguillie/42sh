@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/04 12:20:45 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 12:30:42 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,15 @@ static void	sh_hist_clear(void)
 		close(fd);
 }
 
-static int	sh_hist_disp(int k)
+static int	sh_hist_disp(char *str)
 {
 	t_line		*h;
+	int			k;
 	int			i[2];
 
-	if (k == 0)
+	if (str && ft_isnumber(str) == 0)
+		return (ft_error(SHELL, str, "numeric argument required"));
+	if (str && (k = ft_atoi(str)) == 0)
 		return (0);
 	if (!(h = sh_hist_read()))
 		return (-1);
@@ -115,6 +118,6 @@ int			sh_history(char **av)
 			sh_hist_del_one(av[i]);
 		j++;
 	}
-	j == 0 ? sh_hist_disp(ft_atoi(av[i])) : 0;
+	j == 0 ? sh_hist_disp(av[i]) : 0;
 	return (ret);
 }
