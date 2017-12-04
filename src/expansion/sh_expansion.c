@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:07:44 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/03 19:42:16 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/04 13:20:14 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char		*sh_rm_quote(char *lex)
 	quote = 0;
 	while (lex[i])
 	{
-		if (lex[i] == '\\')
+		if (lex[i] == '\\' && quote != '\'')
 			lex[j++] = lex[++i];
 		else
 		{

@@ -2,8 +2,9 @@
 
 ## BUGS
 
+env:
+env PATH=toto ls -> le PATH est trouver alors que ce ne devrait pas.
 history P_UP P_DO
-SUB_SHELL: gerer parse error: a(ls)
 
 If a command is not found, the exit status shall be 127.
 

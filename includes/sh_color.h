@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:08 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 21:00:08 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 14:42:29 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define C_PIPE		"\e[30;1m"
 # define C_SEPAR	"\e[37;1m"
 # define C_REDIR	"\e[34;1m"
+# define C_SUB		"\e[35;1m"
 # define C_CMD		"\e[31;1m"
 # define C_OPT		"\e[35m"
 # define C_ARG		"\e[33m"
