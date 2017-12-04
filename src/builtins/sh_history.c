@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/04 14:47:11 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 14:50:52 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int			sh_history(char **av)
 	ret = 0;
 	while (opt[j])
 	{
-		if (opt[j] == 's')
+		if (opt[j] == 's' && av[i])
 			sh_hist_add();
 		else if (opt[j] == 'r' && av[i])
 			ret = sh_hist_r(av[i]);
