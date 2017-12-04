@@ -6,11 +6,17 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:02:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/03 16:13:15 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/04 11:48:19 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+static int	sh_histexp_error(char *exp)
+{
+	free(exp);
+	return (-42);
+}
 
 static int	sh_insert(t_line *line, char *exp, int i)
 {
@@ -41,27 +47,22 @@ int			sh_hist_exp(t_line *line, int ret)
 
 	i = 0;
 	b = 0;
-	printf( "# history expansion\n" );
-	while ((i = sh_histexp_id(line->str, i)) >= 0 && !g_signal)
+	while ((i = sh_histexp_id(line->str, i)) >= 0
+			&& (!g_signal || g_signal == SIGWINCH))
 	{
-		printf( "  # occurence found (%d)\n", i );
 		b = b ? b : 1;
 		exp = NULL;
 		if (sh_histexp_event(line->str, i, &exp, line))
-			return (-42);
-		printf( "   - event: \"%s\"\n", exp );
+			return (sh_histexp_error(exp));
 		if (sh_histexp_word(line->str, i, &exp))
-			return (-42);
-		printf( "   - word:  \"%s\"\n", exp );
+			return (sh_histexp_error(exp));
 		if (sh_histexp_modif(line->str, i, &exp, &b))
-			return (-42);
-		printf( "   - modif: \"%s\"\n", exp );
+			return (sh_histexp_error(exp));
 		if (exp)
 			sh_insert(line, exp, i);
 		exp ? free(exp) : 0;
 	}
-	printf( "# end of history expansion\n" );
-	if (g_signal)
+	if (g_signal && g_signal != SIGWINCH)
 		return (-1);
 	b ? ft_putstr(line->str) : 0;
 	return (b > 1 ? -42 : ret);
