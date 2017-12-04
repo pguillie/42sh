@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 14:54:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/03 11:59:31 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 15:27:16 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	sh_exec_file(char *cmd, char **path)
 	if (stat(cmd, &buf) < 0)
 		return (-1);
 	if (S_ISDIR(buf.st_mode))
-		return (ft_error(SHELL, "Is a directory", NULL));
+		return (ft_error(SHELL, cmd, "Is a directory"));
 	if (access(cmd, X_OK) < 0)
 		return (ft_error(SHELL, "Permission denied", NULL));
 	if (!(*path = ft_strdup(cmd)))

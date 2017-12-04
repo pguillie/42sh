@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/04 12:22:07 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/04 17:33:58 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,24 +93,25 @@ int			sh_cmd_sub(t_token **exp)
 	char	**tmp;
 	char	*command;
 	char	*tmp2;
-	int		i[4];
+	int		i[5];
 
-	ft_bzero(i, sizeof(int) * 4);
-	i[0] = -1;
+	ft_bzero(i, sizeof(int) * 5);
 	i[2] = -2;
 	if (!(tmp = sh_only_tab_b((*exp)->lexeme)))
-		return (-1);
-	while (tmp[++i[0]] && i[1] != 2)
+		return (1);
+	while (tmp[i[0]] && tmp[i[0]][0] != '`' && tmp[i[0]][0] && i[1] != 2)
 	{
 		sh_ret_exec(&command, tmp[i[0]], i);
 		tmp2 = NULL;
+		i[4] = ft_strlen(tmp[i[0]]);
 		if (i[1] != 2)
-			tmp2 = sh_cmd_ins((*exp)->lexeme, command, &(i[3]));
+			tmp2 = sh_cmd_ins((*exp)->lexeme, command, i);
 		else
 			g_signal = SIGINT;
 		tmp2 ? free((*exp)->lexeme) : 0;
 		tmp2 ? ((*exp)->lexeme = tmp2) : 0;
 		command ? free(command) : 0;
+		i[0]++;
 	}
 	ft_strtabdel(tmp);
 	return (i[2]);
