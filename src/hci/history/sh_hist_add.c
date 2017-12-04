@@ -6,54 +6,41 @@
 /*   By: ysan-seb <ysan-seb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 12:00:42 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/12/03 16:04:18 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 14:44:25 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	sh_hist_add2(int *fd, char *str[])
+static int	sh_hist_w(t_line *h)
 {
-	while (get_next_line(fd[0], &str[0]) > 0)
+	int		fd;
+
+	if ((fd = open(sh_getvar("HISTFILE"), O_WRONLY | O_TRUNC | O_CREAT,
+		S_IRUSR | S_IWUSR)) < 0)
+		return (-1);
+	while (h->up)
+		h = h->up;
+	while (h)
 	{
-		if (str[1])
-		{
-			write(fd[1], str[1], ft_strlen(str[1]));
-			write(fd[1], "\n", 1);
-			free(str[1]);
-		}
-		str[1] = str[0];
+		sh_hwrite(h->str, fd, h->down ? 1 : 0);
+		h = h->down;
 	}
-	free(str[0]);
-	free(str[1]);
-	close(fd[0]);
+	return (0);
 }
 
-int			sh_hist_add(char **av, int t)
+int			sh_hist_add(void)
 {
-	int		fd[2];
-	char	*str[2];
-	int		i;
+	t_line	*h;
 
-	if ((fd[0] = open(sh_getvar("HISTFILE"), O_RDONLY)) < 0)
+	h = sh_hist_read();
+	while (h->down)
+		h = h->down;
+	if (h->up)
+		h = h->up;
+	else
 		return (-1);
-	if ((fd[1] = open(".42sh_tmp", O_WRONLY | O_TRUNC | O_CREAT,
-		S_IRUSR | S_IWUSR)) < 0)
-	{
-		close(fd[0]);
-		return (-1);
-	}
-	str[1] = NULL;
-	sh_hist_add2(fd, str);
-	i = 0;
-	while (av[i])
-	{
-		write(fd[1], av[i], ft_strlen(av[i]));
-		write(fd[1], av[i + 1] ? " " : "\n", 1);
-		i++;
-	}
-	close(fd[1]);
-	t = 0;
-	rename(".42sh_tmp", sh_getvar("HISTFILE"));
+	ft_memmove(h->str, h->str + 11, ft_strlen(h->str + 11) + 1);
+	sh_hist_w(h);
 	return (0);
 }

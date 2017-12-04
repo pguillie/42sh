@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:19 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/03 13:31:53 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 14:32:58 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		termput(int c);
 */
 
 t_line	**sh_ghist(void);
-int		sh_hist_add(char **av, int t);
+int		sh_hist_add(void);
 void	sh_hist_del(void);
 int		sh_hist_r(char *file);
 t_line	*sh_hist_read(void);
