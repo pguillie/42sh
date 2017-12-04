@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:55:18 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/03 13:33:59 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 20:31:45 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	sh_hwrite(char *line, int fd, int eol)
 	{
 		if (line[i] == '\n' && line[i + 1])
 			ft_putchar_fd('\\', fd);
-		ft_putchar_fd(line[i++], fd);
+		if (line[i] == '\\' && line [i + 1] == '\n')
+			i += 2;
+		if (line[i])
+			ft_putchar_fd(line[i++], fd);
 	}
 	if (eol)
 		ft_putchar_fd('\n', fd);
