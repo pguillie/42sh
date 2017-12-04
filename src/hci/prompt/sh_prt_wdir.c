@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:57:13 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:57:14 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 16:19:52 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,26 @@ static int	sh_prt_wfill(char buff[], int *b, char *src, int len)
 	return (len);
 }
 
-int			sh_prt_wdir(char buff[], int *b, char w)
+int			sh_prt_wdir(char buff[], int *b, char w, int *len)
 {
 	char	*pwd;
 	char	tmp;
 	int		pos;
-	int		len;
 
-	len = 0;
 	if ((pwd = sh_prt_home(sh_getvar("PWD"), &tmp)))
 	{
 		pos = sh_prt_dirtrim(pwd, w);
 		if (w == 'w' && pos)
 		{
 			if (pwd[0] == '~' && pos == 1)
-				len = sh_prt_wfill(buff, b, "~", len);
+				*len = sh_prt_wfill(buff, b, "~", *len);
 			else if (pwd[0] == '~')
-				len = sh_prt_wfill(buff, b, "~/...", len);
+				*len = sh_prt_wfill(buff, b, "~/...", *len);
 			else
-				len = sh_prt_wfill(buff, b, "...", len);
+				*len = sh_prt_wfill(buff, b, "...", *len);
 		}
-		len = sh_prt_wfill(buff, b, pwd + pos, len);
+		*len = sh_prt_wfill(buff, b, pwd + pos, *len);
 		pwd[0] = tmp;
 	}
-	return (len);
+	return (*len);
 }

@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:19 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/04 14:32:58 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/04 16:40:44 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,14 @@ int		sh_prompt(int mode);
 void	sh_prt_chr(char buff[], int *b, char c, int *len);
 int		sh_prt_date(char buff[], int *b, char *ps, int *len);
 int		sh_prt_esc(char buff[], int *b, char *ps);
-int		sh_prt_host(char buff[], int *b, char h);
+int		sh_prt_host(char buff[], int *b, char h, int *len);
 int		sh_prt_shell(char buff[], int *b);
-int		sh_prt_strftime(char buff[], int *b, char *format, struct tm *tm);
-int		sh_prt_term(char buff[], int *b);
-int		sh_prt_time(char buff[], int *b, char t);
+int		sh_prt_strftime(char buff[], int *b, char *format, int *len);
+int		sh_prt_term(char buff[], int *b, int *len);
+int		sh_prt_time(char buff[], int *b, char t, int *len);
 int		sh_prt_uid(char buff[], int *b);
 int		sh_prt_user(char buff[], int *b);
 int		sh_prt_vers(char buff[], int *b, char v);
-int		sh_prt_wdir(char buff[], int *b, char w);
+int		sh_prt_wdir(char buff[], int *b, char w, int *len);
 
 #endif
