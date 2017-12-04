@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/03 21:23:02 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/04 12:22:07 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*sh_sub_exec(char *tmp, int *ret)
 	return (cmd);
 }
 
-static void		sh_ret_exec(char **command, char *tmp, int *i)
+static void	sh_ret_exec(char **command, char *tmp, int *i)
 {
 	*command = sh_sub_exec(tmp, &(i[1]));
 	if (i[2] == -2)
@@ -93,7 +93,7 @@ int			sh_cmd_sub(t_token **exp)
 	char	**tmp;
 	char	*command;
 	char	*tmp2;
-	int	i[4];
+	int		i[4];
 
 	ft_bzero(i, sizeof(int) * 4);
 	i[0] = -1;
@@ -102,10 +102,10 @@ int			sh_cmd_sub(t_token **exp)
 		return (-1);
 	while (tmp[++i[0]] && i[1] != 2)
 	{
-		sh_ret_exec(&command, tmp[i[0]], i);	
+		sh_ret_exec(&command, tmp[i[0]], i);
 		tmp2 = NULL;
 		if (i[1] != 2)
-			tmp2 = sh_sub_ins((*exp)->lexeme, command, &(i[3]));
+			tmp2 = sh_cmd_ins((*exp)->lexeme, command, &(i[3]));
 		else
 			g_signal = SIGINT;
 		tmp2 ? free((*exp)->lexeme) : 0;
