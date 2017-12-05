@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:42 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/04 16:12:32 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 00:19:45 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,22 @@ static int	sh_last_token(t_token **list)
 	return (NEWLINE);
 }
 
-static int	sh_lex_loop(t_token **list, char *str, int *i_stat, char *fifo[32])
+static int	sh_lex_loop(t_token **list, char **str, int *i_stat, char *fifo[32])
 {
 	char	*lexeme;
 	int		category;
 
 	i_stat[1] = 0;
-	if (str[i_stat[0]] == '\\' && str[i_stat[0] + 1] == '\n')
-		i_stat[0] += 2;
-	if (!sh_metachar(str[i_stat[0]]))
-		i_stat[1] = sh_lex_word(str + i_stat[0]);
-	else if (!(i_stat[1] = sh_rdir_op(str + i_stat[0]))
-			&& !(i_stat[1] = sh_ctrl_op(str + i_stat[0])))
+	if (!sh_metachar((*str)[i_stat[0]]))
+		i_stat[1] = sh_lex_word(str, i_stat[0]);
+	else if (!(i_stat[1] = sh_rdir_op((*str) + i_stat[0]))
+			&& !(i_stat[1] = sh_ctrl_op((*str) + i_stat[0])))
 		i_stat[0] += 1;
 	if (i_stat[1])
 	{
-		if (!(lexeme = ft_strsub(str, i_stat[0], i_stat[1])))
+		if (!(lexeme = ft_strsub(*str, i_stat[0], i_stat[1])))
 			return (-1);
-		if ((category = sh_category(str, i_stat, i_stat + 2)) == HEREDOC)
+		if ((category = sh_category(*str, i_stat, i_stat + 2)) == HEREDOC)
 		{
 			sh_lex_eof(fifo, lexeme);
 			category = FILDES;
@@ -67,7 +65,7 @@ static int	sh_lex_loop(t_token **list, char *str, int *i_stat, char *fifo[32])
 	return (0);
 }
 
-int			sh_lexer(t_token **list, char *str)
+int			sh_lexer(t_token **list, char **str)
 {
 	char	*fifo[32];
 	int		i_stat[5];
@@ -76,11 +74,11 @@ int			sh_lexer(t_token **list, char *str)
 	ft_memset(fifo, 0, sizeof(char*) * 32);
 	ft_memset(i_stat, 0, sizeof(int) * 5);
 	i_stat[2] = CMD;
-	while (str[i_stat[0]])
+	while ((*str)[i_stat[0]])
 	{
 		if (i_stat[4] == 1 && fifo[0])
 		{
-			if ((ret = sh_lex_heredoc(str, i_stat, fifo, list)) < 0)
+			if ((ret = sh_lex_heredoc(*str, i_stat, fifo, list)) < 0)
 				return (sh_token_del(list));
 			if (ret)
 				return (LEX_LOOP);

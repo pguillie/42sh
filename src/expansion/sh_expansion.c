@@ -6,71 +6,109 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:07:44 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/04 15:41:29 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 06:43:59 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
 /*
-**		in that order:
-**	brace expansion
-**	tilde expansion
-**	parameter and variable expansion
-**	command substitution
-**	arithmetic expansion
-**	word splitting
-**	filename expansion
-*/
+ **		in that order:
+ **	brace expansion
+ **	tilde expansion
+ **	parameter and variable expansion
+ **	command substitution
+ **	arithmetic expansion
+ **	word splitting
+ **	filename expansion
+ */
 
-static char		*sh_rm_quote(char *lex)
+static int		sh_squote(char **s, int i, int *j)
 {
-	size_t	i;
-	size_t	j;
+	i++;
+	while ((*s)[i] && (*s)[i] != '\'')
+		(*s)[(*j)++] = (*s)[i++];
+	return (i);
+}
+
+static int		sh_dquote(char **s, int i, int *j)
+{
 	char	quote;
+
+	quote = (*s)[i];
+	i++;
+	while ((*s)[i] && (*s)[i] != quote)
+	{
+		if (((*s)[i] == '\\' && ((*s)[i + 1] == '\n'
+						|| (*s)[i + 1] == '\"' || (*s)[i + 1] == '\\' || (*s)[i + 1] == '`')))
+			i++;
+		(*s)[(*j)++] = (*s)[i++];
+	}
+	return (i);
+}
+
+static char		*sh_rm_quote(char *s)
+{
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
-	quote = 0;
-	while (lex[i])
+	if (!s)
+		return (NULL);
+	while (s[i])
 	{
-		if (lex[i] == '\\' && quote != '\'')
-			lex[j++] = lex[++i];
+		if (s[i] == '\'')
+			i = sh_squote(&s, i, &j);
+		else if (s[i] == '\"' || s[i] == '`')
+			i = sh_dquote(&s, i, &j);
+		else if (s[i] == '\\')
+			s[j++] = s[++i];
 		else
-		{
-			if (lex[i] == quote)
-				quote = 0;
-			else if ((lex[i] == '\'' || lex[i] == '\"' || lex[i] == '`')
-					&& !quote)
-				quote = lex[i];
-			else
-				lex[j++] = lex[i];
-		}
-		i++;
+			s[j++] = s[i];
+		s[i] ? i++ : 0;
 	}
-	ft_strclr(lex + j);
-	return (lex);
+	ft_strclr(s + j);
+	return (s);
 }
 
 t_token			*sh_expansion(t_token *lexer)
 {
 	t_token	*exp;
+	t_token	*prev;
 
-	if (lexer)
+	prev = NULL;
+	exp = lexer;
+	while (exp)
 	{
-		exp = lexer;
-		while (exp)
+		exp->lexeme = sh_exp_tilde(exp->lexeme);
+		if (ft_strchr(exp->lexeme, '`'))
 		{
-			exp->lexeme = sh_exp_tilde(exp->lexeme);
-			if (ft_strchr(exp->lexeme, '`'))
+			sh_cmd_sub(&exp);
+			exp = sh_word_split(&exp);
+			if (!exp->lexeme || !exp->lexeme[0])
 			{
-				if (!sh_cmd_sub(&exp))
-					exp = sh_word_split(&exp);
+				if (prev)
+				{
+					prev->next = exp->next;
+					free(exp->lexeme);
+					free(exp);
+					exp = prev;
+				}
+				else
+				{
+					prev = exp->next;
+					free(exp->lexeme);
+					free(exp);
+					lexer = prev;
+					exp = prev;
+				}
 			}
-			if (!g_signal || g_signal == SIGWINCH)
-				exp->lexeme = sh_rm_quote(exp->lexeme);
-			exp = exp->next;
 		}
+		if (!g_signal || g_signal == SIGWINCH)
+			exp->lexeme = sh_rm_quote(exp->lexeme);
+		prev = exp;
+		exp = exp->next;
 	}
 	return (lexer);
 }

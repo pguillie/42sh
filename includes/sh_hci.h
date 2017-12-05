@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:19 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/04 16:40:44 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 00:20:27 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void	sh_print_file(t_line **file, t_line *line, t_tc *tc, int *j);
 
 int		sh_category(char *str, int i[2], int status[3]);
 int		sh_lex_heredoc(char *str, int *i, char *fifo[32], t_token **list);
-int		sh_lex_word(char *str);
-int		sh_lexer(t_token **list, char *str);
+int		sh_lex_word(char **s, int t);
+int		sh_lexer(t_token **list, char **str);
 int		sh_metachar(char c);
 int		sh_ctrl_op(char *str);
 int		sh_rdir_op(char *str);

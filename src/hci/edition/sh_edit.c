@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:01:31 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/03 16:41:46 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 03:35:05 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,28 @@ static int	edit_end(t_token **lexer, int ret, char *save, char *last)
 	return ((g_signal == SIGINT || ret == -42) ? 1 : ret);
 }
 
+static int	sh_lexing(int *ret, char **save, t_line *line, t_token **lexer)
+{
+	if (*ret < 0 || *ret == EOT || edit_save(save, line->str) < 0)
+		return (1);
+	if ((*ret = sh_lexer(lexer, save)) >= 0)
+		line->used = ft_strlen(*save);
+	else if (*ret < 0)
+		return (1);
+	return (0);
+}
+/*
+void	displex(t_token *lex)
+{
+	ft_putendl("=== DISPLEX ===");
+	while (lex)
+	{
+		ft_printf("category:%2d -- lexeme:%s\n", lex->category, lex->lexeme);
+		lex = lex->next;
+	}
+	ft_putendl(" == end lex ==");
+}
+*/
 int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 {
 	struct termios	backup;
@@ -62,9 +84,9 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		tc->prompt = sh_prompt(!save ? 1 : 2);
 		ret = sh_edit_line(&line, save, tc);
 		ret = sh_hist_exp(line, ret);
-		if (ret < 0 || ret == EOT || edit_save(&save, line->str) < 0
-				|| (ret = sh_lexer(lexer, save)) < 0)
-			break ;
+		if (sh_lexing(&ret, &save, line, lexer))
+			break;
+//		displex(*lexer);
 		ret = sh_verification(*lexer, ret);
 	}
 	if (tcsetattr(0, TCSANOW, &backup) < 0 && (ret = -1))

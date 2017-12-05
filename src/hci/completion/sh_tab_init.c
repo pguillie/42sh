@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:51:24 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:51:29 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 00:22:06 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			sh_tab_init(char *str, size_t cur, char **lexeme, int *status)
 		i[1] = 0;
 		if (!sh_metachar(str[i[0]]))
 		{
-			i[1] = sh_lex_word(str + i[0]);
+			i[1] = sh_lex_word(&str, i[0]);
 			if (i[0] + i[1] >= cur)
 				if (!(*lexeme = ft_strsub(str, i[0], cur - i[0])))
 					return (-1);

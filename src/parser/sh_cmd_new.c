@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:57:54 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/03 12:00:32 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 04:20:00 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 	{
 		if (l->category == REDIRECTION)
 			size[1] += 1;
-		else if (l->category > FILDES && l->lexeme[0])
+		else if (l->category > FILDES && l->lexeme)
 			size[0] += 1;
 		l = l->next;
 	}

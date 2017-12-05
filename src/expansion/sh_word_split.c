@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 16:34:28 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/03 19:22:56 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/05 06:28:01 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ t_token		*sh_word_split(t_token **exp)
 	lst[0] = *exp;
 	tmp = NULL;
 	lst[1] = (*exp)->next;
-	if (!(tab = ft_split_allwhite((*exp)->lexeme)))
+	if (!(tab = ft_split_allwhite((*exp)->lexeme)) || !tab[0])
+	{
+		tab ? free(tab) : 0;
 		return (*exp);
+	}
 	lst[0]->next = NULL;
 	i = 0;
 	if ((tmp = ft_strdup(tab[i++])))

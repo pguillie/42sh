@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/04 17:33:58 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 06:32:17 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,24 @@
 
 static int	sh_sub_cpy(int tube, char **cmd)
 {
-	char	b[BUFF_SIZE + 1];
+	char	b[2];
 	char	*tmp;
 	int		ret;
 
 	ret = 1;
 	tmp = NULL;
+	ft_bzero(b, 2);
 	while (ret > 0)
 	{
-		ft_bzero(b, BUFF_SIZE + 1);
-		ret = read(tube, b, 1);
-		if (b[0])
+		if ((ret = read(tube, b, 1)))
 		{
 			tmp = *cmd;
 			*cmd = ft_strjoin(tmp, b[0] == '\"' ? "\\\"" : b);
 			free(tmp);
 		}
 	}
-	if (*cmd)
-	{
-		tmp = *cmd;
-		if (tmp[ft_strlen(tmp) - 1] == '\n')
-			tmp[ft_strlen(tmp) - 1] = '\0';
-	}
+	if (((tmp = *cmd)) && (tmp[ft_strlen(tmp) - 1] == '\n'))
+		tmp[ft_strlen(tmp) - 1] = '\0';
 	return (0);
 }
 
@@ -66,8 +61,7 @@ static char	*sh_sub_exec(char *tmp, int *ret)
 	{
 		sh_dfl_sig();
 		close(tube[0]);
-		if (dup2(tube[1], 1) < 0)
-			return (NULL);
+		dup2(tube[1], 1);
 		exit((*ret = sh_small_main(tmp)));
 	}
 	waitpid(exec, ret, WUNTRACED);
@@ -97,7 +91,7 @@ int			sh_cmd_sub(t_token **exp)
 
 	ft_bzero(i, sizeof(int) * 5);
 	i[2] = -2;
-	if (!(tmp = sh_only_tab_b((*exp)->lexeme)))
+	if (!(tmp = sh_cmd_tab_quote((*exp)->lexeme)))
 		return (1);
 	while (tmp[i[0]] && tmp[i[0]][0] != '`' && tmp[i[0]][0] && i[1] != 2)
 	{
@@ -112,6 +106,11 @@ int			sh_cmd_sub(t_token **exp)
 		tmp2 ? ((*exp)->lexeme = tmp2) : 0;
 		command ? free(command) : 0;
 		i[0]++;
+	}
+	if (!tmp[0])
+	{
+		free((*exp)->lexeme);
+		(*exp)->lexeme = NULL;
 	}
 	ft_strtabdel(tmp);
 	return (i[2]);

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:09:23 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 13:33:27 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/05 00:21:34 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int			sh_histexp_word(char *str, int i, char **exp)
 	int		j[2];
 
 	word = NULL;
-	if (!(j[1] = 1) || !*exp || sh_lexer(&word, *exp) < 0)
+	if (!(j[1] = 1) || !*exp || sh_lexer(&word, exp) < 0)
 		return (1);
 	new = NULL;
 	j[0] = (str[i] == ':' ? i++ : i);

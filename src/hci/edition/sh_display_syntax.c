@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:53:05 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/04 17:46:08 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 00:22:48 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	sh_disp_word(char *str, int *status, int *hd)
 {
 	int		len;
 
-	len = sh_lex_word(str);
+	len = sh_lex_word(&str, 0);
 	if (status[1] || (len == 1 && str[0] >= '0' && str[0] <= '9'
 				&& str[1] != '&' && sh_rdir_op(str + 1)))
 	{
@@ -52,7 +52,7 @@ static void	sh_disp_geteof(char *str, int *hd, int eof[2], int pos)
 	{
 		if (!sh_metachar(str[i[0]]))
 		{
-			i[1] = sh_lex_word(str + i[0]);
+			i[1] = sh_lex_word(&str, i[0]);
 			if (c == *hd && eof[1] == 0)
 			{
 				eof[0] = i[0];

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 11:05:30 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/04 11:21:07 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/05 06:41:15 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			main(void)
 		sh_init_loop(&lexer, &cmd_list, &op);
 		if (sh_hci(&termcaps, &lexer, ret[0]))
 			ret[1] -= 1;
-		else if (sh_parser(sh_expansion(lexer), &cmd_list, &op) < 0)
+		else if (sh_parser((lexer = sh_expansion(lexer)), &cmd_list, &op) < 0)
 			ret[1] -= 1;
 		else if ((ret[0] = sh_list_browse(cmd_list, op, ret[0])) < 0)
 			ret[1] -= 1;
