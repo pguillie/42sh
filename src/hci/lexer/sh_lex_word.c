@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 19:57:04 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 21:23:39 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ static int	sh_bslash(char **s, int i)
 	else
 		i++;
 	if (!(*s)[0])
-	{
-		(*s)[0] = ' ';
 		i++;
-	}
 	return (i);
 }
 

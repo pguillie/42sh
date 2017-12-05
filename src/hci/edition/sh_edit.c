@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:01:31 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 19:24:03 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 20:49:33 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	edit_raz(t_line *line, t_tc *tc, t_token **lexer)
 {
 	g_signal = 0;
-	ft_bzero(line->str, line->used);
+	ft_memset(line->str, 0, line->used);
 	line->used = 0;
 	line->cur = 0;
 	line->h_smd = 0;
@@ -51,7 +51,7 @@ static int	sh_lexing(int *ret, char **save, t_line *line, t_token **lexer)
 	if (*ret < 0 || *ret == EOT || edit_save(save, line->str) < 0)
 		return (1);
 	if ((*ret = sh_lexer(lexer, save)) >= 0)
-		line->used = ft_strlen(*save);
+		line->used = ft_strlen(line->str);
 	else if (*ret < 0)
 		return (1);
 	return (0);
