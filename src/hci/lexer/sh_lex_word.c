@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 01:40:11 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:21:01 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	sh_squote(char *s, int i)
 	return (i);
 }
 
-static int		sh_dquote(char **s, int i)
+static int	sh_dquote(char **s, int i)
 {
 	char	quote;
 
@@ -43,7 +43,9 @@ static int		sh_dquote(char **s, int i)
 	{
 		if ((*s)[i] == '\\' && (*s)[i + 1] == '\n')
 			ft_memmove(*s + i, *s + i + 2, ft_strlen(*s + i + 2) + 1);
-		else if ((*s)[i] == '\\' && ((*s)[i + 1] == '\"' || (*s)[i + 1] == '\\' || (*s)[i + 1] == '`'))
+		else if ((*s)[i] == '\\' &&
+				((*s)[i + 1] == '\"' || (*s)[i + 1] == '\\'
+				|| (*s)[i + 1] == '`'))
 			i++;
 		i++;
 	}
