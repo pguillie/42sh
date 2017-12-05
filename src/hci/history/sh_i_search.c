@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:55:31 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:55:31 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 05:35:04 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	sh_i_print(t_line *line, char *str, t_tc *tc, int mode)
 
 static int	sh_i_strstr(char *line, char *str, int mode)
 {
+	if (line == NULL || str == NULL)
+		return (1);
 	if (mode == 0)
 	{
 		if (ft_strrstr(line, str) != NULL)
@@ -46,6 +48,7 @@ static void	sh_i_find(t_line **glob, t_tc *tc, char *tmp, int mode)
 {
 	int		ret;
 
+	ret = 0;
 	while (glob[0])
 	{
 		ret = 0;

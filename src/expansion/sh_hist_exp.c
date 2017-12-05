@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:02:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/04 11:48:19 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/04 18:17:00 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			sh_hist_exp(t_line *line, int ret)
 
 	i = 0;
 	b = 0;
-	while ((i = sh_histexp_id(line->str, i)) >= 0
+	while (line && (i = sh_histexp_id(line->str, i)) >= 0
 			&& (!g_signal || g_signal == SIGWINCH))
 	{
 		b = b ? b : 1;
