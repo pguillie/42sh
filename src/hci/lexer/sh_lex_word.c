@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 21:23:39 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 21:30:25 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	sh_squote1(char *s, int i)
 	return (i);
 }
 
-static int		sh_dquote1(char **s, int i)
+static int	sh_dquote1(char **s, int i)
 {
 	char	quote;
 

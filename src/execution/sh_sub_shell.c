@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 14:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 19:03:18 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 21:28:36 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int		sh_small_main(char *cmd)
 	op = NULL;
 	if ((ret = sh_lexer(&lexer, &cmd)) < 0 || ret & LEX_LOOP)
 	{
-		dprintf(2, "ERROR SYNTAX\n");
-			ret = -1;
+		if (ret & LEX_LOOP)
+			ft_error(SHELL, "Syntax error", NULL);
+		ret = -1;
 	}
 	else if (sh_verification(lexer, 0))
 		return (258);
