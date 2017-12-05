@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/05 19:54:33 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 20:06:46 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,8 @@ int			sh_cmd_sub(t_token **exp)
 	j = 0;
 	l = 0;
 	tab = sh_cmd_tab_quote((*exp)->lexeme);
-	//for(int x = 0; tab[x]; x++)
-		//dprintf(2, "tab[%d]:%s\n", x, tab[x]);
 	command = NULL;
-	while (tab[j] && (!g_signal || g_signal == SIGWINCH))
+	while (tab && tab[j] && (!g_signal || g_signal == SIGWINCH))
 	{
 		if (tab[j][0])
 			sh_ret_exec(&command, tab[j]);

@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:57:16 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/05 19:54:27 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 20:06:06 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,38 @@ static int	sh_count_len(char *str, int i)
 	return (len);
 }
 
-char	**sh_cmd_tab_quote(char *str)
+static char	*sh_cmd_cpy(char *str, int *i, int len)
 {
+	char	*tmp;
+	int		tt;
 
+	tt = 0;
+	tmp = NULL;
+	while (str[*i] && str[*i] != '`')
+	{
+		if (str[*i] == '\\' && str[*i + 1])
+			(*i)++;
+		(*i)++;
+	}
+	if (str[*i] == '`')
+		(*i)++;
+	if (!(tmp = ft_strnew(len - 1)))
+		return (NULL);
+	if (len > 2)
+	{
+		while (len-- > 2)
+			tmp[tt++] = str[(*i)++];
+		tmp[tt] = '\n';
+	}
+	return (tmp);
+}
+
+char		**sh_cmd_tab_quote(char *str)
+{
 	char	**array;
 	int		i;
 	int		t;
 	int		len;
-	int		tt;
 
 	t = 0;
 	i = 0;
@@ -58,31 +82,10 @@ char	**sh_cmd_tab_quote(char *str)
 		if (str[i] == '\'')
 			i = sh_squote(str, i);
 		if (str[i] && (len = sh_count_len(str, i)))
-		{
-			tt = 0;
-			while (str[i] && str[i] != '`')
-			{
-				if (str[i] == '\\' && str[i + 1])
-					i++;
-				i++;
-			}
-			if (str[i] == '`')
-				i++;
-			if (!(array[t] = ft_strnew(len - 1)))
-			{
-				ft_strtabdel(array);
+			if (!(array[t++] = sh_cmd_cpy(str, &i, len)))
 				return (NULL);
-			}
-			if (len > 2)
-			{
-				while (len-- > 2)
-					array[t][tt++] = str[i++];
-				array[t][tt] = '\n';
-			}
-			t++;
-		}
 		i += str[i] == '\\' ? 2 : 0;
-		str[i]  ? i++ : 0;
+		str[i] ? i++ : 0;
 	}
 	array[t] = NULL;
 	return (array);
