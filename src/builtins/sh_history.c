@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 10:23:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/04 14:50:52 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 01:24:52 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static int	sh_hist_disp(char *str)
 	int			k;
 	int			i[2];
 
+	k = 0;
 	if (str && ft_isnumber(str) == 0)
 		return (ft_error(SHELL, str, "numeric argument required"));
 	if (str && (k = ft_atoi(str)) == 0)
