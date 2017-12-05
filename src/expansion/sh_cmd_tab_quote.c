@@ -6,66 +6,11 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:57:16 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/05 05:39:02 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:54:27 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-static int		sh_squote(char *s, int y)
-{
-	int i;
-
-	i = y;
-	s[i] ? i++ : 0;
-	while (s[i] && s[i] != '\'')
-	{
-		if (s[i] == '\'')
-			break ;
-		i++;
-	}
-	return (!s[i] ? y : ++i);
-}
-
-static int		sh_dquote(char *s, int i, int *cpt)
-{
-	char	quote;
-
-	quote = s[i];
-	i++;
-	while (s[i] && s[i] != quote)
-	{
-		if ((s[i] == '\\' && (s[i + 1] == '\n'
-						|| s[i + 1] == '\"' || s[i + 1] == '\\' || s[i + 1] == '`')))
-			i++;
-		else if (s[i] == '`')
-			*cpt += 1;
-		i++;
-	}
-	return (i);
-}
-
-static int	sh_count_b(char *s)
-{
-	int i;
-	int cpt;
-
-	i = 0;
-	cpt = 0;
-	while (s[i])
-	{
-		if (s[i] == '\'')
-			i = sh_squote(s, i);
-		else if (s[i] == '\"')
-			i = sh_dquote(s, i, &cpt);
-		else if (s[i] == '\\')
-			i++;
-		else if (s[i] == '`')
-			cpt++;
-		s[i] ? i++ : 0;
-	}
-	return (cpt / 2);
-}
 
 static int	sh_count_len(char *str, int i)
 {
@@ -87,7 +32,7 @@ static int	sh_count_len(char *str, int i)
 				len++;
 			len++;
 		}
-		if (str[i + len] == '`')
+		if (str[i + len] == '`' && str[i + len - 1] != '\\')
 			len++;
 	}
 	return (len);
@@ -95,6 +40,7 @@ static int	sh_count_len(char *str, int i)
 
 char	**sh_cmd_tab_quote(char *str)
 {
+
 	char	**array;
 	int		i;
 	int		t;
@@ -103,7 +49,7 @@ char	**sh_cmd_tab_quote(char *str)
 
 	t = 0;
 	i = 0;
-	if (!(array = (char**)ft_memalloc(sh_count_b(str) + 1)))
+	if (!(array = (char**)ft_memalloc(sizeof(char*) * (sh_count_b(str) + 1))))
 		return (NULL);
 	while (str[i])
 	{
@@ -122,19 +68,21 @@ char	**sh_cmd_tab_quote(char *str)
 			}
 			if (str[i] == '`')
 				i++;
+			if (!(array[t] = ft_strnew(len - 1)))
+			{
+				ft_strtabdel(array);
+				return (NULL);
+			}
 			if (len > 2)
 			{
-				if (!(array[t] = ft_strnew(len - 1)))
-				{
-					ft_strtabdel(array);
-					return (NULL);
-				}
 				while (len-- > 2)
 					array[t][tt++] = str[i++];
-				array[t++][tt] = '\n';
+				array[t][tt] = '\n';
 			}
+			t++;
 		}
-		str[i] ? i++ : 0;
+		i += str[i] == '\\' ? 2 : 0;
+		str[i]  ? i++ : 0;
 	}
 	array[t] = NULL;
 	return (array);

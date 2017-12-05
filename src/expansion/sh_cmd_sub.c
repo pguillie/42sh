@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/05 06:32:17 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:54:33 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	sh_kill_zombie(pid_t child, int ret)
 	return (0);
 }
 
-static char	*sh_sub_exec(char *tmp, int *ret)
+static char	*sh_sub_exec(char *tab, int *ret)
 {
 	int			tube[2];
 	pid_t		exec;
@@ -62,56 +62,47 @@ static char	*sh_sub_exec(char *tmp, int *ret)
 		sh_dfl_sig();
 		close(tube[0]);
 		dup2(tube[1], 1);
-		exit((*ret = sh_small_main(tmp)));
+		*ret = sh_small_main(tab);
+		exit(*ret);
 	}
 	waitpid(exec, ret, WUNTRACED);
 	close(tube[1]);
-	if (!sh_kill_zombie(exec, *ret))
+	if (ret > 0 && !sh_kill_zombie(exec, *ret))
 		sh_sub_cpy(tube[0], &cmd);
-	else
-		*ret = 2;
 	return (cmd);
 }
 
-static void	sh_ret_exec(char **command, char *tmp, int *i)
+static void	sh_ret_exec(char **command, char *tab)
 {
-	*command = sh_sub_exec(tmp, &(i[1]));
-	if (i[2] == -2)
-		i[2] = i[1];
-	else if (i[2] != 0 || i[1] == 2)
-		i[2] = i[1];
+	int		ret;
+
+	ret = 0;
+	*command = sh_sub_exec(tab, &ret);
 }
 
 int			sh_cmd_sub(t_token **exp)
 {
-	char	**tmp;
+	char	**tab;
 	char	*command;
-	char	*tmp2;
-	int		i[5];
+	int		j;
+	int		l;
 
-	ft_bzero(i, sizeof(int) * 5);
-	i[2] = -2;
-	if (!(tmp = sh_cmd_tab_quote((*exp)->lexeme)))
-		return (1);
-	while (tmp[i[0]] && tmp[i[0]][0] != '`' && tmp[i[0]][0] && i[1] != 2)
+	j = 0;
+	l = 0;
+	tab = sh_cmd_tab_quote((*exp)->lexeme);
+	//for(int x = 0; tab[x]; x++)
+		//dprintf(2, "tab[%d]:%s\n", x, tab[x]);
+	command = NULL;
+	while (tab[j] && (!g_signal || g_signal == SIGWINCH))
 	{
-		sh_ret_exec(&command, tmp[i[0]], i);
-		tmp2 = NULL;
-		i[4] = ft_strlen(tmp[i[0]]);
-		if (i[1] != 2)
-			tmp2 = sh_cmd_ins((*exp)->lexeme, command, i);
+		if (tab[j][0])
+			sh_ret_exec(&command, tab[j]);
 		else
-			g_signal = SIGINT;
-		tmp2 ? free((*exp)->lexeme) : 0;
-		tmp2 ? ((*exp)->lexeme = tmp2) : 0;
+			command = NULL;
+		l = sh_cmd_ins(*exp, command, l, ft_strlen(tab[j]));
 		command ? free(command) : 0;
-		i[0]++;
+		j++;
 	}
-	if (!tmp[0])
-	{
-		free((*exp)->lexeme);
-		(*exp)->lexeme = NULL;
-	}
-	ft_strtabdel(tmp);
-	return (i[2]);
+	ft_strtabdel(tab);
+	return (0);
 }

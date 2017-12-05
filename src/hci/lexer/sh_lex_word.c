@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 01:40:11 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:22:53 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	sh_bracket(char *s, int i, int bracket)
 	return (bracket);
 }
 
-static int	sh_squote(char *s, int i)
+static int	sh_squote1(char *s, int i)
 {
 	i++;
 	while (s[i] && s[i] != '\'')
@@ -33,7 +33,7 @@ static int	sh_squote(char *s, int i)
 	return (i);
 }
 
-static int		sh_dquote(char **s, int i)
+static int		sh_dquote1(char **s, int i)
 {
 	char	quote;
 
@@ -78,9 +78,9 @@ int			sh_lex_word(char **str, int t)
 	while (s[i] && (quote || bracket || !sh_metachar(s[i])))
 	{
 		if (s[i] == '\'')
-			i = sh_squote(s, i);
+			i = sh_squote1(s, i);
 		else if (s[i] == '\"' || s[i] == '`')
-			i = sh_dquote(&s, i);
+			i = sh_dquote1(&s, i);
 		else if (s[i] == '(' || s[i] == ')')
 			bracket = sh_bracket(s, i, bracket);
 		else if (s[i] == '\\')

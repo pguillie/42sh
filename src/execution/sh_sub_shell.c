@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 14:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 00:21:02 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:03:18 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ int		sh_small_main(char *cmd)
 	lexer = NULL;
 	cmd_list = NULL;
 	op = NULL;
-	if (sh_lexer(&lexer, &cmd) < 0)
-		ret = -1;
+	if ((ret = sh_lexer(&lexer, &cmd)) < 0 || ret & LEX_LOOP)
+	{
+		dprintf(2, "ERROR SYNTAX\n");
+			ret = -1;
+	}
 	else if (sh_verification(lexer, 0))
 		return (258);
 	else if (sh_parser(sh_expansion(lexer), &cmd_list, &op) < 0)

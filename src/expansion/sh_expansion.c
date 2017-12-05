@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:07:44 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/05 06:43:59 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:22:01 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  **	filename expansion
  */
 
-static int		sh_squote(char **s, int i, int *j)
+static int		sh_squote1(char **s, int i, int *j)
 {
 	i++;
 	while ((*s)[i] && (*s)[i] != '\'')
@@ -31,7 +31,7 @@ static int		sh_squote(char **s, int i, int *j)
 	return (i);
 }
 
-static int		sh_dquote(char **s, int i, int *j)
+static int		sh_dquote1(char **s, int i, int *j)
 {
 	char	quote;
 
@@ -59,9 +59,9 @@ static char		*sh_rm_quote(char *s)
 	while (s[i])
 	{
 		if (s[i] == '\'')
-			i = sh_squote(&s, i, &j);
+			i = sh_squote1(&s, i, &j);
 		else if (s[i] == '\"' || s[i] == '`')
-			i = sh_dquote(&s, i, &j);
+			i = sh_dquote1(&s, i, &j);
 		else if (s[i] == '\\')
 			s[j++] = s[++i];
 		else
@@ -82,7 +82,7 @@ t_token			*sh_expansion(t_token *lexer)
 	while (exp)
 	{
 		exp->lexeme = sh_exp_tilde(exp->lexeme);
-		if (ft_strchr(exp->lexeme, '`'))
+		while (sh_count_b(exp->lexeme))
 		{
 			sh_cmd_sub(&exp);
 			exp = sh_word_split(&exp);

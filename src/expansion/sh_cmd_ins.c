@@ -6,29 +6,27 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 18:14:05 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/05 04:53:28 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 18:33:17 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-char		*sh_cmd_ins(char *lexeme, char *str, int *i)
+int		sh_cmd_ins(t_token *exp, char *cmd, int l, int j)
 {
 	char	*tmp;
 	char	*res;
 
-	while (lexeme[i[3]] && lexeme[i[3]] != '`')
-		i[3]++;
-	tmp = ft_strndup(lexeme, i[3]);
-	res = ft_strjoin(tmp, str);
+	while (exp->lexeme[l] && exp->lexeme[l] != '`'
+		&& (!l || exp->lexeme[l - 1] != '\\'))
+		l++;
+	tmp = ft_strndup(exp->lexeme, l);
+	res = ft_strjoin(tmp, cmd);
 	tmp ? free(tmp) : 0;
-	if ((!tmp && i[3]) || !res)
-	{
-		res ? free(res) : 0;
-		return (NULL);
-	}
 	tmp = res;
-	res = ft_strjoin(tmp, lexeme + i[3] + i[4] + 1);
+	res = ft_strjoin(tmp, exp->lexeme + l + j + (j == 0 ? 2 : 1));
+	free(exp->lexeme);
+	exp->lexeme = res;
 	free(tmp);
-	return (res);
+	return (l + ft_strlen(cmd));
 }
