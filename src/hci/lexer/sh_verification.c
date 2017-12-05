@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:37 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/03 11:18:17 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 00:28:51 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	sh_parse_sub(t_token *lex)
 		return (sh_syn_err(lex->lexeme));
 	if (lex->category == SUB_SHELL && lex->next->category <= SUB_SHELL)
 		return (sh_syn_err(lex->next->lexeme));
-	while (lex->lexeme[i])
+	while (lex->lexeme[i + 1])
 	{
 		if (lex->lexeme[i] == '\\')
 			i++;
