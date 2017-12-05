@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 13:32:43 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/02 20:42:37 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/05 07:12:17 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static char	*sh_histexp_sub2(char *exp, char *sub, int g)
 	while (sub[1 + i[1]] && sub[1 + i[1]] != sub[0])
 		i[1]++;
 	if (!i[1])
+	{
+		free(new[0]);
 		return (NULL);
+	}
 	while (new[0][i[0]])
 	{
 		if (ft_strncmp(new[0] + i[0], sub + 1, i[1]) == 0)
