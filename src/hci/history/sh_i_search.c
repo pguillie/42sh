@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:55:31 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 02:38:42 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/05 05:35:04 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	sh_i_find(t_line **glob, t_tc *tc, char *tmp, int mode)
 {
 	int		ret;
 
+	ret = 0;
 	while (glob[0])
 	{
 		ret = 0;
