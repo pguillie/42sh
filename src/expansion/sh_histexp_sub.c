@@ -6,13 +6,13 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 13:32:43 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 19:05:26 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:57:13 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static char	*sh_histexp_sub3(char *exp, int *i, char *sub, int a)
+static char	*sh_histexp_sub4(char *exp, int *i, char *sub, int a)
 {
 	char	*new;
 	int		j[3];
@@ -41,6 +41,24 @@ static char	*sh_histexp_sub3(char *exp, int *i, char *sub, int a)
 	return (ft_strcat(new, exp + j[2] + a));
 }
 
+static void	sh_histexp_sub3(char **new, char *sub, int *i, int g)
+{
+	while (new[0][i[0]])
+	{
+		if (ft_strncmp(new[0] + i[0], sub + 1, i[1]) == 0)
+		{
+			if (!(new[1] = sh_histexp_sub4(new[0], i, sub, i[1])))
+				break ;
+			free(new[0]);
+			new[0] = new[1];
+			if (!g)
+				break ;
+		}
+		else
+			i[0]++;
+	}
+}
+
 static char	*sh_histexp_sub2(char *exp, char *sub, int g)
 {
 	char	*new[2];
@@ -56,20 +74,7 @@ static char	*sh_histexp_sub2(char *exp, char *sub, int g)
 		free(new[0]);
 		return (NULL);
 	}
-	while (new[0][i[0]])
-	{
-		if (ft_strncmp(new[0] + i[0], sub + 1, i[1]) == 0)
-		{
-			if (!(new[1] = sh_histexp_sub3(new[0], i, sub, i[1])))
-				break ;
-			free(new[0]);
-			new[0] = new[1];
-			if (!g)
-				break ;
-		}
-		else
-			i[0]++;
-	}
+	sh_histexp_sub3(new, sub, i, g);
 	return (new[0]);
 }
 

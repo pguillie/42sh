@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:01:31 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 06:45:42 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/05 19:24:03 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,7 @@ static int	sh_lexing(int *ret, char **save, t_line *line, t_token **lexer)
 		return (1);
 	return (0);
 }
-/*
-void	displex(t_token *lex)
-{
-	ft_putendl("=== DISPLEX ===");
-	while (lex)
-	{
-		ft_printf("category:%2d -- lexeme:%s\n", lex->category, lex->lexeme);
-		lex = lex->next;
-	}
-	ft_putendl(" == end lex ==");
-}
-*/
+
 int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 {
 	struct termios	backup;
@@ -85,8 +74,7 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		ret = sh_edit_line(&line, save, tc);
 		ret = sh_hist_exp(line, ret);
 		if (sh_lexing(&ret, &save, line, lexer))
-			break;
-//		displex(*lexer);
+			break ;
 		ret = sh_verification(*lexer, ret);
 	}
 	if (tcsetattr(0, TCSANOW, &backup) < 0 && (ret = -1))
