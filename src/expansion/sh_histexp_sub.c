@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 13:32:43 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 19:57:13 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 13:19:26 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static char	*sh_histexp_sub2(char *exp, char *sub, int g)
 	char	*new[2];
 	int		i[2];
 
+	new[1] = NULL;
 	if (!sub || !sub[0] || !(new[0] = ft_strdup(exp)))
 		return (NULL);
 	ft_memset(i, 0, sizeof(int) * 2);
