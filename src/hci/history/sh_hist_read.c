@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:54:56 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/04 22:09:14 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 10:13:50 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static char		*sh_hist_line(char *line, char *gnl)
 		ft_strdel(&tmp);
 	if (!line)
 		ft_error("Warning", "History not totally recoverded", NULL);
-	if (line[0] && line[ft_strlen(line) - 1] == '\\')
+	if (line[0] && line[ft_strlen(line) - 1] == '\\'
+			&& (!line[1] || line[ft_strlen(line) - 2] != '\\'))
 		line[ft_strlen(line) - 1] = '\n';
 	return (line);
 }

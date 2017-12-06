@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:52:56 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:53:12 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 10:22:24 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,16 @@ static t_line	*sh_get_target(t_line *line, t_line *target, int id)
 {
 	if (id & UP)
 	{
-		target = line;
+		target = line->up;
 		if (line->h_smd)
-			while (target && (!ft_strnequ(line->str, target->str,
-							line->h_pos) || !ft_strcmp(line->str, target->str)))
+			while (target && (!ft_strnequ(line->str, target->str, line->h_pos)))
 				target = target->up;
 	}
 	else if (id & DOWN)
 	{
-		target = line;
+		target = line->down;
 		if (line->h_smd)
-			while (target && (!ft_strnequ(line->str, target->str,
-							line->h_pos) || !ft_strcmp(line->str, target->str)))
+			while (target && (!ft_strnequ(line->str, target->str, line->h_pos)))
 				target = target->down;
 	}
 	if (!target)
