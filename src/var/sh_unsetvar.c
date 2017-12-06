@@ -6,7 +6,7 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 12:22:43 by ysan-seb          #+#    #+#             */
-/*   Updated: 2017/12/04 16:17:25 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/06 13:54:24 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			sh_unsetvar(char *name, char type, char search)
 	{
 		if ((!search || (*vray)[i][0] & search)
 				&& ft_strnequ((*vray)[i] + 1, name, len)
-				&& (*vray)[i][len + 1] == '=')
+				&& ((*vray)[i][len + 1] == '=' || !(*vray)[i][len + 1]))
 			line = i;
 		i++;
 	}
