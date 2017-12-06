@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:52:08 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:52:22 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 16:52:19 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ t_coord		*sh_create_coord(t_line *line, size_t prompt)
 		i++;
 	}
 	new[i].x = w.ws_col;
-	new[i].y = w.ws_row;
+	new[i].y = -1;
 	return (new);
 }

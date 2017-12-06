@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:53:10 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 02:53:08 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2017/12/06 16:51:38 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 int		sh_clear(t_line *line, t_coord **coord, t_tc tc)
 {
 	int		i;
-	size_t	l;
+	int		j;
 	t_coord	*new_coord;
 
 	tputs(tc.ce, 0, termput);
 	if (!(new_coord = sh_create_coord(line, tc.prompt)))
 		return (-1);
-	l = line->cur;
-	while ((*coord)[l].y != new_coord[line->used + 1].y
-			&& (*coord)[l].x != new_coord[line->used + 1].x)
-		l++;
-	if ((*coord)[l - 1].y > new_coord[line->cur].y)
+	j = 0;
+	while ((*coord)[j].y >= 0)
+		j++;
+	if (j && (*coord)[j - 1].y)
 	{
 		ft_putstr("\n\r");
 		tputs(tc.cd, 0, termput);
