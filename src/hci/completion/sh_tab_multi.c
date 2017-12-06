@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:51:23 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:51:29 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 16:30:45 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			sh_tab_multi(t_line *line, t_coord **coord, t_tc tc, char *array[])
 	while (array[i] && occ[0])
 	{
 		j = 0;
-		while (j < PATH_SIZE && occ[j] == array[i][j])
+		while (j < PATH_SIZE && occ[j] && occ[j] == array[i][j])
 			j++;
 		ft_strclr(occ + j);
 		i += 1;
