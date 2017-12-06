@@ -2,11 +2,10 @@
 
 ## BUGS
 
-env:
-env PATH=toto ls -> le PATH est trouver alors que ce ne devrait pas.
-history P_UP P_DO
 
-If a command is not found, the exit status shall be 127.
+## LEAKS
+
+!!:s illegal (normalement fix)
 
 ## expansion
 
@@ -20,12 +19,12 @@ _ split par rapport a tous les blanks (' ', '\t', '\n') ET exception des '"' (ex
 
 ## BONUS:
 
-	coloration syntaxique
-	builtins readonly
-	builtins printenv
-	table de hash
-	builtin declare
+	cvx sys + interne
 	prompt (PS)
 	ctr+R
-	cvx sys + interne
 	completion historique
+	table de hash
+	coloration syntaxique
+	builtin declare
+	builtin readonly
+	builtin printenv
