@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:02:26 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/04 18:17:00 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 15:53:43 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ static int	sh_histexp_error(char *exp)
 
 static int	sh_insert(t_line *line, char *exp, int i)
 {
-	char	*res;
 	int		len;
 
 	len = ft_strlen(exp);
-	res = NULL;
 	if (line->used + ft_strlen(exp) >= line->capacity)
 	{
 		line->capacity += BUFF_SIZE * ((len / BUFF_SIZE) + 1);

@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:53:08 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:53:12 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 15:50:41 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,9 @@ int			sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
 int			sh_cut_u(t_line *line, t_coord **coord, t_tc *tc)
 {
 	size_t	i;
-	size_t	j;
 	char	*cpy;
 
 	i = line->cur;
-	j = ft_strlen(tc->clipboard);
 	if (!line->str || line->cur == 0)
 		return (0);
 	if (!tc->clipboard)

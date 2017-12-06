@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/13 11:37:43 by pguillie          #+#    #+#             */
-/*   Updated: 2017/11/24 14:47:35 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/06 18:40:52 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	ft_word_len(char *str)
 			quote = 0;
 		else if (str[l] == '\"' && (!l || str[l - 1] != '\\') && !quote)
 			quote = str[l];
-		if ((l && !quote && ft_white(str[l])))
+		if (l && !quote && ft_white(str[l]) && str[l - 1] != '\\')
 			break ;
 		l++;
 	}

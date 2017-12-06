@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 11:44:24 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/12/05 20:06:46 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/06 19:09:49 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*sh_sub_exec(char *tab, int *ret)
 	}
 	waitpid(exec, ret, WUNTRACED);
 	close(tube[1]);
-	if (ret > 0 && !sh_kill_zombie(exec, *ret))
+	if (*ret == 0 && !sh_kill_zombie(exec, *ret))
 		sh_sub_cpy(tube[0], &cmd);
 	return (cmd);
 }
