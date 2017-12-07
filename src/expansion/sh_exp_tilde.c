@@ -6,7 +6,7 @@
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 14:29:21 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/11/21 14:29:42 by pbourlet         ###   ########.fr       */
+/*   Updated: 2017/12/07 13:06:40 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ char		*sh_exp_tilde(char *lex)
 			quote = lex[i];
 		else if (lex[i] == '~')
 			lex = sh_exp_til_fnd(lex, &i);
-		i++;
+		if (lex[i])
+			i++;
 	}
 	return (lex);
 }

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 14:50:44 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/03 15:05:07 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 15:02:25 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int		sh_wait(pid_t child, int ret)
 {
-	waitpid(child, &ret, WUNTRACED);
 	waitpid(child, &ret, WUNTRACED);
 	if (ret < 0)
 		return (-1);

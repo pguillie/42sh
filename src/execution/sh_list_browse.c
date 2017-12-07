@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 17:16:11 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 06:41:24 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 15:04:29 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	sh_pipe(t_cmd **pipeline, int ret)
 		dup2(stdin, 0);
 		close(pipefd[0]);
 	}
-	kill(child, SIGTERM);
+	kill(child, SIGKILL);
 	waitpid(child, NULL, 0);
 	return (ret);
 }

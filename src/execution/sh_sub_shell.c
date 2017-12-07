@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 14:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 21:28:36 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 13:45:15 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ int		sh_small_main(char *cmd)
 int		sh_sub_shell(char *cmd)
 {
 	pid_t	child;
+	int		ret;
 
+	ret = 0;
 	if ((child = fork()) < 0)
 		return (-1);
 	if (child == 0)
@@ -51,5 +53,5 @@ int		sh_sub_shell(char *cmd)
 		cmd[ft_strlen(cmd) - 1] = '\n';
 		exit(sh_small_main(cmd + 1));
 	}
-	return (sh_wait(child, 0));
+	return (sh_wait(child, ret));
 }

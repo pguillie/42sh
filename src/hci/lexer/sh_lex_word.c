@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 21:30:25 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 16:05:24 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,22 @@ int			sh_lex_word(char **str, int t)
 {
 	int		i;
 	int		bracket;
-	char	quote;
 	char	*s;
 
 	i = 0;
 	s = *str + t;
-	quote = 0;
 	bracket = 0;
-	while (s[i] && (quote || bracket || !sh_metachar(s[i])))
+	while (s[i] && (bracket || !sh_metachar(s[i])))
 	{
 		if (s[i] == '\'')
 			i = sh_squote1(s, i);
 		else if (s[i] == '\"' || s[i] == '`')
 			i = sh_dquote1(&s, i);
 		else if (s[i] == '(' || s[i] == ')')
-			bracket = sh_bracket(s, i, bracket);
+		{
+			if ((bracket = sh_bracket(s, i, bracket)) < 0)
+				return (i);
+		}
 		else if (s[i] == '\\')
 			i = sh_bslash(&s, i);
 		s[i] ? i++ : 0;
