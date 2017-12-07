@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:19 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 21:22:41 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 16:17:15 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int		sh_tab_init(char *str, size_t cur, char **lexeme, int *status);
 int		sh_tab_ins(t_line *line, t_coord **coord, t_tc tc, char *buf);
 int		sh_tab_multi(t_line *line, t_coord **coord, t_tc tc, char *array[]);
 int		sh_tab(t_line *line, t_coord **coord, t_tc tc);
+void	sh_tab_append(char **array[], char *occ, int c);
+void	sh_tab_builtin(char **array[]);
 
 /*
 **	CONVERTIONS
