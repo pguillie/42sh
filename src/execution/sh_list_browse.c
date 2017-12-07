@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 17:16:11 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/07 15:04:29 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/07 16:52:48 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	sh_pipe(t_cmd **pipeline, int ret)
 	pid_t	child;
 	int		pipefd[2];
 	int		stdin;
+	int		test;
 
 	if (!pipeline[1])
 		return (sh_exec_cmd(pipeline[0], ret, 0));
@@ -75,8 +76,8 @@ static int	sh_pipe(t_cmd **pipeline, int ret)
 		dup2(stdin, 0);
 		close(pipefd[0]);
 	}
-	kill(child, SIGKILL);
-	waitpid(child, NULL, 0);
+	kill(0, SIGTERM);
+	waitpid(child, &test, 0);
 	return (ret);
 }
 
