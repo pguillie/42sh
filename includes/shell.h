@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 21:00:36 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 20:34:32 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 12:00:41 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define HISTSIZE "100"
 
 # define HISTFILE "/.42sh_history"
-# define PS1 "\\e[38;5;114m[\\@] \\e[38;5;74m\\w \\$\\e[0m "
+# define PS1 "\\e[38;5;114m[\\@]\\e[0m \\e[38;5;74m\\w \\$\\e[0m "
 # define PS2 "> "
 # define PS3 "#? "
 # define PS4 "+ "

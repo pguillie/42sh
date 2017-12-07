@@ -6,13 +6,13 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:51:25 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/02 20:51:29 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/12/07 12:00:16 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	sh_tab_append(char **array[], char *occ, char c)
+static void	sh_tab_append(char **array[], char *occ, int c)
 {
 	char	**new;
 	size_t	i;
@@ -27,7 +27,7 @@ static void	sh_tab_append(char **array[], char *occ, char c)
 		if ((new[i] = ft_strnew(ft_strlen(occ) + 1)))
 		{
 			ft_strcpy(new[i], occ);
-			ft_strncat(new[i], &c, 1);
+			c ? ft_strncat(new[i], "/", 1) : 0;
 			while (i--)
 				new[i] = (*array)[i];
 			free(*array);
@@ -66,8 +66,7 @@ static void	sh_tab_open(char **array[], char *dir, int cat)
 				if (stat(path, &buf) == 0
 						&& (cat != CMD || S_ISDIR(buf.st_mode)
 							|| S_IXUSR & buf.st_mode))
-					sh_tab_append(array, de->d_name, S_ISDIR(buf.st_mode)
-							? '/' : 0);
+					sh_tab_append(array, de->d_name, S_ISDIR(buf.st_mode));
 			}
 		}
 		closedir(dirp);
