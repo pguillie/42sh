@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/05 21:30:25 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 15:20:13 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 static int	sh_bracket(char *s, int i, int bracket)
 {
-	if (i > 0 && bracket == 0 && s[i] == '(')
-		return (-1);
-	if (i > 0 && !sh_metachar(s[i]) && s[i - 1] == ')')
-		return (-1);
 	if (s[i] == '(')
 		bracket += 1;
 	else if (s[i] == ')' && bracket > 0)
