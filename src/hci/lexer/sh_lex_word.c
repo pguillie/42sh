@@ -6,7 +6,7 @@
 /*   By: mdescamp <mdescamp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:56:44 by mdescamp          #+#    #+#             */
-/*   Updated: 2017/12/07 15:20:13 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/12/07 16:05:24 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 static int	sh_bracket(char *s, int i, int bracket)
 {
+	if (i > 0 && bracket == 0 && s[i] == '(')
+		return (-1);
+	if (i > 0 && !sh_metachar(s[i]) && s[i - 1] == ')')
+		return (-1);
 	if (s[i] == '(')
 		bracket += 1;
 	else if (s[i] == ')' && bracket > 0)
@@ -63,21 +67,22 @@ int			sh_lex_word(char **str, int t)
 {
 	int		i;
 	int		bracket;
-	char	quote;
 	char	*s;
 
 	i = 0;
 	s = *str + t;
-	quote = 0;
 	bracket = 0;
-	while (s[i] && (quote || bracket || !sh_metachar(s[i])))
+	while (s[i] && (bracket || !sh_metachar(s[i])))
 	{
 		if (s[i] == '\'')
 			i = sh_squote1(s, i);
 		else if (s[i] == '\"' || s[i] == '`')
 			i = sh_dquote1(&s, i);
 		else if (s[i] == '(' || s[i] == ')')
-			bracket = sh_bracket(s, i, bracket);
+		{
+			if ((bracket = sh_bracket(s, i, bracket)) < 0)
+				return (i);
+		}
 		else if (s[i] == '\\')
 			i = sh_bslash(&s, i);
 		s[i] ? i++ : 0;
