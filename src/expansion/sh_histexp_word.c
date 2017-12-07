@@ -6,19 +6,19 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 11:09:23 by pguillie          #+#    #+#             */
-/*   Updated: 2017/12/05 00:21:34 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/12/07 16:36:18 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	sh_histexp_error(char *str, int i)
+static int		sh_histexp_error(char *str, int i)
 {
 	str[i] = 0;
 	return (ft_error(SHELL, str, "Bad word specifier"));
 }
 
-static char	*sh_histexp_wdollar(t_token *w)
+static char		*sh_histexp_wdollar(t_token *w)
 {
 	int size;
 
@@ -26,7 +26,7 @@ static char	*sh_histexp_wdollar(t_token *w)
 	return (sh_histexp_new(w, size, size));
 }
 
-static int	sh_histexp_word_norme(char *new, char *str, int i, char **exp)
+static int		sh_histexp_word_norme(char *new, char *str, int i, char **exp)
 {
 	free(*exp);
 	*exp = new;
@@ -34,14 +34,31 @@ static int	sh_histexp_word_norme(char *new, char *str, int i, char **exp)
 	return (0);
 }
 
-int			sh_histexp_word(char *str, int i, char **exp)
+static t_token	*sh_histexp_lex(char **exp)
+{
+	t_token	*word;
+	char	*str;
+
+	if (!(str = ft_strjoin(*exp, "\n")))
+		return (NULL);
+	word = NULL;
+	if (sh_lexer(&word, &str) < 0)
+	{
+		sh_token_del(&word);
+		word = NULL;
+	}
+	free(str);
+	return (word);
+}
+
+int				sh_histexp_word(char *str, int i, char **exp)
 {
 	t_token	*word;
 	char	*new;
 	int		j[2];
 
-	word = NULL;
-	if (!(j[1] = 1) || !*exp || sh_lexer(&word, exp) < 0)
+	j[1] = 1;
+	if (!(word = sh_histexp_lex(exp)))
 		return (1);
 	new = NULL;
 	j[0] = (str[i] == ':' ? i++ : i);
