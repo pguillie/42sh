@@ -127,8 +127,7 @@ void		sh_display_syntax(char *str)
 	hd = 0;
 	while (str[i[0]])
 	{
-		i[1] = 0;
-		if (!sh_metachar(str[i[0]]))
+		if (!(i[1] = 0) && !sh_metachar(str[i[0]]))
 			i[1] = sh_disp_word(str + i[0], status, &hd);
 		else if ((i[1] = sh_rdir_op(str + i[0])))
 		{
@@ -139,6 +138,8 @@ void		sh_display_syntax(char *str)
 		else
 			sh_disp_norme(str, i, status, &hd);
 		ft_putstr_fd(C_EOC, 0);
+		if ((i[0] + i[1]) > (int)ft_strlen(str))
+			break ;
 		i[0] += i[1];
 	}
 }
